@@ -142,7 +142,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   SizedBox(height: context.height * 0.04),
                   Button(
                     title: context.localizations!.signUp,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.homeScreenName);
+                    },
                     showRadius: true,
                   ),
                   SizedBox(height: context.height * 0.01),

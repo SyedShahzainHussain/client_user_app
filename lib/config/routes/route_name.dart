@@ -6,5 +6,7 @@ class RouteName {
   static const String forgotScreenName = "/forgot-screen";
   static const String otpScreenName = "/otp-screen";
   static const String resetScreenName = "/reset-screen";
-  static const String successScreenName = "/succes-screen";
+  static const String successScreenName = "/success-screen";
+  static const String homeScreenName = "/home-screen";
+  static const String detailScreenName= "/detail-screen";
 }

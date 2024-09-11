@@ -8,6 +8,8 @@ import 'package:my_app/view/auth/reset_password/reset_password_screen.dart';
 import 'package:my_app/view/auth/signup/signup_screen.dart';
 import 'package:my_app/view/auth/splash/splash_screen.dart';
 import 'package:my_app/view/auth/succes_screen/success_screen.dart';
+import 'package:my_app/view/home/details_screen.dart';
+import 'package:my_app/view/home/home_screen.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings setting) {
@@ -28,6 +30,10 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ResetPasswordScreen());
       case RouteName.successScreenName:
         return MaterialPageRoute(builder: (_) => const SuccessScreen());
+      case RouteName.homeScreenName:
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case RouteName.detailScreenName:
+        return MaterialPageRoute(builder: (_) => const DetailsScreen());
 
       default:
         return MaterialPageRoute(builder: (ctx) {
