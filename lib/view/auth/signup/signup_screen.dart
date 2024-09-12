@@ -143,7 +143,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   Button(
                     title: context.localizations!.signUp,
                     onTap: () {
-                      Navigator.pushNamed(context, RouteName.homeScreenName);
+                      Navigator.pushNamed(context, RouteName.entryScreenName);
                     },
                     showRadius: true,
                   ),

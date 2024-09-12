@@ -8,15 +8,21 @@ import 'package:my_app/view/auth/reset_password/reset_password_screen.dart';
 import 'package:my_app/view/auth/signup/signup_screen.dart';
 import 'package:my_app/view/auth/splash/splash_screen.dart';
 import 'package:my_app/view/auth/succes_screen/success_screen.dart';
+import 'package:my_app/view/chat/chat_screen.dart';
+import 'package:my_app/view/entry_point_screen.dart';
 import 'package:my_app/view/home/details_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
 import 'package:my_app/view/home/order_screen.dart';
+import 'package:my_app/view/home/submit_order_screen.dart';
+import 'package:my_app/view/profile/profile_screen.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings setting) {
     switch (setting.name) {
       case RouteName.splashScreenName:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
+      case RouteName.entryScreenName:
+        return MaterialPageRoute(builder: (_) => const EntryPointScreen());
       case RouteName.onBoardScreenName:
         return MaterialPageRoute(builder: (_) => const OnBoardScreen());
       case RouteName.signUpScreenName:
@@ -37,6 +43,12 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const DetailsScreen());
       case RouteName.orderScreenName:
         return MaterialPageRoute(builder: (_) => const OrderScreen());
+      case RouteName.submitScreenName:
+        return MaterialPageRoute(builder: (_) => const SubmitOrderScreen());
+      case RouteName.profileScreenName:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case RouteName.chatScreenName:
+        return MaterialPageRoute(builder: (_) =>  ChatScreen());
 
       default:
         return MaterialPageRoute(builder: (ctx) {

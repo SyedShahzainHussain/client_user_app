@@ -10,6 +10,7 @@ class ImageString{
   static const silderbuttonImage = "assets/images/siderbutton.png";
   static const masterImage = "assets/images/master.png";
   static const visaImage = "assets/images/visa.png";
+  static const checkImage = "assets/images/check.png";
 
 
 
@@ -23,6 +24,13 @@ class ImageString{
   static const filter = "assets/icon/filter.svg";
   static const line = "assets/icon/line.svg";
   static const plus = "assets/icon/plus.svg";
+  static const edit = "assets/icon/edit.svg";
+  static const signout = "assets/icon/sign-out.svg";
+  static const paperPlane = "assets/icon/paper-plane.svg";
+  static const user1 = "assets/icon/user1.svg";
+  static const comment = "assets/icon/comment.svg";
+  static const home = "assets/icon/home.svg";
+  static const heart = "assets/icon/heart.svg";
 
 
 }

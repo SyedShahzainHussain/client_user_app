@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
+import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/enums/enums.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 
@@ -286,7 +287,7 @@ class _OrderScreenState extends State<OrderScreen> {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  // Navigator.pushNamed(context, RouteName.orderScreenName);
+                  Navigator.pushNamed(context, RouteName.submitScreenName);
                 },
                 child: Container(
                   height: 70.h,

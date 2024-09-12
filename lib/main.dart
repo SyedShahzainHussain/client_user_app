@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
           // You can use the library anywhere in the app even in theme
           theme: ThemeData(
             scaffoldBackgroundColor: AppColors.primaryColor,
+            
             textTheme:
                 GoogleFonts.acmeTextTheme(Typography.englishLike2018.apply(
               fontSizeFactor: 1.sp,

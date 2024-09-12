@@ -141,7 +141,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
               SizedBox(
                 height: context.height * 0.03,
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -229,15 +228,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             width: 35,
                             height: 35,
                             decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color:AppColors.secondaryTextColor.withOpacity(0.5),
-                                  offset: const  Offset(1, 1),
-                                  spreadRadius: 0.9,
-                                  blurRadius: 0.8,
-                                ),
-                                
-                              ],
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.secondaryTextColor
+                                        .withOpacity(0.5),
+                                    offset: const Offset(1, 1),
+                                    spreadRadius: 0.9,
+                                    blurRadius: 0.8,
+                                  ),
+                                ],
                                 color: AppColors.redColor,
                                 borderRadius: BorderRadius.circular(10)),
                             child: IconButton(
@@ -264,15 +263,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             width: 35,
                             height: 35,
                             decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color:AppColors.secondaryTextColor.withOpacity(0.5),
-                                  offset: const  Offset(1, 1),
-                                  spreadRadius: 0.9,
-                                  blurRadius: 0.8,
-                                ),
-                                
-                              ],
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.secondaryTextColor
+                                        .withOpacity(0.5),
+                                    offset: const Offset(1, 1),
+                                    spreadRadius: 0.9,
+                                    blurRadius: 0.8,
+                                  ),
+                                ],
                                 color: AppColors.redColor,
                                 borderRadius: BorderRadius.circular(10)),
                             child: IconButton(
@@ -290,7 +289,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        margin: const  EdgeInsets.all(22),
+        margin: const EdgeInsets.all(22),
         child: Row(
           children: [
             Container(
@@ -315,14 +314,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
             ),
-            SizedBox(width: 20.w,),
-             Expanded(
-
-               child: GestureDetector(
-                onTap: (){
+            SizedBox(
+              width: 20.w,
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
                   Navigator.pushNamed(context, RouteName.orderScreenName);
                 },
-                 child: Container(
+                child: Container(
                   height: 70.h,
                   decoration: BoxDecoration(
                     color: AppColors.lightoffblack,
@@ -335,17 +335,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         child: Text(
                           "ORDER NOW",
                           style: GoogleFonts.inter(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white
-                          ),
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
                         ),
                       ),
                     ),
                   ),
-                             ),
-               ),
-             )
+                ),
+              ),
+            )
           ],
         ),
       ),

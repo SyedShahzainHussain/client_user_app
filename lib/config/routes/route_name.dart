@@ -1,4 +1,5 @@
 class RouteName {
+  static const String entryScreenName = "/entry-screen";
   static const String splashScreenName = "/splash-screen";
   static const String onBoardScreenName = "/on-board-screen";
   static const String signUpScreenName = "/sign-up-screen";
@@ -10,4 +11,7 @@ class RouteName {
   static const String homeScreenName = "/home-screen";
   static const String detailScreenName= "/detail-screen";
   static const String orderScreenName= "/order-screen";
+  static const String submitScreenName= "/submit-screen";
+  static const String profileScreenName= "/profile-screen";
+  static const String chatScreenName= "/chat-screen";
 }
