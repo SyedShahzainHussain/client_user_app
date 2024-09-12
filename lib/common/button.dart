@@ -28,7 +28,7 @@ class Button extends StatelessWidget {
           child: Text(
             title,
             style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w700, fontSize: 18.sp),
+                fontWeight: FontWeight.w700, fontSize: 18.sp,color: Colors.white),
           ),
         ),
       ),

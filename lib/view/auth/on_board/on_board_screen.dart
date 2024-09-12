@@ -17,14 +17,13 @@ class OnBoardScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
-            ImageString.logoImage,
-            height: context.height * .3,
-            alignment: Alignment.lerp(
-              const Alignment(1.34, 0),
-              const Alignment(0, 0),
-              0.0,
-            )!,
+          Center(
+            child: Image.asset(
+              alignment: Alignment.center,
+              ImageString.logoImage,
+              height: context.height * .3,
+              
+            ),
           ),
           SizedBox(
             height: 5.h,

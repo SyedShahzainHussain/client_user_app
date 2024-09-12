@@ -1,0 +1,4 @@
+enum Payment {
+  visa,
+  masterCard,
+}

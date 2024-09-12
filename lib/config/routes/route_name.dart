@@ -9,4 +9,5 @@ class RouteName {
   static const String successScreenName = "/success-screen";
   static const String homeScreenName = "/home-screen";
   static const String detailScreenName= "/detail-screen";
+  static const String orderScreenName= "/order-screen";
 }

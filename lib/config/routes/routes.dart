@@ -10,6 +10,7 @@ import 'package:my_app/view/auth/splash/splash_screen.dart';
 import 'package:my_app/view/auth/succes_screen/success_screen.dart';
 import 'package:my_app/view/home/details_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
+import 'package:my_app/view/home/order_screen.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings setting) {
@@ -34,6 +35,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case RouteName.detailScreenName:
         return MaterialPageRoute(builder: (_) => const DetailsScreen());
+      case RouteName.orderScreenName:
+        return MaterialPageRoute(builder: (_) => const OrderScreen());
 
       default:
         return MaterialPageRoute(builder: (ctx) {

@@ -26,16 +26,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(
-          ImageString.logoImage,
-          width: context.width * .7,
-          alignment: Alignment.lerp(
-            const Alignment(1.34, 0),
-            const Alignment(0, 0),
-            0.0,
-          )!,
-        ),
-      ),
+            child: Image.asset(
+              alignment: Alignment.center,
+              ImageString.logoImage,
+              width: context.width * .7,
+              
+            ),
+          ),
     );
   }
 }
