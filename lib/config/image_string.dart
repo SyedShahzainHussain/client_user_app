@@ -11,6 +11,12 @@ class ImageString{
   static const masterImage = "assets/images/master.png";
   static const visaImage = "assets/images/visa.png";
   static const checkImage = "assets/images/check.png";
+  static const image15 = "assets/images/image15.png";
+  static const image16 = "assets/images/image16.png";
+  static const orderShop = "assets/images/order-shop.png";
+  static const location = "assets/images/location-map.png";
+  static const ellipse = "assets/images/Ellipse6.png";
+  static const line2 = "assets/images/line.png";
 
 
 

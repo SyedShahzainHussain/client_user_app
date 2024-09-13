@@ -14,4 +14,5 @@ class RouteName {
   static const String submitScreenName= "/submit-screen";
   static const String profileScreenName= "/profile-screen";
   static const String chatScreenName= "/chat-screen";
+  static const String trackingOrderScreenName= "/tracking-order-screen";
 }

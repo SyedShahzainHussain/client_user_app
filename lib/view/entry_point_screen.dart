@@ -3,7 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/view/chat/chat_screen.dart';
+import 'package:my_app/view/favourite/fovourite_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
+import 'package:my_app/view/order/tracking_order.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
 
 class EntryPointScreen extends StatefulWidget {
@@ -19,27 +21,35 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
   List<Widget> pages = [
     HomeScreen(),
     ProfileScreen(),
-    ChatScreen(),
+        FavouriteScreen(),
+    FavouriteScreen(),
+    TrackingOrder(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBody: true,
-      backgroundColor: Color(0xffF4F5F7),
+      backgroundColor: const Color(0xffF4F5F7),
       body: pages[currentIndex],
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.redColor,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         elevation: 4.0,
-        onPressed: () {},
+        onPressed: () {
+            setState(() {
+                  currentIndex = 4;
+                });
+        },
         child: IconButton(
             onPressed: null, icon: SvgPicture.asset(ImageString.plus)),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shadowColor: Colors.black,
-        elevation:100.0,
+        elevation: 100.0,
+        notchMargin: 8.0,
         shape: const CircularNotchedRectangle(),
         padding: const EdgeInsets.symmetric(horizontal: 10),
         height: 60,
@@ -74,10 +84,10 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
             IconButton(
               icon: SvgPicture.asset(ImageString.heart),
               onPressed: () {
-                // setState(() {
-                //   currentIndex = 3;
-                // });
-              },
+                setState(() {
+                  currentIndex = 3;
+                });
+              },  
             ),
           ],
         ),

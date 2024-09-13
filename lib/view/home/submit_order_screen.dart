@@ -19,7 +19,7 @@ class SubmitOrderScreen extends StatelessWidget {
         onPopInvoked: (didPop) {
           if (!didPop) {
             Navigator.pushNamedAndRemoveUntil(
-                context, RouteName.homeScreenName, (route) => false);
+                context, RouteName.entryScreenName, (route) => false);
           }
         },
         child: Padding(
@@ -84,7 +84,7 @@ class SubmitOrderScreen extends StatelessWidget {
                           title: "Go Back",
                           onTap: () {
                             Navigator.pushNamedAndRemoveUntil(context,
-                                RouteName.homeScreenName, (route) => false);
+                                RouteName.entryScreenName, (route) => false);
                           },
                           showRadius: true,
                         )),

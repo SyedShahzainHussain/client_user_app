@@ -14,6 +14,7 @@ import 'package:my_app/view/home/details_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
 import 'package:my_app/view/home/order_screen.dart';
 import 'package:my_app/view/home/submit_order_screen.dart';
+import 'package:my_app/view/order/tracking_order.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
 
 class Routes {
@@ -49,6 +50,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case RouteName.chatScreenName:
         return MaterialPageRoute(builder: (_) =>  ChatScreen());
+      case RouteName.trackingOrderScreenName:
+        return MaterialPageRoute(builder: (_) =>  TrackingOrder());
 
       default:
         return MaterialPageRoute(builder: (ctx) {
