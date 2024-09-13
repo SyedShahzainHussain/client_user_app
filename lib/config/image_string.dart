@@ -17,6 +17,8 @@ class ImageString{
   static const location = "assets/images/location-map.png";
   static const ellipse = "assets/images/Ellipse6.png";
   static const line2 = "assets/images/line.png";
+  static const message = "assets/images/message.png";
+  static const call = "assets/images/call.png";
 
 
 

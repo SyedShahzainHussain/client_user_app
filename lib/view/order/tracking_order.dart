@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
+import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 
 class TrackingOrder extends StatelessWidget {
@@ -18,7 +20,7 @@ class TrackingOrder extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Positioned(
-            top: context.height * 0.5,
+            top: context.height * 0.4,
             left: 0,
             right: 0,
             child: Column(
@@ -158,7 +160,7 @@ class TrackingOrder extends StatelessWidget {
                                             Text(
                                               "Credit Card",
                                               style: TextStyle(
-                                                color: Color(0xffC1C7D0),
+                                                color: const Color(0xffC1C7D0),
                                                 fontSize: 12.sp,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -173,7 +175,7 @@ class TrackingOrder extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                  padding: EdgeInsets.all(12.0),
+                                  padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                       color: const Color(0xffEF9F27),
                                       borderRadius:
@@ -192,6 +194,7 @@ class TrackingOrder extends StatelessWidget {
                         ],
                       )),
                 ),
+                SizedBox(height: 10.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Container(
@@ -219,6 +222,7 @@ class TrackingOrder extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
@@ -228,35 +232,228 @@ class TrackingOrder extends StatelessWidget {
                                         fontSize: 14.sp,
                                         color: const Color(0xff172B4D),
                                       ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Text("Restaurant"),
+                                        Text(
+                                          "Restaurant",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12.sp,
+                                            color: const Color(0xff7A869A),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(
+                                          width: 10.w,
+                                        ),
+                                        Container(
+                                          width: 4.w,
+                                          height: 4.h,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xffC1C7D0),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        Text(
+                                          "13:00 PM",
+                                          style: TextStyle(
+                                            color: const Color(0xffC1C7D0),
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ],
-                                    )
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Burger King - 1453 Ave Los Angeles",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14.sp,
+                                                color: const Color(0xff172B4D),
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Restaurant",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12.sp,
+                                                    color:
+                                                        const Color(0xff7A869A),
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                SizedBox(
+                                                  width: 10.w,
+                                                ),
+                                                Container(
+                                                  width: 4.w,
+                                                  height: 4.h,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Color(0xffC1C7D0),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5.w,
+                                                ),
+                                                Text(
+                                                  "13:00 PM",
+                                                  style: TextStyle(
+                                                    color: Color(0xffC1C7D0),
+                                                    fontSize: 12.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 25.r,
+                              backgroundImage:
+                                  const AssetImage(ImageString.girlImage),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Philippe Troussier",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14.sp,
+                                      color: const Color(0xff172B4D),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Delivery",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12.sp,
+                                          color: const Color(0xff7A869A),
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      Container(
+                                        width: 4.w,
+                                        height: 4.h,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(0xffC1C7D0),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      Text(
+                                        "0145425765",
+                                        style: TextStyle(
+                                          color: const Color(0xffC1C7D0),
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "You - 49th St Los Angeles, California",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14.sp,
-                                        color: const Color(0xff172B4D),
-                                      ),
-                                    ),
-                                    Text("Burger King - 1453 Ave Los Angeles"),
-                                  ],
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: const  BoxDecoration(
+                                      color: AppColors.redColor,
+                                      shape: BoxShape.circle),
+                                  child: Center(
+                                    child: Image.asset(ImageString.call),
+                                  ),
                                 ),
+                                SizedBox(width: 10.w,),
+                                   GestureDetector(
+                                    onTap: (){
+                                      Navigator.pushNamed(context, RouteName.chatScreenName);
+                                    },
+                                     child: Container(
+                                                                       width: 40,
+                                                                       height: 40,
+                                                                       decoration: const  BoxDecoration(
+                                        color: Color(0xffEF9F27),
+                                        shape: BoxShape.circle),
+                                                                       child: Center(
+                                      child: Image.asset(ImageString.message,),
+                                                                       ),
+                                                                     ),
+                                   )
                               ],
-                            ),
+                            )
                           ],
                         )
                       ],
