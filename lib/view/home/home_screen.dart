@@ -1,11 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
-import 'package:my_app/config/routes/route_name.dart';
+
 import 'package:my_app/extension/media_query_extension.dart';
+import 'package:my_app/services/session_controller_services.dart';
 import 'package:my_app/view/home/widget/product_tile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +18,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String? profileImage =
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      getProfileData();
+    });
+  }
+
+  getProfileData() async {
+    profileImage = await SessionController().checkIsGoogle() == true
+        ? await SessionController().localStorage.readValue("profilePic") ??
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,14 +59,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: AppColors.primaryColor,
               ),
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: Image.asset(ImageString.girlImage)),
+                borderRadius: BorderRadius.circular(12.0),
+                child: CachedNetworkImage(
+                  imageUrl: profileImage!,
+                  fit: BoxFit.cover,
+                  width: 50.w,
+                  height: 50.h,
+                ),
+              ),
             ),
           ],
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight+35),
+            padding:
+                const EdgeInsets.only(bottom: kBottomNavigationBarHeight + 35),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -200,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: AppColors.black,
                         ),
                       ),
-                        Text(
+                      Text(
                         "view all",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
@@ -215,9 +244,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: context.height * 0.03,
                 ),
                 SizedBox(
-                    height: 102.h,
+                  height: 102.h,
                   child: Padding(
-                   padding: const EdgeInsets.only(left: 12.0),
+                    padding: const EdgeInsets.only(left: 12.0),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
@@ -225,20 +254,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           elevation: 5.0,
                           color: Colors.white,
                           child: GestureDetector(
-                            onTap: (){
-                           
-                            },
+                            onTap: () {},
                             child: Container(
-                              
                               margin: const EdgeInsets.only(right: 12.0),
                               height: 102.h,
                               width: 134.w,
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                       colors: [
-                                 const   Color(0xff161616).withOpacity(0),
-                                  const   Color(0xffFFFFFF).withOpacity(0),
-                                  const   Color(0xffFF9D01).withOpacity(1),
+                                    const Color(0xff161616).withOpacity(0),
+                                    const Color(0xffFFFFFF).withOpacity(0),
+                                    const Color(0xffFF9D01).withOpacity(1),
                                   ],
                                       stops: const [
                                     0,
@@ -254,14 +280,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: 50,
                                     height: 50,
                                   ),
-                                 const  Spacer(),
-                                 const  Text("Domino’s",
+                                  const Spacer(),
+                                  const Text("Domino’s",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 16,
                                       )),
-                               const    SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                 ],

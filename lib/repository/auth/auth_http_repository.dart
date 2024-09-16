@@ -12,8 +12,7 @@ class AuthHttpRepository extends AuthApiRepository {
   @override
   Future signUp(body) async {
     try {
-      print(Urls.registerUrl);
-      print(Urls.baseUrl);
+    
       await baseApiServices.getPostApiResponse(Urls.registerUrl, body);
     } catch (_) {
       rethrow;
@@ -33,7 +32,9 @@ class AuthHttpRepository extends AuthApiRepository {
 
   @override
   Future<String> forgotPassword(body) async {
+   
     try {
+      print(body);
       final response = await baseApiServices.getPostApiResponse(
           Urls.forgotPasswordUrl, body);
       return response["code"];

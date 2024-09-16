@@ -46,7 +46,7 @@ class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
   }
 
   _forgotButton(ForgotButton event, Emitter<ForgotState> emit) async {
-    final body = {"email": state.email};
+    final body = {"email": state.email.toString()};
     emit(state.copyWith(postApiStatus: PostApiStatus.loading, message: ""));
     await authApiRepository.forgotPassword(jsonEncode(body)).then((value) {
       if (kDebugMode) {
@@ -54,7 +54,6 @@ class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
       }
 
       otpCodeFromBackend = value.toString();
-      print(otpCodeFromBackend);
       emit(state.copyWith(
           postApiStatus: PostApiStatus.success,
           message: "Otp Has Been Send To Your Email"));
@@ -76,6 +75,4 @@ class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
       emit(state.copyWith(message: "Invalid Code"));
     }
   }
-
-
 }

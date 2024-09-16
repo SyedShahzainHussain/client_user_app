@@ -153,6 +153,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     listener: (context, state) {
                       if (state.message.isNotEmpty) {
                         if (state.postApiStatus == PostApiStatus.success) {
+                          Utils.showToast(state.message);
                           Navigator.pushNamedAndRemoveUntil(context,
                               RouteName.successScreenName, (route) => false);
                         } else if (state.postApiStatus == PostApiStatus.error) {
