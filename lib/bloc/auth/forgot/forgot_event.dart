@@ -35,7 +35,3 @@ class ForgotButton extends ForgotEvent {}
 
 class OtpButton extends ForgotEvent {}
 
-class ResetButton extends ForgotEvent {
-  final BuildContext context;
-  const ResetButton(this.context);
-}

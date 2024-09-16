@@ -10,6 +10,7 @@ import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/services/session_controller_services.dart';
 import 'package:my_app/services/storage/local_storage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -18,34 +19,35 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
-   String? profileImage="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
-
+  String? profileImage =
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
 
   @override
-  void initState()   {
+  void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_){
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
       getUserData();
-
     });
   }
 
-  getUserData()async{
-
-    nameController.text=   await SessionController().checkIsGoogle() ==true ? await SessionController().localStorage.readValue("name"): SessionController().userModel.user!.name.toString();
-    emailController.text=   await SessionController().checkIsGoogle() ==true ? await SessionController().localStorage.readValue("email"): SessionController().userModel.user!.email.toString();
-    profileImage=   await SessionController().checkIsGoogle() ==true ? await SessionController().localStorage.readValue("profilePic")??"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png":"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
-    setState(() {
-
-    });
+  getUserData() async {
+    nameController.text = await SessionController().checkIsGoogle() == true
+        ? await SessionController().localStorage.readValue("name")
+        : SessionController().userModel.user!.name.toString();
+    emailController.text = await SessionController().checkIsGoogle() == true
+        ? await SessionController().localStorage.readValue("email")
+        : SessionController().userModel.user!.email.toString();
+    profileImage = await SessionController().checkIsGoogle() == true
+        ? await SessionController().localStorage.readValue("profilePic") ??
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
+    setState(() {});
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +110,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 70.h),
-                             TextFormWidget2(labelText: "Name",controller: nameController),
+                            TextFormWidget2(
+                                labelText: "Name", controller: nameController),
                             SizedBox(height: context.height * 0.03),
-                             TextFormWidget2(
+                            TextFormWidget2(
                               labelText: "Email",
                               keyboardType: TextInputType.emailAddress,
                               controller: emailController,
@@ -121,7 +124,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               keyboardType: TextInputType.streetAddress,
                             ),
                             SizedBox(height: context.height * 0.03),
-
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Divider(color: Color(0xffE8E8E8)),
@@ -223,7 +225,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onTap: () async {
                                       final String provider =
                                           await LocalStorage()
-                                              .readValue("provider")??"";
+                                                  .readValue("provider") ??
+                                              "";
                                       if (provider == "google") {
                                         await GoogleSignIn()
                                             .signOut()
@@ -293,20 +296,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Positioned(
                     top: context.height * .10,
-                    child: Align(
-                      child: Container(
-                        width: 140.w,
-                        height: 140.h,
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: AppColors.redColor, width: 4),
-                          borderRadius: BorderRadius.circular(15.0),
-                          color: Colors.transparent,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                          child: CachedNetworkImage(imageUrl:    profileImage!,
-                            fit: BoxFit.cover,),
+                    child: Container(
+                      width: 140.w,
+                      height: 140.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        border: Border.all(color: AppColors.redColor, width: 3),
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: Colors.transparent,
+                      ),
+                      
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: CachedNetworkImage(
+                          imageUrl: profileImage!,
+                          fit: BoxFit.cover,
+                          width: 140.w,
+                          height: 140.h,
                         ),
                       ),
                     ),
@@ -321,7 +327,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-
 class TextFormWidget2 extends StatelessWidget {
   final bool obSecure;
   final String labelText;
@@ -335,7 +340,7 @@ class TextFormWidget2 extends StatelessWidget {
     this.keyboardType,
     this.controller,
     this.obSecure = false,
-    this.enabled=false,
+    this.enabled = false,
   });
 
   @override

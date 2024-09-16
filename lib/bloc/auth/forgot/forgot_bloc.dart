@@ -3,11 +3,8 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/enums/enums.dart';
 import 'package:my_app/repository/auth/auth_api_repository.dart';
-import 'package:my_app/utils/utils.dart';
 
 part 'forgot_event.dart';
 part 'forgot_state.dart';
@@ -24,7 +21,6 @@ class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
     on<PasswordIsVisible>(_passwordIsVisible);
     on<ConfirmPasswordIsVisible>(_changeConfirmPasswordVisible);
     on<OtpButton>(_otpButton);
-    on<ResetButton>(_resetButton);
   }
 
   _changeEmail(ChangeEmail event, Emitter<ForgotState> emit) {
@@ -81,16 +77,5 @@ class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
     }
   }
 
-  _resetButton(ResetButton event, Emitter<ForgotState> emit) async {
-    final body = {"password": state.password, "code": state.otp.toString()};
-    emit(state.copyWith(postApiStatus: PostApiStatus.loading, message: ""));
-    await authApiRepository.resetPassword(jsonEncode(body)).then((value) {
-      emit(state.copyWith(
-          postApiStatus: PostApiStatus.success,
-          message: "Your password has been reset"));
-    }).onError((error, _) {
-      emit(state.copyWith(postApiStatus: PostApiStatus.error));
-      Utils.showToast(error.toString());
-    });
-  }
+
 }

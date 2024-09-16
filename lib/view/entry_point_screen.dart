@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
-import 'package:my_app/view/chat/chat_screen.dart';
 import 'package:my_app/view/favourite/fovourite_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
 import 'package:my_app/view/order/tracking_order.dart';
@@ -19,11 +18,11 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
   int currentIndex = 0;
 
   List<Widget> pages = [
-    HomeScreen(),
-    ProfileScreen(),
-        FavouriteScreen(),
-    FavouriteScreen(),
-    TrackingOrder(),
+    const HomeScreen(),
+    const ProfileScreen(),
+    const FavouriteScreen(),
+    const FavouriteScreen(),
+    const TrackingOrder(),
   ];
 
   @override
@@ -38,9 +37,9 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
         shape: const CircleBorder(),
         elevation: 4.0,
         onPressed: () {
-            setState(() {
-                  currentIndex = 4;
-                });
+          setState(() {
+            currentIndex = 4;
+          });
         },
         child: IconButton(
             onPressed: null, icon: SvgPicture.asset(ImageString.plus)),
@@ -87,7 +86,7 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
                 setState(() {
                   currentIndex = 3;
                 });
-              },  
+              },
             ),
           ],
         ),
