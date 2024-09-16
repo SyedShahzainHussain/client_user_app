@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:my_app/bloc/auth/social_login_bloc/social_bloc_bloc.dart';
 import 'package:my_app/config/image_string.dart';
 
 class SocialButton extends StatelessWidget {
@@ -15,61 +16,71 @@ class SocialButton extends StatelessWidget {
       children: [
         Material(
           elevation: 5.0,
-            borderRadius: BorderRadius.circular(27.41),
-          child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(27.41),
-              ),
-              child: Row(
-                children: [
-                  Image.asset(
-                    ImageString.facebookImage,
-                    width: 30.w,
-                    height: 30.h,
-                  ),
-                 const  SizedBox(
-                    width: 8,
-                  ),
-                  Text("FACEBOOK",
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ))
-                ],
-              )),
+          borderRadius: BorderRadius.circular(27.41),
+          child: GestureDetector(
+            onTap: () {
+              context.read<SocialBlocBloc>().add(FacebookSignInEvent());
+            },
+            child: Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(27.41),
+                ),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      ImageString.facebookImage,
+                      width: 30.w,
+                      height: 30.h,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text("FACEBOOK",
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ))
+                  ],
+                )),
+          ),
         ),
         const SizedBox(
           width: 20,
         ),
         Material(
-           elevation: 5.0,
-            borderRadius: BorderRadius.circular(27.41),
-          child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(27.41),
-              ),
-              child: Row(
-                children: [
-                  Image.asset(
-                    ImageString.googleImage,
-                    width: 30.w,
-                    height: 30.h,
-                  ),
-                 const  SizedBox(
-                    width: 8,
-                  ),
-                  Text("GOOGLE  ",
-                      style: TextStyle(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black))
-                ],
-              )),
+          elevation: 5.0,
+          borderRadius: BorderRadius.circular(27.41),
+          child: GestureDetector(
+            onTap: () {
+              context.read<SocialBlocBloc>().add(GoogleSignInEvent());
+            },
+            child: Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(27.41),
+                ),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      ImageString.googleImage,
+                      width: 30.w,
+                      height: 30.h,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text("GOOGLE  ",
+                        style: TextStyle(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black))
+                  ],
+                )),
+          ),
         ),
       ],
     );

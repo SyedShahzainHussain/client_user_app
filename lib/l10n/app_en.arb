@@ -30,5 +30,6 @@
      "success":"Success",
      "yourPasswordResendSuccess":"Your password has been reset successfully.",
      "dontForgetThePasswordAgain":"Don’t forget the password again :)",
-     "goMoodyAgain":"Diventa di nuovo lunatico"
+     "goMoodyAgain":"Diventa di nuovo lunatico",
+     "passwordDontMatch":"La password non corrisponde"
 }

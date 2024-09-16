@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_app/bloc/auth/check_authentication/check_authentiaction_bloc.dart';
 import 'package:my_app/config/image_string.dart';
-import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,11 +15,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, RouteName.onBoardScreenName, (route) => false);
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CheckAuthentiactionBloc>().add(CheckAuthentiaction(context));
     });
   }
 
@@ -26,13 +24,12 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-            child: Image.asset(
-              alignment: Alignment.center,
-              ImageString.logoImage,
-              width: context.width * .7,
-              
-            ),
-          ),
+        child: Image.asset(
+          alignment: Alignment.center,
+          ImageString.logoImage,
+          width: context.width * .7,
+        ),
+      ),
     );
   }
 }
