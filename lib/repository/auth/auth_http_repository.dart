@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:my_app/config/url.dart';
-import 'package:my_app/data/network/base_api_services.dart';
-import 'package:my_app/data/network/network_api_services.dart';
-import 'package:my_app/model/user_model.dart' as user;
-import 'package:my_app/repository/auth/auth_repository.dart';
+import  'package:my_app/model/user_model.dart' as user;
+
+import 'auth_repository.dart';
+
 
 class AuthHttpRepository extends AuthApiRepository {
   final BaseApiServices baseApiServices = NetworkApiServices();
@@ -34,7 +31,6 @@ class AuthHttpRepository extends AuthApiRepository {
   Future<String> forgotPassword(body) async {
    
     try {
-      print(body);
       final response = await baseApiServices.getPostApiResponse(
           Urls.forgotPasswordUrl, body);
       return response["code"];

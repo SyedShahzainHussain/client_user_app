@@ -8,6 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/bloc/auth/check_authentication/check_authentiaction_bloc.dart';
 import 'package:my_app/bloc/auth/forgot/forgot_bloc.dart';
 import 'package:my_app/bloc/auth/social_login_bloc/social_bloc_bloc.dart';
+import 'package:my_app/bloc/brand/brand_bloc.dart';
+import 'package:my_app/bloc/category/category_bloc.dart';
+import 'package:my_app/bloc/products/product_bloc.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/constants.dart';
 import 'package:my_app/config/routes/route_name.dart';
@@ -16,6 +19,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_app/environment/environment.dart';
 import 'package:my_app/repository/auth/auth_api_repository.dart';
 import 'package:my_app/repository/auth/auth_http_repository.dart';
+import 'package:my_app/repository/brand/brand_http_repository.dart';
+import 'package:my_app/repository/brand/brand_repository.dart';
+import 'package:my_app/repository/category/category_api_repository.dart';
+import 'package:my_app/repository/category/category_http_repository.dart';
+import 'package:my_app/repository/product/product_http_repository.dart';
+import 'package:my_app/repository/product/product_repository.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -70,6 +79,15 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => SocialBlocBloc(authApiRepository: getIt()),
             ),
+            BlocProvider(
+              create: (context) => CategoryBloc(categoryApiRepository: getIt()),
+            ),
+            BlocProvider(
+              create: (context) => ProductBloc(productApiRepository: getIt()),
+            ),
+            BlocProvider(
+              create: (context) => BrandBloc(brandApiRepository: getIt()),
+            ),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -104,4 +122,9 @@ class MyApp extends StatelessWidget {
 
 void serviceLocator() {
   getIt.registerLazySingleton<AuthApiRepository>(() => AuthHttpRepository());
+  getIt.registerLazySingleton<CategoryApiRepository>(
+      () => CategoryHttpRepository());
+  getIt.registerLazySingleton<ProductApiRepository>(
+      () => ProductHttpRepository());
+  getIt.registerLazySingleton<BrandApiRepository>(() => BrandHttpRepository());
 }

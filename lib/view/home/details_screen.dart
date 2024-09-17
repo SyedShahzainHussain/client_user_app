@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_slider/gradient_slider.dart';
+import 'package:my_app/bloc/products/product_bloc.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/extension/media_query_extension.dart';
+import 'package:my_app/model/product_model.dart';
+import 'package:readmore/readmore.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+  final Data data;
+  const DetailsScreen({super.key, required this.data});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -29,20 +33,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: AppColors.lightoffblack,
             )),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              ImageString.search,
-              width: 20,
-              height: 20,
-            ),
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: SvgPicture.asset(
+        //       ImageString.search,
+        //       width: 20,
+        //       height: 20,
+        //     ),
+        //   )
+        // ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -52,17 +56,52 @@ class _DetailsScreenState extends State<DetailsScreen> {
             children: [
               SizedBox(
                   height: context.height * 0.3,
-                  child: Center(
-                    child: Image.asset(
-                      ImageString.burgerImage,
-                      fit: BoxFit.cover,
-                    ),
+                  child: PageView.builder(
+                    onPageChanged: (value) {
+                      context
+                          .read<ProductBloc>()
+                          .add(ProductImagePageChanged(value));
+                    },
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: Image.network(
+                          widget.data.images!.first,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                    itemCount: widget.data.images!.length,
                   )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(widget.data.images!.length, (index) {
+                  return BlocBuilder<ProductBloc, ProductState>(
+                    builder: (context, state) {
+                      // Check if state.currentIndex is null and provide a default value
+                      final currentIndex = state.currentIndex;
+                      return Center(
+                        child: Container(
+                          width: currentIndex == index ? 15.w : 10,
+                          height: 8.h,
+                          margin: EdgeInsets.symmetric(horizontal: 4.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: currentIndex == index
+                                ? AppColors.redColor
+                                : Colors.grey,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }),
+              ),
               SizedBox(
                 height: 10.h,
               ),
               Text(
-                "Cheeseburger Wendy's Burger",
+                widget.data.title!,
                 style: TextStyle(
                   color: AppColors.lightoffblack,
                   fontWeight: FontWeight.w600,
@@ -85,7 +124,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         width: 5.w,
                       ),
                       Text(
-                        "4.6",
+                        widget.data.getAverageRating().toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16.sp,
@@ -93,50 +132,61 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       )
                     ],
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 2,
-                    width: 10,
-                    decoration: const BoxDecoration(color: AppColors.darkGrey),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "26",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.sp,
-                            color: AppColors.lightoffblack),
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Text(
-                        "mins",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.sp,
-                            color: AppColors.lightoffblack),
-                      ),
-                    ],
-                  ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  // Container(
+                  //   height: 2,
+                  //   width: 10,
+                  //   decoration: const BoxDecoration(color: AppColors.darkGrey),
+                  // ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       "26",
+                  //       style: TextStyle(
+                  //           fontWeight: FontWeight.w500,
+                  //           fontSize: 15.sp,
+                  //           color: AppColors.lightoffblack),
+                  //     ),
+                  //     SizedBox(
+                  //       width: 5.w,
+                  //     ),
+                  //     Text(
+                  //       "mins",
+                  //       style: TextStyle(
+                  //           fontWeight: FontWeight.w500,
+                  //           fontSize: 15.sp,
+                  //           color: AppColors.lightoffblack),
+                  //     ),
+                  // ],
+                  // ),
                 ],
               ),
               SizedBox(
                 height: 10.h,
               ),
-              Text(
+              ReadMoreText(
                 "The Cheeseburger Wendy's Burger is a classic fast food burger that packs a punch of flavor in every bite. Made with a juicy beef patty cooked to perfection, it's topped with melted American cheese, crispy lettuce, ripe tomato, and crunchy pickles.",
+                trimLines: 7,
+                trimMode: TrimMode.Line,
+                trimCollapsedText: " Show more",
+                trimExpandedText: " Less",
+                textAlign: TextAlign.start,
                 style: GoogleFonts.roboto(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w400,
                     color: AppColors.lightblack,
                     letterSpacing: 1),
+                moreStyle: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                ),
+                lessStyle:
+                    const TextStyle(fontSize: 10, fontWeight: FontWeight.w800),
               ),
               SizedBox(
                 height: context.height * 0.03,

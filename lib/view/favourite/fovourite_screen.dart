@@ -21,21 +21,21 @@ class FavouriteScreen extends StatelessWidget {
         scrolledUnderElevation: 0.0,
         backgroundColor: Colors.transparent,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 12.0, right: 22.0,bottom: kBottomNavigationBarHeight),
-        child: GridView.builder(
-            itemCount: 10,
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.85,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 20,
-            ),
-            itemBuilder: (context, index) {
-              return ProductTile();
-            }),
-      ),
+      // body: Padding(
+      //   padding: const EdgeInsets.only(left: 12.0, right: 22.0,bottom: kBottomNavigationBarHeight),
+      //   child: GridView.builder(
+      //       itemCount: 10,
+      //       shrinkWrap: true,
+      //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //         crossAxisCount: 2,
+      //         childAspectRatio: 0.85,
+      //         mainAxisSpacing: 10,
+      //         crossAxisSpacing: 20,
+      //       ),
+      //       itemBuilder: (context, index) {
+      //         return ProductTile();
+      //       }),
+      // ),
     );
   }
 }

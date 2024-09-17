@@ -12,4 +12,7 @@ class Urls {
   static String registerUrl = "register";
   static String forgotPasswordUrl = "forgot-password";
   static String resetPasswordUrl = "reset-password";
+  static String categoryUrl = "category";
+  static String productUrl = "product";
+  static String brandUrl = "brand";
 }

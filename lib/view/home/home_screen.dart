@@ -1,14 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
+import 'package:my_app/data/response/status.dart';
 
 import 'package:my_app/extension/media_query_extension.dart';
+import 'package:my_app/extension/string_extension.dart';
 import 'package:my_app/services/session_controller_services.dart';
+import 'package:my_app/shimmers/all_brand_shimmer.dart';
+import 'package:my_app/shimmers/all_categories_shimmer.dart';
+import 'package:my_app/shimmers/all_product_shimmer.dart';
+import 'package:my_app/utils/utils.dart';
 import 'package:my_app/view/home/widget/product_tile.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+
+import '../../bloc/category/category_bloc.dart';
+import '../../bloc/products/product_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,15 +30,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? profileImage =
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
+  String? profileImage;
 
   @override
   void initState() {
     super.initState();
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      getProfileData();
-    });
+    getProfileData();
+    context.read<CategoryBloc>().add(FetchCategory());
+    context.read<ProductBloc>().add(const GetAllProducts("All"));
+    context.read<BrandBloc>().add(GetAllBrand());
   }
 
   getProfileData() async {
@@ -61,7 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12.0),
                 child: CachedNetworkImage(
-                  imageUrl: profileImage!,
+                  imageUrl: profileImage == null
+                      ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                      : profileImage.toString(),
                   fit: BoxFit.cover,
                   width: 50.w,
                   height: 50.h,
@@ -163,55 +177,185 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: context.height * 0.05,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: SizedBox(
-                    height: 50,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.only(right: 5.0),
-                          height: 50,
-                          width: 80,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              color: AppColors.redColor),
-                          child: Center(
-                            child: Text(
-                              "All",
-                              style: GoogleFonts.inter(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                BlocBuilder<CategoryBloc, CategoryState>(
+                  builder: (context, state) {
+                    switch (state.categoryList.status) {
+                      case Status.loading:
+                        return const AllCatergoriesShimmer();
+                      case Status.complete:
+                        return state.categoryList.data!.isEmpty
+                            ? Center(
+                                child: Text(
+                                  "No Category Found",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(color: Colors.black),
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.only(left: 12.0),
+                                child: SizedBox(
+                                  height: 50.h,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      final category = state.categoryList.data!;
+                                      return GestureDetector(
+                                        onTap: () {
+                                          if (state.category ==
+                                              category[index].sId) {
+                                            BlocProvider.of<CategoryBloc>(
+                                                    context)
+                                                .add(ClearCategoryValue());
+                                            context.read<ProductBloc>().add(
+                                                const GetAllProducts("All"));
+                                          } else if (category[index]
+                                                  .title!
+                                                  .toLowerCase() ==
+                                              "all") {
+                                            BlocProvider.of<CategoryBloc>(
+                                                    context)
+                                                .add(
+                                              SetCategoryAndTitleEvent(
+                                                  category:
+                                                      category[index].sId!,
+                                                  title:
+                                                      category[index].title!),
+                                            );
+                                            context.read<ProductBloc>().add(
+                                                const GetAllProducts("All"));
+                                          } else {
+                                            BlocProvider.of<CategoryBloc>(
+                                                    context)
+                                                .add(
+                                              SetCategoryAndTitleEvent(
+                                                  category:
+                                                      category[index].sId!,
+                                                  title:
+                                                      category[index].title!),
+                                            );
+                                            context.read<ProductBloc>().add(
+                                                GetAllProducts(category[index]
+                                                    .title!
+                                                    .toLowerCase()));
+                                          }
+                                        },
+                                        child: Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 5.0),
+                                          height: 50.h,
+                                          width: 80.w,
+                                          decoration: BoxDecoration(
+                                              boxShadow: state.category
+                                                      .contains(
+                                                          category[index].sId!)
+                                                  ? const [
+                                                      BoxShadow(
+                                                        color: Colors.black54,
+                                                        offset: Offset(0, 1),
+                                                        blurRadius: 1.0,
+                                                        spreadRadius: 1.5,
+                                                      ),
+                                                    ]
+                                                  : null,
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              color: state.category.contains(
+                                                      category[index].sId!)
+                                                  ? AppColors.redColor
+                                                  : const Color(0xffF3F4F6)),
+                                          child: Center(
+                                            child: Text(
+                                              category[index]
+                                                  .title
+                                                  .toString()
+                                                  .capitalized,
+                                              style: GoogleFonts.inter(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: state.category
+                                                          .contains(
+                                                              category[index]
+                                                                  .sId!)
+                                                      ? Colors.white
+                                                      : AppColors.lightblack),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    itemCount: state.categoryList.data!.length,
+                                  ),
+                                ),
+                              );
+                      case Status.error:
+                        return Center(
+                          child: Text(
+                            state.categoryList.message.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.black),
                           ),
                         );
-                      },
-                      itemCount: 12,
-                    ),
-                  ),
+                    }
+                  },
                 ),
                 SizedBox(
                   height: context.height * 0.03,
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 22.0),
-                  child: GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 6,
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.85,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 20,
-                      ),
-                      itemBuilder: (context, index) {
-                        return ProductTile();
-                      }),
+                BlocBuilder<ProductBloc, ProductState>(
+                  builder: (context, state) {
+                    switch (state.allProrducts.status) {
+                      case Status.loading:
+                        return const AllProductShimmer();
+                      case Status.complete:
+                        final displayedItem =
+                            state.allProrducts.data!.data!.length > 4
+                                ? state.allProrducts.data!.data!.sublist(0, 4)
+                                : state.allProrducts.data!.data;
+                        final columns = Utils.isTablet(context)
+                            ? 3
+                            : Utils.isMobile(context)
+                                ? 2
+                                : 1;
+                        final rows = (displayedItem!.length / columns).ceil();
+                        return displayedItem.isEmpty
+                            ? const Center(
+                                child: Text("No Product Found"),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 12.0, right: 22.0),
+                                child: LayoutGrid(
+                                  columnSizes: List.generate(
+                                    columns,
+                                    (_) => 1.fr,
+                                  ),
+                                  rowSizes: List.generate(rows, (_) => auto),
+                                  rowGap: 40, // equivalent to mainAxisSpacing
+                                  columnGap: 24,
+                                  children: [
+                                    for (var product in displayedItem)
+                                      ProductTile(
+                                        productModel: product,
+                                      )
+                                  ],
+                                ));
+                      case Status.error:
+                        return Center(
+                          child: Text(
+                            state.allProrducts.message.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.black),
+                          ),
+                        );
+                    }
+                  },
                 ),
                 SizedBox(
                   height: context.height * 0.03,
@@ -243,62 +387,89 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: context.height * 0.03,
                 ),
-                SizedBox(
-                  height: 102.h,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Material(
-                          elevation: 5.0,
-                          color: Colors.white,
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 12.0),
-                              height: 102.h,
-                              width: 134.w,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [
-                                    const Color(0xff161616).withOpacity(0),
-                                    const Color(0xffFFFFFF).withOpacity(0),
-                                    const Color(0xffFF9D01).withOpacity(1),
-                                  ],
-                                      stops: const [
-                                    0,
-                                    0,
-                                    1
-                                  ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter)),
-                              child: Column(
-                                children: [
-                                  SvgPicture.network(
-                                    "https://cdn.freebiesupply.com/logos/large/2x/dominos-pizza-4-logo-svg-vector.svg",
-                                    width: 50,
-                                    height: 50,
+
+                BlocBuilder<BrandBloc, BrandState>(
+                  builder: (context, state) {
+                    switch (state.getAllBrand.status) {
+                      case Status.loading:
+                        return const AllBrandShimmer();
+                      case Status.complete:
+                        return SizedBox(
+                          height: 102.h,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Material(
+                                  elevation: 5.0,
+                                  color: Colors.white,
+                                  child: GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      margin:
+                                          const EdgeInsets.only(right: 12.0),
+                                      height: 102.h,
+                                      width: 134.w,
+                                      decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                              colors: [
+                                            const Color(0xff161616)
+                                                .withOpacity(0),
+                                            const Color(0xffFFFFFF)
+                                                .withOpacity(0),
+                                            const Color(0xffFF9D01)
+                                                .withOpacity(1),
+                                          ],
+                                              stops: const [
+                                            0,
+                                            0,
+                                            1
+                                          ],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter)),
+                                      child: Column(
+                                        children: [
+                                          CachedNetworkImage(
+                                            imageUrl: state.getAllBrand
+                                                .data![index].image!,
+                                            width: 50,
+                                            height: 50,
+                                          ),
+                                          const Spacer(),
+                                          Text(
+                                              state.getAllBrand.data![index]
+                                                  .title!,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                              )),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  const Spacer(),
-                                  const Text("Domino’s",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16,
-                                      )),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                ],
-                              ),
+                                );
+                              },
+                              itemCount: 10,
                             ),
                           ),
                         );
-                      },
-                      itemCount: 10,
-                    ),
-                  ),
+                      case Status.error:
+                        return Center(
+                          child: Text(
+                            state.getAllBrand.message.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(color: Colors.black),
+                          ),
+                        );
+                    }
+                  },
                 )
               ],
             ),

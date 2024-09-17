@@ -22,25 +22,24 @@ class SocialBlocBloc extends Bloc<SocialBlocEvent, SocialBlocState> {
       GoogleSignInEvent event, Emitter<SocialBlocState> emit) async {
     emit(state.copyWith(postApiStatus: PostApiStatus.loading));
 
+
     await authApiRepository.signInWithGoogle().then((user) async {
-      emit(state.copyWith(
-        displayName: user.displayName,
-        email: user.email,
-        profilePic: user.photoURL,
-        phoneNumber: user.phoneNumber,
-        postApiStatus: PostApiStatus.success,
-        message: "Google Successfully Login"
-      ));
-
-
-      await LocalStorage().setValue("name", state.displayName);
-      await LocalStorage().setValue("email", state.email);
-      await LocalStorage().setValue("profilePic", state.profilePic);
-      await LocalStorage().setValue("phoneNumber", state.profilePic);
-      await LocalStorage().setValue("provider", "google");
       
+    await LocalStorage().setValue("name", user.displayName??"");
+    await LocalStorage().setValue("email", user.email??"");
+    await LocalStorage().setValue("profilePic", user.photoURL??"");
+    await LocalStorage().setValue("phoneNumber", user.phoneNumber??"");
+    await LocalStorage().setValue("provider", "google");
+      emit(state.copyWith(
+          displayName: user.displayName,
+          email: user.email,
+          profilePic: user.photoURL,
+          phoneNumber: user.phoneNumber,
+          postApiStatus: PostApiStatus.success,
+          message: "Google Successfully Login"));
     }).onError((error, _) {
-      emit(state.copyWith(postApiStatus: PostApiStatus.error,message:error.toString()));
+      emit(state.copyWith(
+          postApiStatus: PostApiStatus.error, message: error.toString()));
     });
   }
 

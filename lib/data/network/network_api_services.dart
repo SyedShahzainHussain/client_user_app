@@ -57,7 +57,7 @@ class NetworkApiServices extends BaseApiServices {
       case 401:
       case 403:
       case 404:
-      case 500:
+      case 500: 
         // Extract message from response body if available
         String errorMessage = response.data['message'] ??
             response.statusMessage ??

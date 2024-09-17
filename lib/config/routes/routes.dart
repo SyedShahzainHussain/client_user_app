@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/model/product_model.dart';
 import 'package:my_app/view/auth/forgot_password/forgot_password_screen.dart';
 import 'package:my_app/view/auth/login/login_screen.dart';
 import 'package:my_app/view/auth/on_board/on_board_screen.dart';
@@ -41,7 +42,11 @@ class Routes {
       case RouteName.homeScreenName:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case RouteName.detailScreenName:
-        return MaterialPageRoute(builder: (_) => const DetailsScreen());
+        final data = setting.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) => DetailsScreen(
+                  data: data["data"],
+                ));
       case RouteName.orderScreenName:
         return MaterialPageRoute(builder: (_) => const OrderScreen());
       case RouteName.submitScreenName:
@@ -49,9 +54,9 @@ class Routes {
       case RouteName.profileScreenName:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case RouteName.chatScreenName:
-        return MaterialPageRoute(builder: (_) =>  ChatScreen());
+        return MaterialPageRoute(builder: (_) => ChatScreen());
       case RouteName.trackingOrderScreenName:
-        return MaterialPageRoute(builder: (_) =>  TrackingOrder());
+        return MaterialPageRoute(builder: (_) => TrackingOrder());
 
       default:
         return MaterialPageRoute(builder: (ctx) {

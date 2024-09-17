@@ -1,15 +1,18 @@
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/config/colors.dart';
-import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/extension/media_query_extension.dart';
+import 'package:my_app/model/product_model.dart';
 
 class ProductTile extends StatelessWidget {
+  final Data productModel;
+
   const ProductTile({
     super.key,
+    required this.productModel,
   });
 
   @override
@@ -18,9 +21,9 @@ class ProductTile extends StatelessWidget {
       elevation: 5.0,
       borderRadius: BorderRadius.circular(20.0),
       child: GestureDetector(
-        onTap: (){
-           Navigator.pushNamed(context, RouteName.detailScreenName);
-    
+        onTap: () {
+          Navigator.pushNamed(context, RouteName.detailScreenName,
+              arguments: {"data": productModel});
         },
         child: Container(
           padding: const EdgeInsets.all(8.0),
@@ -32,12 +35,15 @@ class ProductTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                  child: Image.asset(
-                ImageString.burgerImage,
+                  child: CachedNetworkImage(
+                imageUrl: productModel.images!.first,
                 height: context.height * 0.15.h,
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(Icons.error, color: Colors.red),
+                ),
               )),
               Text(
-                "Cheeseburger",
+                productModel.title!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.roboto(
@@ -47,7 +53,7 @@ class ProductTile extends StatelessWidget {
                 ),
               ),
               Text(
-                "Wendy's Burger",
+                productModel.description!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.roboto(
@@ -58,8 +64,7 @@ class ProductTile extends StatelessWidget {
               ),
               const Spacer(),
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
@@ -72,7 +77,7 @@ class ProductTile extends StatelessWidget {
                         width: 5.w,
                       ),
                       Text(
-                        "4.6",
+                        productModel.getAverageRating().toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16.sp,

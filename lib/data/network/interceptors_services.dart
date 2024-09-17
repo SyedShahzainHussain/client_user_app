@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:my_app/config/url.dart';
+import 'package:my_app/services/session_controller_services.dart';
 
 class AuthInterceptors implements Interceptor {
   @override
@@ -14,10 +15,10 @@ class AuthInterceptors implements Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final modifiedOptions = options.copyWith(
-      validateStatus: (status) =>
-          status != null && status >= 200 && status < 500,
-      baseUrl: Urls.baseUrl,
-    );
+        validateStatus: (status) =>
+            status != null && status >= 200 && status < 500,
+        baseUrl: Urls.baseUrl,
+        headers: {"Authorization": SessionController().userModel.token});
     handler.next(modifiedOptions);
   }
 
