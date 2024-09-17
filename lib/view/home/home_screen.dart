@@ -454,7 +454,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 );
                               },
-                              itemCount: 10,
+                              itemCount: state.getAllBrand.data!.length,
                             ),
                           ),
                         );
