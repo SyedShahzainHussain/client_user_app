@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/view/home/widget/product_tile.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});

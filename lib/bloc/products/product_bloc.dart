@@ -9,9 +9,13 @@ part 'product_state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductApiRepository productApiRepository;
   ProductBloc({required this.productApiRepository})
-      : super(ProductState(allProrducts: ApiResponse.loading())) {
+      : super(ProductState(
+            allProrducts: ApiResponse.loading(),
+            searchProrducts: ApiResponse.loading())) {
     on<GetAllProducts>(_getAllProducts);
     on<ProductImagePageChanged>(_productImagePageChanged);
+    on<SearchProductAccordingToTitle>(_searchProductAccordingToTitle);
+    on<ClearSearchProduct>(_clearSearchProduct);
   }
 
   _getAllProducts(GetAllProducts event, Emitter<ProductState> emit) async {
@@ -27,5 +31,30 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   _productImagePageChanged(
       ProductImagePageChanged event, Emitter<ProductState> emit) async {
     emit(state.copyWith(currentIndex: event.currentIndex));
+  }
+
+  _searchProductAccordingToTitle(
+      SearchProductAccordingToTitle event, Emitter<ProductState> emit) async {
+    // if (event.title.isEmpty) {
+    //   emit(state.copyWith(
+    //       searchProrducts: ApiResponse.complete(ProductModel(data: []))));
+
+    //   return; // Exit early if no search term is provided
+    // }
+    emit(state.copyWith(searchProrducts: ApiResponse.loading()));
+    await productApiRepository
+        .getAllProductsAccordingTitle(event.title)
+        .then((value) {
+      emit(state.copyWith(searchProrducts: ApiResponse.complete(value)));
+    }).onError((error, _) {
+      emit(
+          state.copyWith(searchProrducts: ApiResponse.error(error.toString())));
+    });
+  }
+
+  _clearSearchProduct(
+      ClearSearchProduct event, Emitter<ProductState> emit) async {
+    emit(state.copyWith(
+        searchProrducts: ApiResponse.complete(ProductModel(data: []))));
   }
 }

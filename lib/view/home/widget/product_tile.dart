@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/model/product_model.dart';
+
+import '../../../bloc/wishlist/wishlist_bloc.dart';
 
 class ProductTile extends StatelessWidget {
   final Data productModel;
@@ -85,9 +88,22 @@ class ProductTile extends StatelessWidget {
                       )
                     ],
                   ),
-                  const Icon(
-                    Icons.favorite_border,
-                    color: AppColors.lightoffblack,
+                  BlocBuilder<WishlistBloc, WishlistState>(
+                    builder: (context, state) {
+                      return IconButton(
+                        onPressed: () {
+                          context
+                              .read<WishlistBloc>()
+                              .add(AddWishlist(productModel));
+                        },
+                        icon: Icon(
+                          state.wishlistProduct.contains(productModel)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                        ),
+                        color: AppColors.lightoffblack,
+                      );
+                    },
                   )
                 ],
               ),

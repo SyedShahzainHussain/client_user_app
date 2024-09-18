@@ -10,7 +10,18 @@ class ProductHttpRepository extends ProductApiRepository {
       final data = response;
       return ProductModel.fromJson(data);
     } catch (e) {
+      rethrow;
+    }
+  }
 
+  @override
+  Future<ProductModel> getAllProductsAccordingTitle(String title) async {
+    try {
+      final response = await baseApiServices
+          .getGetApiResponse(Urls.productUrl, {"title": title});
+      final data = response;
+      return ProductModel.fromJson(data);
+    } catch (e) {
       rethrow;
     }
   }

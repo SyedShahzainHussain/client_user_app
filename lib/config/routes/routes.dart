@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/config/routes/route_name.dart';
-import 'package:my_app/model/product_model.dart';
 import 'package:my_app/view/auth/forgot_password/forgot_password_screen.dart';
 import 'package:my_app/view/auth/login/login_screen.dart';
 import 'package:my_app/view/auth/on_board/on_board_screen.dart';
@@ -11,9 +10,11 @@ import 'package:my_app/view/auth/splash/splash_screen.dart';
 import 'package:my_app/view/auth/succes_screen/success_screen.dart';
 import 'package:my_app/view/chat/chat_screen.dart';
 import 'package:my_app/view/entry_point_screen.dart';
+import 'package:my_app/view/home/all_product_screen.dart';
 import 'package:my_app/view/home/details_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
 import 'package:my_app/view/home/order_screen.dart';
+import 'package:my_app/view/home/search_screen.dart';
 import 'package:my_app/view/home/submit_order_screen.dart';
 import 'package:my_app/view/order/tracking_order.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
@@ -56,8 +57,11 @@ class Routes {
       case RouteName.chatScreenName:
         return MaterialPageRoute(builder: (_) => ChatScreen());
       case RouteName.trackingOrderScreenName:
-        return MaterialPageRoute(builder: (_) => TrackingOrder());
-
+        return MaterialPageRoute(builder: (_) => const TrackingOrder());
+      case RouteName.allProductScreenName:
+        return MaterialPageRoute(builder: (_) => const AllProductScreen());
+      case RouteName.searchScreenName:
+        return MaterialPageRoute(builder: (_) => const SearchScreen());
       default:
         return MaterialPageRoute(builder: (ctx) {
           return const Scaffold(

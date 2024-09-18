@@ -9,10 +9,12 @@ class RouteName {
   static const String resetScreenName = "/reset-screen";
   static const String successScreenName = "/success-screen";
   static const String homeScreenName = "/home-screen";
-  static const String detailScreenName= "/detail-screen";
-  static const String orderScreenName= "/order-screen";
-  static const String submitScreenName= "/submit-screen";
-  static const String profileScreenName= "/profile-screen";
-  static const String chatScreenName= "/chat-screen";
-  static const String trackingOrderScreenName= "/tracking-order-screen";
+  static const String detailScreenName = "/detail-screen";
+  static const String orderScreenName = "/order-screen";
+  static const String submitScreenName = "/submit-screen";
+  static const String profileScreenName = "/profile-screen";
+  static const String chatScreenName = "/chat-screen";
+  static const String trackingOrderScreenName = "/tracking-order-screen";
+  static const String allProductScreenName = "/all-product-screen";
+  static const String searchScreenName = "/search-screen";
 }

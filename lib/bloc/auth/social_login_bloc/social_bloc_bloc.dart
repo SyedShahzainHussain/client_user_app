@@ -72,7 +72,6 @@ class SocialBlocBloc extends Bloc<SocialBlocEvent, SocialBlocState> {
         postApiStatus: PostApiStatus.success,
       ));
     } catch (e) {
-      print(e);
       emit(state.copyWith(postApiStatus: PostApiStatus.error));
     } finally {
       emit(state.copyWith(postApiStatus: PostApiStatus.initial));

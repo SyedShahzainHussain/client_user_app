@@ -132,7 +132,7 @@ class TrackingOrder extends StatelessWidget {
                                             Text(
                                               "2 items",
                                               style: TextStyle(
-                                                color: Color(0xffC1C7D0),
+                                                color: const  Color(0xffC1C7D0),
                                                 fontSize: 12.sp,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -336,7 +336,7 @@ class TrackingOrder extends StatelessWidget {
                                                 Text(
                                                   "13:00 PM",
                                                   style: TextStyle(
-                                                    color: Color(0xffC1C7D0),
+                                                    color: const Color(0xffC1C7D0),
                                                     fontSize: 12.sp,
                                                     fontWeight: FontWeight.w500,
                                                   ),

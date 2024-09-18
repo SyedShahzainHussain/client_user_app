@@ -258,22 +258,20 @@ class _OrderScreenState extends State<OrderScreen> {
                       Text(
                         "Total price",
                         style: GoogleFonts.roboto(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
-                          color: const  Color(0xff808080)
-                        ),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xff808080)),
                       ),
-                       SizedBox(
+                      SizedBox(
                         height: 3.h,
                       ),
                       Expanded(
                         child: Text(
                           "PKR 899",
                           style: GoogleFonts.roboto(
-                            fontSize: 25.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black
-                          ),
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
                         ),
                       ),
                     ],
@@ -331,7 +329,7 @@ class RowTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 5),
+      margin: const EdgeInsets.only(bottom: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

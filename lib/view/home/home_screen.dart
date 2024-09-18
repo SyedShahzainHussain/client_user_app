@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
+import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/data/response/status.dart';
 
 import 'package:my_app/extension/media_query_extension.dart';
@@ -119,38 +120,46 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(20.0),
                           child: SizedBox(
                             height: 60.h,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide.none,
+                            child: GestureDetector(
+                              onTap: (){
+                                 Navigator.pushNamed(
+                                    context, RouteName.searchScreenName);
+                              },
+                              child: TextFormField(
+                                enabled: false,
+                              
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  hintText: "Search",
+                                  hintStyle: TextStyle(
+                                    color: AppColors.lightoffblack,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18.sp,
+                                  ),
+                                  prefixIcon: IconButton(
+                                      onPressed: null,
+                                      icon: SvgPicture.asset(ImageString.search)),
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                hintText: "Search",
-                                hintStyle: TextStyle(
+                                style: TextStyle(
                                   color: AppColors.lightoffblack,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 18.sp,
                                 ),
-                                prefixIcon: IconButton(
-                                    onPressed: null,
-                                    icon: SvgPicture.asset(ImageString.search)),
+                                cursorColor: Colors.black,
                               ),
-                              style: TextStyle(
-                                color: AppColors.lightoffblack,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18.sp,
-                              ),
-                              cursorColor: Colors.black,
                             ),
                           ),
                         ),
@@ -306,6 +315,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: context.height * 0.03,
                 ),
 
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0, right: 22.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Popular Foods",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18.sp,
+                          color: AppColors.black,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteName.allProductScreenName);
+                        },
+                        child: Text(
+                          "view all",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
+                            color: AppColors.secondaryTextColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: context.height * 0.03,
+                ),
                 BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
                     switch (state.allProrducts.status) {
@@ -407,8 +449,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: GestureDetector(
                                     onTap: () {},
                                     child: Container(
-                                      margin:
-                                          const EdgeInsets.only(right: 12.0),
                                       height: 102.h,
                                       width: 134.w,
                                       decoration: BoxDecoration(
