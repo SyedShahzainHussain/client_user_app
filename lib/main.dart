@@ -79,7 +79,6 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            // You can use the library anywhere in the app even in theme
             theme: ThemeData(
               scaffoldBackgroundColor: AppColors.primaryColor,
               primaryColor: AppColors.buttonColor,

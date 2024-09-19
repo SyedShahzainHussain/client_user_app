@@ -13,7 +13,6 @@ import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/data/response/status.dart';
 import 'package:my_app/enums/enums.dart';
 import 'package:my_app/extension/localization_extension.dart';
-
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/extension/string_extension.dart';
 import 'package:my_app/services/session_controller_services.dart';
@@ -23,7 +22,6 @@ import 'package:my_app/shimmers/all_product_shimmer.dart';
 import 'package:my_app/utils/utils.dart';
 import 'package:my_app/view/home/widget/product_tile.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-
 import '../../bloc/category/category_bloc.dart';
 import '../../bloc/products/product_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -122,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding:
                               const EdgeInsets.only(left: 12.0, right: 22.0),
                           child: Text(
-                                    context.localizations!.orderYourFavouriteFood,
+                            context.localizations!.orderYourFavouriteFood,
                             style: TextStyle(
                               color: AppColors.lightblack,
                               fontWeight: FontWeight.w500,
@@ -170,7 +168,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 BorderRadius.circular(20.0),
                                             borderSide: BorderSide.none,
                                           ),
-                                          hintText: context.localizations!.search,
+                                          hintText:
+                                              context.localizations!.search,
                                           hintStyle: TextStyle(
                                             color: AppColors.lightoffblack,
                                             fontWeight: FontWeight.w500,
@@ -223,7 +222,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return state.categoryList.data!.isEmpty
                                     ? Center(
                                         child: Text(
-                                          "No Category Found",
+                                          context
+                                              .localizations!.noCategoryFound,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium!
@@ -382,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Popular Foods",
+                                context.localizations!.popularFoods,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 18.sp,
@@ -395,7 +395,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       context, RouteName.allProductScreenName);
                                 },
                                 child: Text(
-                                  "view all",
+                                  context.localizations!.viewAll,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16.sp,
@@ -428,8 +428,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 final rows =
                                     (displayedItem!.length / columns).ceil();
                                 return displayedItem.isEmpty
-                                    ? const Center(
-                                        child: Text("No Product Found"),
+                                    ? Center(
+                                        child: Text(context
+                                            .localizations!.noProductFound),
                                       )
                                     : Padding(
                                         padding: const EdgeInsets.only(
@@ -476,7 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Popular moods you can get",
+                                context.localizations!.popularMoodsYouCanGet,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 18.sp,
