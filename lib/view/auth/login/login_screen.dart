@@ -42,13 +42,13 @@ class _LoginScreenState extends State<LoginScreen> {
         create: (context) => loginBloc,
         child: BlocListener<SocialBlocBloc, SocialBlocState>(
           listener: (context, state) {
-            if(state.message.isNotEmpty){
-
-            if(state.postApiStatus==PostApiStatus.success){
-              Navigator.pushNamedAndRemoveUntil(context, RouteName.entryScreenName, (route)=>false);
-            }else if(state.postApiStatus==PostApiStatus.error){
-              Utils.showToast(state.message);
-            }
+            if (state.message.isNotEmpty) {
+              if (state.postApiStatus == PostApiStatus.success) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RouteName.entryScreenName, (route) => false);
+              } else if (state.postApiStatus == PostApiStatus.error) {
+                Utils.showToast(state.message);
+              }
             }
           },
           child: BlocBuilder<SocialBlocBloc, SocialBlocState>(
@@ -153,6 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           _formkey.currentState!.validate();
                                       if (!validate) return;
                                       if (validate) {
+                                        Utils.hideKeyboard();
                                         context
                                             .read<LoginBloc>()
                                             .add(const LoginButton());

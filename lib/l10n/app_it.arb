@@ -28,9 +28,16 @@
           "newPassword":"Nuova parola d'ordine",
      "confirmPassword":"Conferma password",
      "success":"Successo",
-       "yourPasswordResendSuccess":"La tua password è stata reimpostata con successo.",
-        "dontForgetThePasswordAgain":"Non dimenticare di nuovo la password :)",
-          "goMoodyAgain":"Diventa di nuovo lunatico",
-          "passwordDontMatch":"La password non corrisponde"
+     "yourPasswordResendSuccess":"La tua password è stata reimpostata con successo.",
+     "dontForgetThePasswordAgain":"Non dimenticare di nuovo la password :)",
+     "goMoodyAgain":"Diventa di nuovo lunatico",
+     "passwordDontMatch":"La password non corrisponde",
+     "orderYourFavouriteFood":"Ordina il tuo cibo preferito!",
+     "search":"Ricerca",
+     "noCategoryFound":"Nessuna categoria trovata",
+     "popularFoods":"Alimenti popolari",
+     "viewAll":"visualizza tutto",
+     "noProductFound":"Nessun prodotto trovato",
+     "popularMoodsYouCanGet":"Stati d'animo popolari che puoi ottenere"
 
 }

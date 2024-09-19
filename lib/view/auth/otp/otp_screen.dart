@@ -42,7 +42,8 @@ class OtpScreen extends StatelessWidget {
                 height: context.height * 0.02,
               ),
               BlocBuilder<ForgotBloc, ForgotState>(
-                buildWhen: (previous, current) => previous.email!=current.email,
+                buildWhen: (previous, current) =>
+                    previous.email != current.email,
                 builder: (context, state) {
                   return FittedBox(
                     child: Text.rich(TextSpan(children: [
@@ -133,6 +134,7 @@ class OtpScreen extends StatelessWidget {
                     return Button(
                       title: context.localizations!.verify,
                       onTap: () {
+                        Utils.hideKeyboard();
                         context.read<ForgotBloc>().add(OtpButton());
                       },
                       showRadius: false,

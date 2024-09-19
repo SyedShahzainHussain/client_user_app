@@ -98,6 +98,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             final validate = _formkey.currentState!.validate();
                             if (!validate) return;
                             if (validate) {
+                              Utils.hideKeyboard();
                               context.read<ForgotBloc>().add(ForgotButton());
                             }
                           },

@@ -32,8 +32,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   _loginButton(LoginButton event, Emitter<LoginState> emit) async {
     final body = {"email": state.email, "password": state.password};
-
     emit(state.copyWith(postApiStatus: PostApiStatus.loading, message: ""));
+
     await loginRepository.signIn(jsonEncode(body)).then((value) async {
       await SessionController().saveUserPrefrence(value);
       await SessionController().getUserPrefrences();

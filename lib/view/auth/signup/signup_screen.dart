@@ -29,7 +29,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   late SignUpBloc signUpBloc;
 
-
   @override
   void initState() {
     super.initState();
@@ -91,7 +90,8 @@ class _SignupScreenState extends State<SignupScreen> {
                       const SignUpPasswordFieldWidget(),
                       SizedBox(height: context.height * 0.04),
                       BlocListener<SignUpBloc, SignUpState>(
-                        listenWhen: (previous, current) => previous.postApiStatus!=current.postApiStatus,
+                        listenWhen: (previous, current) =>
+                            previous.postApiStatus != current.postApiStatus,
                         listener: (context, state) {
                           if (state.postApiStatus == PostApiStatus.success) {
                             Navigator.pushNamedAndRemoveUntil(context,
@@ -103,26 +103,27 @@ class _SignupScreenState extends State<SignupScreen> {
                           }
                         },
                         child: BlocBuilder<SignUpBloc, SignUpState>(
-    buildWhen: (previous, current) => previous.postApiStatus!=current.postApiStatus,
+                            buildWhen: (previous, current) =>
+                                previous.postApiStatus != current.postApiStatus,
                             builder: (context, state) {
-                              
-                          return Button(
-                            loading:
-                                state.postApiStatus == PostApiStatus.loading,
-                            title: context.localizations!.signUp,
-                            onTap: () {
-                              final validate =
-                                  _formKey.currentState!.validate();
-                              if (!validate) return;
-                              if (validate) {
-                                context
-                                    .read<SignUpBloc>()
-                                    .add(const SignUpButton());
-                              }
-                            },
-                            showRadius: true,
-                          );
-                        }),
+                              return Button(
+                                loading: state.postApiStatus ==
+                                    PostApiStatus.loading,
+                                title: context.localizations!.signUp,
+                                onTap: () {
+                                  final validate =
+                                      _formKey.currentState!.validate();
+                                  if (!validate) return;
+                                  if (validate) {
+                                    Utils.hideKeyboard();
+                                    context
+                                        .read<SignUpBloc>()
+                                        .add(const SignUpButton());
+                                  }
+                                },
+                                showRadius: true,
+                              );
+                            }),
                       ),
                       SizedBox(height: context.height * 0.01),
                       Row(

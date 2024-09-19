@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_app/bloc/auth/check_authentication/check_authentiaction_bloc.dart';
-import 'package:my_app/bloc/auth/forgot/forgot_bloc.dart';
-import 'package:my_app/bloc/auth/social_login_bloc/social_bloc_bloc.dart';
-import 'package:my_app/bloc/brand/brand_bloc.dart';
-import 'package:my_app/bloc/category/category_bloc.dart';
-import 'package:my_app/bloc/products/product_bloc.dart';
-import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/constants.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/config/routes/routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_app/environment/environment.dart';
+import 'package:my_app/providers.dart';
 import 'package:my_app/repository/auth/auth_api_repository.dart';
 import 'package:my_app/repository/auth/auth_http_repository.dart';
 import 'package:my_app/repository/brand/brand_http_repository.dart';
@@ -71,30 +64,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       // Use builder only if you need to use library outside ScreenUtilInit context
       builder: (_, child) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => CheckAuthentiactionBloc(),
-            ),
-            BlocProvider(
-              create: (context) => ForgotBloc(authApiRepository: getIt()),
-            ),
-            BlocProvider(
-              create: (context) => SocialBlocBloc(authApiRepository: getIt()),
-            ),
-            BlocProvider(
-              create: (context) => CategoryBloc(categoryApiRepository: getIt()),
-            ),
-            BlocProvider(
-              create: (context) => ProductBloc(productApiRepository: getIt()),
-            ),
-            BlocProvider(
-              create: (context) => BrandBloc(brandApiRepository: getIt()),
-            ),
-            BlocProvider(
-              create: (context) => WishlistBloc(wishListApiRepository: getIt()),
-            ),
-          ],
+        return Providers(
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Kebabberia',

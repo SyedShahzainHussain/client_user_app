@@ -31,4 +31,9 @@ class Utils {
       MediaQuery.of(context).size.width >= 1024;
 
 
+
+  static hideKeyboard(){
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
 }

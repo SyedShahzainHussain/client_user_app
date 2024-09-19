@@ -12,6 +12,7 @@ import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/data/response/status.dart';
 import 'package:my_app/enums/enums.dart';
+import 'package:my_app/extension/localization_extension.dart';
 
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/extension/string_extension.dart';
@@ -121,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding:
                               const EdgeInsets.only(left: 12.0, right: 22.0),
                           child: Text(
-                            "Order your favourite food!",
+                                    context.localizations!.orderYourFavouriteFood,
                             style: TextStyle(
                               color: AppColors.lightblack,
                               fontWeight: FontWeight.w500,
@@ -169,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 BorderRadius.circular(20.0),
                                             borderSide: BorderSide.none,
                                           ),
-                                          hintText: "Search",
+                                          hintText: context.localizations!.search,
                                           hintStyle: TextStyle(
                                             color: AppColors.lightoffblack,
                                             fontWeight: FontWeight.w500,
@@ -243,16 +244,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 onTap: () {
                                                   if (state.category ==
                                                       category[index].sId) {
-                                                    BlocProvider.of<
-                                                                CategoryBloc>(
-                                                            context)
-                                                        .add(
-                                                            ClearCategoryValue());
-                                                    context
-                                                        .read<ProductBloc>()
-                                                        .add(
-                                                            const GetAllProducts(
-                                                                "All"));
+                                                    // BlocProvider.of<
+                                                    //             CategoryBloc>(
+                                                    //         context)
+                                                    //     .add(
+                                                    //         ClearCategoryValue());
+                                                    // context
+                                                    //     .read<ProductBloc>()
+                                                    //     .add(
+                                                    //         const GetAllProducts(
+                                                    //             "All"));
                                                   } else if (category[index]
                                                           .title!
                                                           .toLowerCase() ==

@@ -31,5 +31,12 @@
      "yourPasswordResendSuccess":"Your password has been reset successfully.",
      "dontForgetThePasswordAgain":"Don’t forget the password again :)",
      "goMoodyAgain":"Diventa di nuovo lunatico",
-     "passwordDontMatch":"La password non corrisponde"
+     "passwordDontMatch":"La password non corrisponde",
+     "orderYourFavouriteFood":"Order your favourite food!",
+     "search":"Search",
+     "noCategoryFound":"No Category Found",
+     "popularFoods":"Popular Foods",
+     "viewAll":"view all",
+     "noProductFound":"No Product Found",
+     "popularMoodsYouCanGet":"Popular moods you can get"
 }

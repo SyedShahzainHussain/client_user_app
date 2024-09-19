@@ -14,7 +14,6 @@ import 'package:my_app/enums/enums.dart';
 import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/main.dart';
-
 import '../../../utils/utils.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -172,6 +171,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             final validate = _formKey.currentState!.validate();
                             if (!validate) return;
                             if (validate) {
+                              Utils.hideKeyboard();
                               context
                                   .read<ResetBloc>()
                                   .add(ResetApiEvent(context));
