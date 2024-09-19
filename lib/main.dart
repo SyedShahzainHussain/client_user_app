@@ -26,6 +26,8 @@ import 'package:my_app/repository/category/category_api_repository.dart';
 import 'package:my_app/repository/category/category_http_repository.dart';
 import 'package:my_app/repository/product/product_http_repository.dart';
 import 'package:my_app/repository/product/product_repository.dart';
+import 'package:my_app/repository/wishlist/wishlist_api_repository.dart';
+import 'package:my_app/repository/wishlist/wishlist_http_repository.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -90,7 +92,7 @@ class MyApp extends StatelessWidget {
               create: (context) => BrandBloc(brandApiRepository: getIt()),
             ),
             BlocProvider(
-              create: (context) => WishlistBloc(),
+              create: (context) => WishlistBloc(wishListApiRepository: getIt()),
             ),
           ],
           child: MaterialApp(
@@ -110,6 +112,7 @@ class MyApp extends StatelessWidget {
             // You can use the library anywhere in the app even in theme
             theme: ThemeData(
               scaffoldBackgroundColor: AppColors.primaryColor,
+              primaryColor: AppColors.buttonColor,
               textTheme:
                   GoogleFonts.acmeTextTheme(Typography.englishLike2018.apply(
                 fontSizeFactor: 1.sp,
@@ -131,4 +134,6 @@ void serviceLocator() {
   getIt.registerLazySingleton<ProductApiRepository>(
       () => ProductHttpRepository());
   getIt.registerLazySingleton<BrandApiRepository>(() => BrandHttpRepository());
+  getIt.registerLazySingleton<WishListApiRepository>(
+      () => WishlistHttpRepository());
 }

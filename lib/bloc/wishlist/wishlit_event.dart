@@ -10,3 +10,4 @@ class AddWishlist extends WishlistEvent {
   AddWishlist(this.productModel);
 }
 
+class GetWishlist extends WishlistEvent {}

@@ -90,17 +90,17 @@ class ProductTile extends StatelessWidget {
                   ),
                   BlocBuilder<WishlistBloc, WishlistState>(
                     builder: (context, state) {
+                     bool isInWishlist = state.wishlistProduct.any((product) => product.sId == productModel.sId);
+
                       return IconButton(
                         onPressed: () {
                           context
                               .read<WishlistBloc>()
                               .add(AddWishlist(productModel));
                         },
-                        icon: Icon(
-                          state.wishlistProduct.contains(productModel)
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                        ),
+                        icon: Icon(isInWishlist
+                            ? Icons.favorite
+                            : Icons.favorite_border),
                         color: AppColors.lightoffblack,
                       );
                     },

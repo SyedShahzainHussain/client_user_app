@@ -170,7 +170,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 height: 10.h,
               ),
               ReadMoreText(
-                "The Cheeseburger Wendy's Burger is a classic fast food burger that packs a punch of flavor in every bite. Made with a juicy beef patty cooked to perfection, it's topped with melted American cheese, crispy lettuce, ripe tomato, and crunchy pickles.",
+                widget.data.description ?? "",
                 trimLines: 7,
                 trimMode: TrimMode.Line,
                 trimCollapsedText: " Show more",

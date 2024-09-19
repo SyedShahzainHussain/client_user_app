@@ -11,6 +11,8 @@ abstract class BaseApiServices {
   Future<dynamic> getPostApiResponse(String url, dynamic body);
 
 
+  // Todo Put Api
+  Future<dynamic> getPutApiResponse(String url, dynamic body);
 
 
       

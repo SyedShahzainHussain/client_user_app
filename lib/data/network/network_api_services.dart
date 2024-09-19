@@ -33,11 +33,28 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  Future getPostApiResponse(String url, dynamic body,
-      ) async {
+  Future getPostApiResponse(
+    String url,
+    dynamic body,
+  ) async {
     dynamic responseJson;
     try {
       final response = await _dio.post(
+        url,
+        data: body,
+      );
+      responseJson = _handleResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return responseJson;
+  }
+
+  @override
+  Future getPutApiResponse(String url, body) async {
+    dynamic responseJson;
+    try {
+      final response = await _dio.put(
         url,
         data: body,
       );
@@ -57,7 +74,7 @@ class NetworkApiServices extends BaseApiServices {
       case 401:
       case 403:
       case 404:
-      case 500: 
+      case 500:
         // Extract message from response body if available
         String errorMessage = response.data['message'] ??
             response.statusMessage ??

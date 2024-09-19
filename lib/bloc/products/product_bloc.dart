@@ -11,7 +11,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc({required this.productApiRepository})
       : super(ProductState(
             allProrducts: ApiResponse.loading(),
-            searchProrducts: ApiResponse.loading())) {
+            searchProrducts: ApiResponse.initial())) {
     on<GetAllProducts>(_getAllProducts);
     on<ProductImagePageChanged>(_productImagePageChanged);
     on<SearchProductAccordingToTitle>(_searchProductAccordingToTitle);

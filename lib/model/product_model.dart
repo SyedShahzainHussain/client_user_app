@@ -25,6 +25,15 @@ class ProductModel {
     }
     return data;
   }
+
+  // Conversion method from Data to ProductModel
+  static ProductModel fromData(dynamic data) {
+    return ProductModel(
+      status: "success", // or other relevant status
+      results: 1, // Assuming one result for one Data object
+      data: [data],
+    );
+  }
 }
 
 class Data {

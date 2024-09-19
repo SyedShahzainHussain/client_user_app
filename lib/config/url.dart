@@ -15,4 +15,5 @@ class Urls {
   static String categoryUrl = "category";
   static String productUrl = "product";
   static String brandUrl = "brand";
+  static String wishlistUrl = "wishlist";
 }
