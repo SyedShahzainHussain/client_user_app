@@ -1,6 +1,5 @@
-class ImageString{
-
-  // Todo Images 
+class ImageString {
+  // Todo Images
   static const logoImage = "assets/images/logo.png";
   static const burgerImage = "assets/images/burger.png";
   static const facebookImage = "assets/images/facebook.png";
@@ -20,9 +19,6 @@ class ImageString{
   static const message = "assets/images/message.png";
   static const call = "assets/images/call.png";
 
-
-
-
   // Todo Icons
   static const user = "assets/icon/user.svg";
   static const lock = "assets/icon/lock.svg";
@@ -39,6 +35,5 @@ class ImageString{
   static const comment = "assets/icon/comment.svg";
   static const home = "assets/icon/home.svg";
   static const heart = "assets/icon/heart.svg";
-
-
+  static const verified = "assets/icon/verified.svg";
 }

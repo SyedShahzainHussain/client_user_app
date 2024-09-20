@@ -498,6 +498,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: context.height * 0.03,
                         ),
+                        // Todo Brand
 
                         BlocBuilder<BrandBloc, BrandState>(
                           builder: (context, state) {
@@ -513,10 +514,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
                                         return Material(
-                                          elevation: 5.0,
+                                          elevation: 3.0,
                                           color: Colors.white,
                                           child: GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Navigator.pushNamed(context,
+                                                  RouteName.allBrandScreenName);
+                                            },
                                             child: Container(
                                               height: 102.h,
                                               width: 134.w,
@@ -542,10 +546,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                               child: Column(
                                                 children: [
                                                   CachedNetworkImage(
+                                                    fit: BoxFit.cover,
                                                     imageUrl: state.getAllBrand
                                                         .data![index].image!,
-                                                    width: 50,
-                                                    height: 50,
+                                                    height: 55.h,
                                                   ),
                                                   const Spacer(),
                                                   Text(

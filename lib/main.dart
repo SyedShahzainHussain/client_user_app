@@ -39,10 +39,8 @@ void main() async {
     const String enviroment = String.fromEnvironment(
       'ENVIRONMENT',
       defaultValue: Environment.dev,
-    );
-
+    );  
     Environment().initConfig(enviroment);
-
     runApp(const MyApp());
   } catch (e) {
     rethrow;

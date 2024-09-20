@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/services/session_controller_services.dart';
 import 'package:my_app/services/storage/local_storage.dart';
@@ -110,10 +111,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             SizedBox(height: 70.h),
                             TextFormWidget2(
-                                labelText: "Name", controller: nameController),
+                                labelText: context.localizations!.name, controller: nameController),
                             SizedBox(height: context.height * 0.03),
                             TextFormWidget2(
-                              labelText: "Email",
+                              labelText: context.localizations!.email,
                               keyboardType: TextInputType.emailAddress,
                               controller: emailController,
                             ),

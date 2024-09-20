@@ -370,7 +370,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, RouteName.orderScreenName);
+                  Navigator.pushNamed(context, RouteName.addToCartScreenName);
                 },
                 child: Container(
                   height: 70.h,
@@ -383,7 +383,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: Center(
                       child: FittedBox(
                         child: Text(
-                          "ORDER NOW",
+                          "Add To Cart Now",
                           style: GoogleFonts.inter(
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w600,

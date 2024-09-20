@@ -2,7 +2,7 @@
     "onBoardTitle":"Eat it in your\n own cozy comfort",
     "onBoardButton":"Get Moody",
     "signUp":"Iscrizione",
-    "name":"Nome",
+    "name":"Name",
     "email":"E-mail",
     "mobile":"Numero di cellulare",
     "password":"Password",
@@ -47,6 +47,11 @@
     "registerSuccessfully":"Register Successfully",
     "googleSuccessfullyLogin":"Google Successfully Login",
     "productAddedToWishList":"Product Added To WishList",
-    "productRemovedFromWishList":"Product Removed From WishList"
+    "productRemovedFromWishList":"Product Removed From WishList",
+    "deliveryAddress":"Delivery address",
+    "paymentDetails":"Payment Details",
+    "orderhistory":"Order history",
+    "editProfile":"Edit Profile",
+    "logOut":"Log out"
     
 }

@@ -8,8 +8,10 @@ import 'package:my_app/view/auth/reset_password/reset_password_screen.dart';
 import 'package:my_app/view/auth/signup/signup_screen.dart';
 import 'package:my_app/view/auth/splash/splash_screen.dart';
 import 'package:my_app/view/auth/succes_screen/success_screen.dart';
+import 'package:my_app/view/cart/add_to_cart_screen.dart';
 import 'package:my_app/view/chat/chat_screen.dart';
 import 'package:my_app/view/entry_point_screen.dart';
+import 'package:my_app/view/home/all_brand_screen.dart';
 import 'package:my_app/view/home/all_product_screen.dart';
 import 'package:my_app/view/home/details_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
@@ -62,6 +64,10 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const AllProductScreen());
       case RouteName.searchScreenName:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
+      case RouteName.allBrandScreenName:
+        return MaterialPageRoute(builder: (_) => const AllBrandScreen());
+      case RouteName.addToCartScreenName:
+        return MaterialPageRoute(builder: (_) => const AddToCartScreen());
       default:
         return MaterialPageRoute(builder: (ctx) {
           return const Scaffold(

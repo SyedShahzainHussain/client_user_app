@@ -47,6 +47,11 @@
      "registerSuccessfully":"Registrati con successo",
      "googleSuccessfullyLogin":"Google ha effettuato l'accesso con successo",
      "productAddedToWishList":"Prodotto aggiunto alla lista dei desideri",
-     "productRemovedFromWishList":"Prodotto rimosso dalla lista dei desideri"
+     "productRemovedFromWishList":"Prodotto rimosso dalla lista dei desideri",
+     "deliveryAddress":"Indirizzo di consegna",
+     "paymentDetails":"Dettagli di pagamento",
+     "orderhistory":"Cronologia degli ordini",
+     "editProfile":"Modifica profilo",
+     "logOut":"Esci"
 
 }
