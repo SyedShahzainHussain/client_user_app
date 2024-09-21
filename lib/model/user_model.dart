@@ -27,10 +27,14 @@ class User {
   String? name;
   String? email;
   String? password;
+  String? number;
   String? role;
   String? createdAt;
   String? updatedAt;
   int? iV;
+  String? address;
+  String? image;
+  List<String>? wishlist;
   String? id;
 
   User(
@@ -38,10 +42,14 @@ class User {
       this.name,
       this.email,
       this.password,
+      this.number,
       this.role,
       this.createdAt,
       this.updatedAt,
       this.iV,
+      this.address,
+      this.image,
+      this.wishlist,
       this.id});
 
   User.fromJson(Map<String, dynamic> json) {
@@ -49,10 +57,14 @@ class User {
     name = json['name'];
     email = json['email'];
     password = json['password'];
+    number = json['number'];
     role = json['role'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    address = json['address'];
+    image = json['image'];
+    wishlist = json['wishlist'].cast<String>();
     id = json['id'];
   }
 
@@ -62,10 +74,14 @@ class User {
     data['name'] = name;
     data['email'] = email;
     data['password'] = password;
+    data['number'] = number;
     data['role'] = role;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
+    data['address'] = address;
+    data['image'] = image;
+    data['wishlist'] = wishlist;
     data['id'] = id;
     return data;
   }

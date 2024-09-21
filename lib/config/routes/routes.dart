@@ -19,6 +19,7 @@ import 'package:my_app/view/home/order_screen.dart';
 import 'package:my_app/view/home/search_screen.dart';
 import 'package:my_app/view/home/submit_order_screen.dart';
 import 'package:my_app/view/order/tracking_order.dart';
+import 'package:my_app/view/profile/edit_profile_screen.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
 
 class Routes {
@@ -68,6 +69,17 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const AllBrandScreen());
       case RouteName.addToCartScreenName:
         return MaterialPageRoute(builder: (_) => const AddToCartScreen());
+      case RouteName.editProfileScreenName:
+        final data = setting.arguments as Map<String, dynamic>;
+        final image = data["image"];
+        final title = data["title"];
+        final address = data["address"];
+        return MaterialPageRoute(
+            builder: (_) => EditProfileScreen(
+                  image: image,
+                  title: title,
+                  address: address,
+                ));
       default:
         return MaterialPageRoute(builder: (ctx) {
           return const Scaffold(

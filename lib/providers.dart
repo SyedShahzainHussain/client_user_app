@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/bloc/auth/check_authentication/check_authentiaction_bloc.dart';
 import 'package:my_app/bloc/auth/forgot/forgot_bloc.dart';
+import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
 import 'package:my_app/bloc/auth/social_login_bloc/social_bloc_bloc.dart';
 import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/bloc/category/category_bloc.dart';
@@ -26,16 +27,23 @@ class Providers extends StatelessWidget {
         create: (context) => SocialBlocBloc(authApiRepository: getIt()),
       ),
       BlocProvider(
-        create: (context) => CategoryBloc(categoryApiRepository: getIt()),
+        create: (context) => CategoryBloc(categoryApiRepository: getIt())..add(FetchCategory()),
       ),
       BlocProvider(
-        create: (context) => ProductBloc(productApiRepository: getIt()),
+        create: (context) => ProductBloc(productApiRepository: getIt())
+          ..add(const GetAllProducts("All")),
       ),
       BlocProvider(
-        create: (context) => BrandBloc(brandApiRepository: getIt()),
+        create: (context) =>
+            BrandBloc(brandApiRepository: getIt())..add(GetAllBrand()),
       ),
       BlocProvider(
-        create: (context) => WishlistBloc(wishListApiRepository: getIt()),
+        create: (context) =>
+            WishlistBloc(wishListApiRepository: getIt())..add(GetWishlist()),
+      ),
+      BlocProvider(
+        create: (context) =>
+            ProfileBloc(apiRepository: getIt()),
       ),
     ], child: child);
   }

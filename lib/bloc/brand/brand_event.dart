@@ -8,3 +8,9 @@ sealed class BrandEvent extends Equatable {
 }
 
 class GetAllBrand extends BrandEvent {}
+
+
+class GetAllBrandWithQuery extends BrandEvent{
+  final String query;
+  const GetAllBrandWithQuery(this.query);
+}

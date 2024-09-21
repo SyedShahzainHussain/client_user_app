@@ -1,7 +1,8 @@
-import  'package:my_app/model/user_model.dart' as user;
+import 'dart:io';
+
+import 'package:my_app/model/user_model.dart' as user;
 
 import 'auth_repository.dart';
-
 
 class AuthHttpRepository extends AuthApiRepository {
   final BaseApiServices baseApiServices = NetworkApiServices();
@@ -9,7 +10,6 @@ class AuthHttpRepository extends AuthApiRepository {
   @override
   Future signUp(body) async {
     try {
-    
       await baseApiServices.getPostApiResponse(Urls.registerUrl, body);
     } catch (_) {
       rethrow;
@@ -29,7 +29,6 @@ class AuthHttpRepository extends AuthApiRepository {
 
   @override
   Future<String> forgotPassword(body) async {
-   
     try {
       final response = await baseApiServices.getPostApiResponse(
           Urls.forgotPasswordUrl, body);
@@ -65,6 +64,20 @@ class AuthHttpRepository extends AuthApiRepository {
           await FirebaseAuth.instance.signInWithCredential(credentials);
       User user = userCredential.user!;
       return user;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future updateUser(File? image, Map<String, dynamic> additionalData) async {
+    try {
+     final response = await baseApiServices.putFormData(
+          url: Urls.updateUserUrl,
+          singleFile: true,
+          image: image,
+          additionalData: additionalData);
+          return response;
     } catch (e) {
       rethrow;
     }

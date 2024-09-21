@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,8 @@ import 'package:my_app/services/session_controller_services.dart';
 import 'package:my_app/services/storage/local_storage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../../bloc/auth/profile/profile_bloc.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -24,29 +27,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
-  String? profileImage =
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
-
   @override
   void initState() {
     super.initState();
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      getUserData();
+      context.read<ProfileBloc>().add(GetProfileData());
     });
-  }
-
-  getUserData() async {
-    nameController.text = await SessionController().checkIsGoogle() == true
-        ? await SessionController().localStorage.readValue("name")
-        : SessionController().userModel.user!.name.toString();
-    emailController.text = await SessionController().checkIsGoogle() == true
-        ? await SessionController().localStorage.readValue("email")
-        : SessionController().userModel.user!.email.toString();
-    profileImage = await SessionController().checkIsGoogle() == true
-        ? await SessionController().localStorage.readValue("profilePic") ??
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
-    setState(() {});
   }
 
   @override
@@ -92,230 +78,280 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: context.height * .20,
-                    child: Container(
-                      width: context.width,
-                      height: context.height,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(35.r),
-                          topRight: Radius.circular(35.r),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 70.h),
-                            TextFormWidget2(
-                                labelText: context.localizations!.name, controller: nameController),
-                            SizedBox(height: context.height * 0.03),
-                            TextFormWidget2(
-                              labelText: context.localizations!.email,
-                              keyboardType: TextInputType.emailAddress,
-                              controller: emailController,
+                  BlocBuilder<ProfileBloc, ProfileState>(
+                    builder: (context, state) {
+                      nameController.text = state
+                          .name; // Use the appropriate fields from your state
+                      emailController.text = state.email;
+                      addressController.text = state.address;
+                      return Positioned(
+                        top: context.height * .20,
+                        child: Container(
+                          width: context.width,
+                          height: context.height,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(35.r),
+                              topRight: Radius.circular(35.r),
                             ),
-                            SizedBox(height: context.height * 0.03),
-                            const TextFormWidget2(
-                              labelText: "Delivery address",
-                              keyboardType: TextInputType.streetAddress,
-                            ),
-                            SizedBox(height: context.height * 0.03),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Divider(color: Color(0xffE8E8E8)),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Payment Details",
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: const Color(0xff808080),
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          color: Color(0xff808080),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Order history",
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: const Color(0xff808080),
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          color: Color(0xff808080),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10.h),
-                                ],
-                              ),
-                            ),
-                            Row(
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 70.h,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.lightoffblack,
-                                      borderRadius: BorderRadius.circular(20.r),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Row(
+                                SizedBox(height: 70.h),
+                                TextFormWidget2(
+                                    labelText: context.localizations!.name,
+                                    controller: nameController),
+                                SizedBox(height: context.height * 0.03),
+                                TextFormWidget2(
+                                  labelText: context.localizations!.email,
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: emailController,
+                                ),
+                                SizedBox(height: context.height * 0.03),
+                                TextFormWidget2(
+                                  controller: addressController,
+                                  labelText: "Delivery address",
+                                  keyboardType: TextInputType.streetAddress,
+                                ),
+                                SizedBox(height: context.height * 0.03),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child: Divider(color: Color(0xffE8E8E8)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          SizedBox(width: 10.w),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                              "Edit Profile",
-                                              style: GoogleFonts.roboto(
-                                                fontSize: 18.sp,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                          Text(
+                                            "Payment Details",
+                                            style: GoogleFonts.roboto(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xff808080),
                                             ),
                                           ),
-                                          SizedBox(width: 10.w),
-                                          Expanded(
-                                            child: IconButton(
-                                              onPressed: null,
-                                              icon: SvgPicture.asset(
-                                                  ImageString.edit),
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                              Icons.arrow_forward_ios_rounded,
+                                              color: Color(0xff808080),
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Order history",
+                                            style: GoogleFonts.roboto(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xff808080),
+                                            ),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                              Icons.arrow_forward_ios_rounded,
+                                              color: Color(0xff808080),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10.h),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(width: 20.w),
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      final String provider =
-                                          await LocalStorage()
-                                                  .readValue("provider") ??
-                                              "";
-                                      if (provider == "google") {
-                                        await GoogleSignIn()
-                                            .signOut()
-                                            .then((_) {
-                                          LocalStorage().clearValue("provider");
-                                          if (context.mounted) {
-                                            Navigator.pushNamedAndRemoveUntil(
-                                                context,
-                                                RouteName.splashScreenName,
-                                                (route) => false);
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          final String provider =
+                                              await LocalStorage()
+                                                      .readValue("provider") ??
+                                                  "";
+                                          if (provider == "google") {
+                                          } else {
+                                            Navigator.pushNamed(context,
+                                                RouteName.editProfileScreenName,
+                                                arguments: {
+                                                  "image": state
+                                                          .profilePic.isEmpty
+                                                      ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                                      : state.profilePic,
+                                                  "title": nameController.text,
+                                                  "address":
+                                                      addressController.text,
+                                                });
                                           }
-                                        });
-                                      } else {
-                                        SessionController().logout().then((_) {
-                                          if (context.mounted) {
-                                            Navigator.pushNamedAndRemoveUntil(
-                                                context,
-                                                RouteName.splashScreenName,
-                                                (route) => false);
-                                          }
-                                        });
-                                      }
-                                    },
-                                    child: Container(
-                                      height: 70.h,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20.r),
-                                        border: Border.all(
-                                          color: AppColors.redColor,
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            FittedBox(
-                                              child: Text(
-                                                "Log out",
-                                                style: GoogleFonts.roboto(
-                                                  fontSize: 18.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: AppColors.redColor,
+                                        },
+                                        child: Container(
+                                          height: 70.h,
+                                          decoration: BoxDecoration(
+                                            color: AppColors.lightoffblack,
+                                            borderRadius:
+                                                BorderRadius.circular(20.r),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(width: 10.w),
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Text(
+                                                    "Edit Profile",
+                                                    style: GoogleFonts.roboto(
+                                                      fontSize: 18.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                                SizedBox(width: 10.w),
+                                                Expanded(
+                                                  child: IconButton(
+                                                    onPressed: null,
+                                                    icon: SvgPicture.asset(
+                                                        ImageString.edit),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            IconButton(
-                                              onPressed: null,
-                                              icon: SvgPicture.asset(
-                                                  ImageString.signout),
-                                            ),
-                                          ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
+                                    SizedBox(width: 20.w),
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          final String provider =
+                                              await LocalStorage()
+                                                      .readValue("provider") ??
+                                                  "";
+                                          if (provider == "google") {
+                                            await GoogleSignIn()
+                                                .signOut()
+                                                .then((_) {
+                                              LocalStorage()
+                                                  .clearValue("provider");
+                                              if (context.mounted) {
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        RouteName
+                                                            .splashScreenName,
+                                                        (route) => false);
+                                              }
+                                            });
+                                          } else {
+                                            SessionController()
+                                                .logout()
+                                                .then((_) {
+                                              if (context.mounted) {
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        RouteName
+                                                            .splashScreenName,
+                                                        (route) => false);
+                                              }
+                                            });
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 70.h,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20.r),
+                                            border: Border.all(
+                                              color: AppColors.redColor,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                FittedBox(
+                                                  child: Text(
+                                                    "Log out",
+                                                    style: GoogleFonts.roboto(
+                                                      fontSize: 18.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: AppColors.redColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: null,
+                                                  icon: SvgPicture.asset(
+                                                      ImageString.signout),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                  Positioned(
-                    top: context.height * .10,
-                    child: Container(
-                      width: 140.w,
-                      height: 140.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        border: Border.all(color: AppColors.redColor, width: 3),
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: Colors.transparent,
-                      ),
-                      
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: CachedNetworkImage(
-                          imageUrl: profileImage!,
-                          fit: BoxFit.cover,
+                  BlocBuilder<ProfileBloc, ProfileState>(
+                    builder: (context, state) {
+                      return Positioned(
+                        top: context.height * .10,
+                        child: Container(
                           width: 140.w,
                           height: 140.h,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            border:
+                                Border.all(color: AppColors.redColor, width: 3),
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: Colors.transparent,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: CachedNetworkImage(
+                              imageUrl: state.profilePic.isEmpty
+                                  ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                  : state.profilePic,
+                              fit: BoxFit.cover,
+                              width: 140.w,
+                              height: 140.h,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),

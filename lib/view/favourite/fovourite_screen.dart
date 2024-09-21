@@ -12,6 +12,7 @@ import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/shimmers/all_product_shimmer.dart';
 import 'package:my_app/utils/utils.dart';
 import 'package:my_app/view/home/widget/product_tile.dart';
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
@@ -52,6 +53,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           if (state.postApiStatus == PostApiStatus.success) {
             Utils.showToast(state.message);
             context.read<WishlistBloc>().add(GetWishlist());
+            setState(() {});
           }
         },
         child: BlocBuilder<WishlistBloc, WishlistState>(

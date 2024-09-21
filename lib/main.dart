@@ -39,7 +39,7 @@ void main() async {
     const String enviroment = String.fromEnvironment(
       'ENVIRONMENT',
       defaultValue: Environment.dev,
-    );  
+    );
     Environment().initConfig(enviroment);
     runApp(const MyApp());
   } catch (e) {
@@ -96,11 +96,11 @@ class MyApp extends StatelessWidget {
 
 void serviceLocator() {
   getIt.registerLazySingleton<AuthApiRepository>(() => AuthHttpRepository());
+  getIt.registerLazySingleton<BrandApiRepository>(() => BrandHttpRepository());
   getIt.registerLazySingleton<CategoryApiRepository>(
       () => CategoryHttpRepository());
   getIt.registerLazySingleton<ProductApiRepository>(
       () => ProductHttpRepository());
-  getIt.registerLazySingleton<BrandApiRepository>(() => BrandHttpRepository());
   getIt.registerLazySingleton<WishListApiRepository>(
       () => WishlistHttpRepository());
 }

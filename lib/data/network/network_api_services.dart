@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:my_app/data/exception.dart';
 import 'package:my_app/data/network/base_api_services.dart';
 import 'package:my_app/data/network/interceptors_services.dart';
+import 'package:http_parser/http_parser.dart' as ht;
 
 class NetworkApiServices extends BaseApiServices {
   final Dio _dio;
@@ -84,5 +85,59 @@ class NetworkApiServices extends BaseApiServices {
         throw FetchDataException(
             'Error occurred with status code ${response.statusCode}');
     }
+  }
+
+  @override
+  Future<dynamic> putFormData({
+    required String url,
+    required Map<String, dynamic> additionalData,
+    bool? singleFile,
+    List<File>? images,
+    File? image,
+  }) async {
+    dynamic responseJson;
+    try {
+      FormData formData = FormData();
+
+      // Add image to formData only if it is not null
+      if (singleFile == true && image != null) {
+        formData.files.add(MapEntry(
+          'image', // the name of the field
+          await MultipartFile.fromFile(
+            image.path,
+            filename: image.path.split("/").last,
+            contentType: ht.MediaType(
+              'image', // Type of media
+              image.path.split('.').last, // The file extension (e.g., jpg, png)
+            ),
+          ),
+        ));
+      } else if (images != null && images.isNotEmpty) {
+        // If you're using multiple files
+        for (var img in images) {
+          formData.files.add(MapEntry(
+            'image[]', // the name of the field
+            await MultipartFile.fromFile(
+              img.path,
+              contentType: ht.MediaType(
+                'image', // Type of media
+                img.path.split('.').last, // The file extension (e.g., jpg, png)
+              ),
+            ),
+          ));
+        }
+      }
+
+      // Add additional fields to formData
+      additionalData.forEach((key, value) {
+        formData.fields.add(MapEntry(key, value.toString()));
+      });
+
+      final response = await _dio.put(url, data: formData);
+      responseJson = _handleResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return responseJson;
   }
 }

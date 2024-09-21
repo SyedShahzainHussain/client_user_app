@@ -1,12 +1,44 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/config/image_string.dart';
+import 'package:my_app/data/response/status.dart';
 import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
+import 'package:my_app/shimmers/all_brands_shimmer.dart';
 
-class AllBrandScreen extends StatelessWidget {
+class AllBrandScreen extends StatefulWidget {
   const AllBrandScreen({super.key});
+
+  @override
+  State<AllBrandScreen> createState() => _AllBrandScreenState();
+}
+
+class _AllBrandScreenState extends State<AllBrandScreen> {
+  final TextEditingController _brandSearchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    context.read<BrandBloc>().add(const GetAllBrandWithQuery(""));
+    _brandSearchController.addListener(_onSearchChanged);
+  }
+
+  void _onSearchChanged() {
+    final query = _brandSearchController.text.trim();
+    const duration = Duration(
+        milliseconds:
+            800); // set the duration that you want call stopTyping() after that.
+    Timer(duration, () => stopTyping(query));
+    setState(() {});
+  }
+
+  stopTyping(String query) {
+    context.read<BrandBloc>().add(GetAllBrandWithQuery(query));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +53,20 @@ class AllBrandScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: TextFormField(
+                controller: _brandSearchController,
                 cursorColor: Colors.grey,
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 14.sp,
                     color: const Color(0xff7A869A)),
-                decoration: InputDecoration(
+                decoration: InputDecoration(     suffixIcon: _brandSearchController.text.isEmpty
+                      ? const Icon(Icons.search, color: Colors.grey)
+                      : GestureDetector(
+                          onTap: () {
+                            _brandSearchController.clear();
+                            setState(() {});
+                          },
+                          child: const Icon(Icons.close, color: Colors.grey)),
                   hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
@@ -54,118 +94,136 @@ class AllBrandScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: ListView.separated(
-          separatorBuilder: (context, index) =>
-              Padding(padding: EdgeInsets.only(bottom: 10.h)),
-          itemBuilder: (context, index) {
-            return Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.r),
-                    color: Colors.white),
-                child: Column(
-                  children: [
-                    const Divider(
-                      color: Color(0xffF4F5F7),
-                    ),
-                    SizedBox(
-                      height: context.height * 0.02,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12.r),
-                          child: Image.network(
-                            "https://cdn.mos.cms.futurecdn.net/C6Qf6YSUH7nQf2dQPAbzuZ-1200-80.jpg",
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12.w,
-                        ),
-                        Expanded(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+        child: BlocBuilder<BrandBloc, BrandState>(
+          builder: (context, state) {
+            switch (state.getAllBrandWithQuery.status) {
+              case Status.loading:
+                return const AllBrandsShimmer();
+              case Status.complete:
+                return state.getAllBrandWithQuery.data!.isEmpty? const SizedBox() : ListView.separated(
+                  separatorBuilder: (context, index) =>
+                      Padding(padding: EdgeInsets.only(bottom: 10.h)),
+                  itemBuilder: (context, index) {
+                    return Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.r),
+                            color: Colors.white),
+                        child: Column(
                           children: [
+                            const Divider(
+                              color: Color(0xffF4F5F7),
+                            ),
+                            SizedBox(
+                              height: context.height * 0.02,
+                            ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Starbucks",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.sp,
-                                    color: const Color(0xff172B4D),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  child: Image.network(
+                                    state.getAllBrandWithQuery.data![index]
+                                        .image!,
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
                                   ),
-                                  maxLines: 1,
                                 ),
                                 SizedBox(
-                                  width: 5.w,
+                                  width: 12.w,
                                 ),
-                                Flexible(
-                                  child: SvgPicture.asset(ImageString.verified),
-                                ),
+                                Expanded(
+                                    child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          state.getAllBrandWithQuery
+                                              .data![index].title!,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16.sp,
+                                            color: const Color(0xff172B4D),
+                                          ),
+                                          maxLines: 1,
+                                        ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        Flexible(
+                                          child: SvgPicture.asset(
+                                              ImageString.verified),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      "8700 Beverly, CA 90048",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12.sp,
+                                          color: const Color(0xff7A869A)),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      "2 items",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12.sp,
+                                          color: const Color(0xff7A869A)),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ))
                               ],
                             ),
                             SizedBox(
-                              height: 0.5.h,
-                            ),
-                            Text(
-                              "8700 Beverly, CA 90048",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12.sp,
-                                  color: const Color(0xff7A869A)),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                              height: context.height * 0.02,
                             ),
                             SizedBox(
-                              height: 0.5.h,
-                            ),
-                            Text(
-                              "2 items",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12.sp,
-                                  color: const Color(0xff7A869A)),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xffEF9F27),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                ),
+                                onPressed: () {},
+                                child: Text(
+                                  "Visit",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
-                        ))
-                      ],
-                    ),
-                    SizedBox(
-                      height: context.height * 0.02,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xffEF9F27),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: Text(
-                          "Visit",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.sp,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ));
+                        ));
+                  },
+                  itemCount: state.getAllBrandWithQuery.data!.length,
+                );
+              case Status.error:
+                return Center(
+                  child: Text(state.getAllBrandWithQuery.message.toString(),style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black),),
+                );
+              default:
+                return const SizedBox();
+            }
           },
-          itemCount: 5,
         ),
       ),
     );
