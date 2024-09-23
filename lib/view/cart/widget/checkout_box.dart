@@ -16,7 +16,7 @@ class CheckOutBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // margin: const EdgeInsets.only(bottom: 10),
-      height: 300,
+      // height: 300,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -27,6 +27,7 @@ class CheckOutBox extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(20),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // TextField(

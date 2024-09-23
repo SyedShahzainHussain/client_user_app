@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
-import 'package:my_app/bloc/cart/cart_bloc.dart';
+
 import 'package:my_app/config/colors.dart';
 
 import '../../../model/cart_item_model.dart';
@@ -11,11 +9,12 @@ class CartTile extends StatelessWidget {
   final CartItem item;
   final Function() onRemove;
   final Function() onAdd;
+  final Function() onDelete;
   const CartTile(
       {super.key,
       required this.item,
       required this.onRemove,
-      required this.onAdd});
+      required this.onAdd,required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +81,7 @@ class CartTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               IconButton(
-                onPressed: () {
-                  context
-                      .read<CartBloc>()
-                      .add(DeleteSpecificCart(item.sId!, context));
-                },
+                onPressed: onDelete,
                 icon: const Icon(
                   Ionicons.trash_outline,
                   color: Colors.red,

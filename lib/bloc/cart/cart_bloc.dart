@@ -107,10 +107,9 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
             "This Product Quantity is already in the cart. \nPlease increase quantity");
       } else {
         cartList[index].quantity += 1;
-        // Utils.showToast("Product quantity increased!");
+        Utils.showToast("Product quantity increased!");
       }
     } else {
-      print(event.cartItem);
       cartList.add(event.cartItem);
       Utils.showToast("Product Added To Cart!");
     }
@@ -183,6 +182,7 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
       }
     }
     emit(state.copyWith(cartItem: cartList));
+    event.context.read<CartBloc>().add(UpdateCartTotal());
     saveCartItem(state.cartItem);
   }
 
@@ -199,7 +199,8 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
       final List<dynamic> cartItemJson = jsonDecode(cartItem);
       final oldCartItem = List<CartItem>.from(state.cartItem);
       oldCartItem.clear();
-      oldCartItem.addAll(cartItemJson.map((e) => CartItem.fromJson(e)).toList());
+      oldCartItem
+          .addAll(cartItemJson.map((e) => CartItem.fromJson(e)).toList());
       event.context.read<CartBloc>().add(UpdateCartTotal());
       saveCartItem(oldCartItem);
       emit(state.copyWith(cartItem: List.from(oldCartItem)));
@@ -219,12 +220,21 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        backgroundColor: Colors.black,
-        title: const Text("Removing Product"),
-        content: const Text("Are you sure you want to remove this product?"),
+        backgroundColor: Colors.white,
+        title:  Text("Removing Product",style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: Colors.black),),
+        content: Text(
+          "Are you sure you want to remove this product?",
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: Colors.black),
+        ),
         actions: [
           OutlinedButton(
-              style: OutlinedButton.styleFrom(foregroundColor: Colors.white),
+              style: OutlinedButton.styleFrom(foregroundColor: Colors.black),
               onPressed: () {
                 Navigator.pop(context, false);
               },

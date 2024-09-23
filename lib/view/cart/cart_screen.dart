@@ -7,24 +7,31 @@ import 'package:my_app/view/cart/widget/checkout_box.dart';
 import '../../bloc/cart/cart_bloc.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
+  final bool isPushing;
+  const CartScreen({super.key, this.isPushing = false});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CustomAppBar(
-          isLeading: false,
+        appBar: CustomAppBar(
+          isLeading: isPushing == true ? true : false,
           title: "Cart",
         ),
-        bottomSheet: BlocBuilder<CartBloc, CartItemState>(
-          builder: (context, state) {
-            return state.cartItem.isNotEmpty
-                ? CheckOutBox(
-                    items: state.cartItem,
-                  )
-                : const SizedBox();
-          },
-        ),
+        bottomSheet:BlocBuilder<CartBloc, CartItemState>(
+                builder: (context, state) {
+                  return state.cartItem.isNotEmpty
+                      ? isPushing?  CheckOutBox(
+                          items: state.cartItem,
+                        ): Container(
+                        margin: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+                          child: CheckOutBox(
+                            items: state.cartItem,
+                          ),
+                        )
+                      : const SizedBox();
+                },
+              ),
+  
         body: BlocBuilder<CartBloc, CartItemState>(
           builder: (context, state) {
             final cart = state.cartItem;
@@ -43,6 +50,10 @@ class CartScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CartTile(
                           item: cart[index],
+                          onDelete: () {
+                            context.read<CartBloc>().add(
+                                DeleteSpecificCart(cart[index].sId!, context));
+                          },
                           onRemove: () {
                             context
                                 .read<CartBloc>()

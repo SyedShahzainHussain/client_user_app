@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:my_app/config/colors.dart';
-import 'package:my_app/config/image_string.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_app/bloc/cart/cart_bloc.dart';
 import 'package:my_app/view/cart/cart_screen.dart';
 import 'package:my_app/view/favourite/fovourite_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
-import 'package:my_app/view/order/tracking_order.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
+import 'package:badges/badges.dart' as badges;
 
 class EntryPointScreen extends StatefulWidget {
   const EntryPointScreen({super.key});
@@ -23,7 +22,7 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
     const ProfileScreen(),
     const CartScreen(),
     const FavouriteScreen(),
-    const TrackingOrder(),
+    // const TrackingOrder(),
   ];
 
   @override
@@ -33,65 +32,97 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
       extendBody: true,
       backgroundColor: const Color(0xffF4F5F7),
       body: pages[currentIndex],
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.redColor,
-        shape: const CircleBorder(),
-        elevation: 4.0,
-        onPressed: () {
-          setState(() {
-            currentIndex = 4;
-          });
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: AppColors.redColor,
+      //   shape: const CircleBorder(),
+      //   elevation: 4.0,
+      //   onPressed: () {
+      //     setState(() {
+      //       currentIndex = 4;
+      //     });
+      //   },
+      //   child: IconButton(
+      //       onPressed: null, icon: SvgPicture.asset(ImageString.plus)),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BlocBuilder<CartBloc, CartItemState>(
+        builder: (context, state) {
+          return BottomNavigationBar(
+            backgroundColor: Colors.white,
+            currentIndex: currentIndex,
+            onTap: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            elevation: 0.0,
+            type: BottomNavigationBarType.fixed,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.grey.withOpacity(0.5),
+            items:  [
+              const BottomNavigationBarItem(icon: Icon(Icons.apps), label: "Home"),
+              const BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: "Profile"),
+              BottomNavigationBarItem(
+                  icon: badges.Badge(
+                    badgeContent: Text(state.cartItem.length.toString()),
+                    child: const Icon(Icons.shopping_bag),
+                  ),
+                  label: "Cart"),
+              const BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite), label: "Favorite"),
+            ],
+          );
         },
-        child: IconButton(
-            onPressed: null, icon: SvgPicture.asset(ImageString.plus)),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shadowColor: Colors.black,
-        elevation: 100.0,
-        notchMargin: 8.0,
-        shape: const CircularNotchedRectangle(),
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        height: 60,
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: SvgPicture.asset(ImageString.home),
-              onPressed: () {
-                setState(() {
-                  currentIndex = 0;
-                });
-              },
-            ),
-            IconButton(
-              icon: SvgPicture.asset(ImageString.user1),
-              onPressed: () {
-                setState(() {
-                  currentIndex = 1;
-                });
-              },
-            ),
-            IconButton(
-              icon: SvgPicture.asset(ImageString.comment),
-              onPressed: () {
-                setState(() {
-                  currentIndex = 2;
-                });
-              },
-            ),
-            IconButton(
-              icon: SvgPicture.asset(ImageString.heart),
-              onPressed: () {
-                setState(() {
-                  currentIndex = 3;
-                });
-              },
-            ),
-          ],
-        ),
       ),
     );
   }
 }
+// BottomAppBar(
+//         shadowColor: Colors.black,
+//         elevation: 100.0,
+//         notchMargin: 8.0,
+//         shape: const CircularNotchedRectangle(),
+//         padding: const EdgeInsets.symmetric(horizontal: 10),
+//         height: 60,
+//         color: Colors.white,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             IconButton(
+//               icon: SvgPicture.asset(ImageString.home),
+//               onPressed: () {
+//                 setState(() {
+//                   currentIndex = 0;
+//                 });
+//               },
+//             ),
+//             IconButton(
+//               icon: SvgPicture.asset(ImageString.user1),
+//               onPressed: () {
+//                 setState(() {
+//                   currentIndex = 1;
+//                 });
+//               },
+//             ),
+//             IconButton(
+//               icon: SvgPicture.asset(ImageString.comment),
+//               onPressed: () {
+//                 setState(() {
+//                   currentIndex = 2;
+//                 });
+//               },
+//             ),
+//             IconButton(
+//               icon: SvgPicture.asset(ImageString.heart),
+//               onPressed: () {
+//                 setState(() {
+//                   currentIndex = 3;
+//                 });
+//               },
+//             ),
+//           ],
+//         ),
+//       ),

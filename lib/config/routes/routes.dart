@@ -71,7 +71,8 @@ class Routes {
       case RouteName.allBrandScreenName:
         return MaterialPageRoute(builder: (_) => const AllBrandScreen());
       case RouteName.cartScreenName:
-        return MaterialPageRoute(builder: (_) => const CartScreen());
+        final isPushing = setting.arguments as bool;
+        return MaterialPageRoute(builder: (_) => CartScreen(isPushing: isPushing,));
       case RouteName.addToCartScreenName:
         final data = setting.arguments as Data;
         return MaterialPageRoute(

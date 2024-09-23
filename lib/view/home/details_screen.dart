@@ -12,6 +12,7 @@ import 'package:my_app/model/product_model.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../bloc/cart/cart_bloc.dart';
+import 'package:badges/badges.dart' as badges;
 
 class DetailsScreen extends StatefulWidget {
   final Data data;
@@ -26,7 +27,25 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(
+        actions: [
+          BlocBuilder<CartBloc, CartItemState>(
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context,RouteName.cartScreenName,arguments: true);
+                    },
+                    icon: badges.Badge(
+                      badgeContent: Text(state.cartItem.length.toString()),
+                      child: const Icon(Icons.shopping_cart),
+                    )),
+              );
+            },
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 12.0, right: 22.0),
@@ -52,7 +71,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     },
                     itemCount: widget.data.images!.length,
                   )),
-                  SizedBox(height: 10.h,),
+              SizedBox(
+                height: 10.h,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(widget.data.images!.length, (index) {

@@ -5,10 +5,12 @@ import 'package:my_app/config/colors.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool isLeading;
+  final List<Widget>? actions;
   const CustomAppBar({
     super.key,
     this.title,
     this.isLeading = true,
+    this.actions,
   });
 
   @override
@@ -36,6 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 size: 18.sp,
               ))
           : const SizedBox(),
+          actions:actions ,
     );
   }
 
