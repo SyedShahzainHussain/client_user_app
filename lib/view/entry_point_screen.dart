@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
+import 'package:my_app/view/cart/cart_screen.dart';
 import 'package:my_app/view/favourite/fovourite_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
 import 'package:my_app/view/order/tracking_order.dart';
@@ -20,7 +21,7 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
   List<Widget> pages = [
     const HomeScreen(),
     const ProfileScreen(),
-    const FavouriteScreen(),
+    const CartScreen(),
     const FavouriteScreen(),
     const TrackingOrder(),
   ];

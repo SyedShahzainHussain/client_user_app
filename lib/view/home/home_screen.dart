@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
 import 'package:my_app/bloc/brand/brand_bloc.dart';
+import 'package:my_app/bloc/cart/cart_bloc.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(GetProfileData());
+     context.read<CartBloc>().add(LoadCartItem(context));
   }
 
   @override
@@ -52,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context.read<ProductBloc>().add(const GetAllProducts("All"));
           context.read<BrandBloc>().add(GetAllBrand());
           context.read<WishlistBloc>().add(GetWishlist());
+           context.read<CartBloc>().add(LoadCartItem(context));
         }
       },
       child: Scaffold(

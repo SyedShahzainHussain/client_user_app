@@ -4,9 +4,11 @@ import 'package:my_app/config/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
+  final bool isLeading;
   const CustomAppBar({
     super.key,
     this.title,
+    this.isLeading = true,
   });
 
   @override
@@ -23,15 +25,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             .bodyMedium!
             .copyWith(color: Colors.black),
       ),
-      leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: AppColors.secondaryTextColor,
-            size: 18.sp,
-          )),
+      leading: isLeading
+          ? IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios_new,
+                color: AppColors.secondaryTextColor,
+                size: 18.sp,
+              ))
+          : const SizedBox(),
     );
   }
 

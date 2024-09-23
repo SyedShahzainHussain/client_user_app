@@ -11,5 +11,7 @@ class AppColors {
   static const Color black = Color(0xff161616);
   static const Color lightblack = Color(0xff6A6A6A);
   static const Color lightoffblack = Color(0xff3C2F2F);
-
+static const kscaffoldColor = Color(0xffffffff);
+static  const kcontentColor = Color(0xffF5F5F5);
+static  const kprimaryColor = Color(0xffff660e);
 }

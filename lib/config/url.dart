@@ -17,4 +17,5 @@ class Urls {
   static String brandUrl = "brand";
   static String wishlistUrl = "wishlist";
   static String updateUserUrl = "update-user";
+  static String toppingUrl = "topping";
 }

@@ -20,5 +20,6 @@ class RouteName {
   static const String allBrandScreenName = "/all-brand-screen";
   static const String addToCartScreenName = "/add-to-cart-screen";
   static const String editProfileScreenName = "/edit-profile-screen";
+  static const String cartScreenName = "/cart-screen";
 
 }

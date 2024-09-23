@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/model/product_model.dart';
 import 'package:my_app/view/auth/forgot_password/forgot_password_screen.dart';
 import 'package:my_app/view/auth/login/login_screen.dart';
 import 'package:my_app/view/auth/on_board/on_board_screen.dart';
@@ -21,6 +22,8 @@ import 'package:my_app/view/home/submit_order_screen.dart';
 import 'package:my_app/view/order/tracking_order.dart';
 import 'package:my_app/view/profile/edit_profile_screen.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
+
+import '../../view/cart/cart_screen.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings setting) {
@@ -67,8 +70,14 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SearchScreen());
       case RouteName.allBrandScreenName:
         return MaterialPageRoute(builder: (_) => const AllBrandScreen());
+      case RouteName.cartScreenName:
+        return MaterialPageRoute(builder: (_) => const CartScreen());
       case RouteName.addToCartScreenName:
-        return MaterialPageRoute(builder: (_) => const AddToCartScreen());
+        final data = setting.arguments as Data;
+        return MaterialPageRoute(
+            builder: (_) => AddToCartScreen(
+                  data: data,
+                ));
       case RouteName.editProfileScreenName:
         final data = setting.arguments as Map<String, dynamic>;
         final image = data["image"];

@@ -25,15 +25,6 @@ class ProductModel {
     }
     return data;
   }
-
-  // Conversion method from Data to ProductModel
-  static ProductModel fromData(dynamic data) {
-    return ProductModel(
-      status: "success", // or other relevant status
-      results: 1, // Assuming one result for one Data object
-      data: [data],
-    );
-  }
 }
 
 class Data {
@@ -47,10 +38,11 @@ class Data {
   int? quantity;
   List<String>? images;
   String? totalrating;
-  List<Ratings>? ratings;
   String? createdAt;
   String? updatedAt;
   int? iV;
+  List<Ratings>? ratings;
+  List<Toppings>? toppings;
 
   Data(
       {this.sId,
@@ -63,10 +55,11 @@ class Data {
       this.quantity,
       this.images,
       this.totalrating,
-      this.ratings,
       this.createdAt,
       this.updatedAt,
-      this.iV});
+      this.iV,
+      this.ratings,
+      this.toppings});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -79,15 +72,21 @@ class Data {
     quantity = json['quantity'];
     images = json['images'].cast<String>();
     totalrating = json['totalrating'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
     if (json['ratings'] != null) {
       ratings = <Ratings>[];
       json['ratings'].forEach((v) {
         ratings!.add(Ratings.fromJson(v));
       });
     }
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
+    if (json['toppings'] != null) {
+      toppings = <Toppings>[];
+      json['toppings'].forEach((v) {
+        toppings!.add(Toppings.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -102,16 +101,19 @@ class Data {
     data['quantity'] = quantity;
     data['images'] = images;
     data['totalrating'] = totalrating;
-    if (ratings != null) {
-      data['ratings'] = ratings!.map((v) => v.toJson()).toList();
-    }
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
+    if (ratings != null) {
+      data['ratings'] = ratings!.map((v) => v.toJson()).toList();
+    }
+    if (toppings != null) {
+      data['toppings'] = toppings!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
-
-  double getAverageRating() {
+  
+   double getAverageRating() {
     if (ratings == null || ratings!.isEmpty) {
       return 0.0;
     }
@@ -125,13 +127,15 @@ class Data {
 class Ratings {
   int? star;
   String? comment;
+  String? postedby;
   String? sId;
 
-  Ratings({this.star, this.comment, this.sId});
+  Ratings({this.star, this.comment, this.postedby, this.sId});
 
   Ratings.fromJson(Map<String, dynamic> json) {
     star = json['star'];
     comment = json['comment'];
+    postedby = json['postedby'];
     sId = json['_id'];
   }
 
@@ -139,7 +143,54 @@ class Ratings {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['star'] = star;
     data['comment'] = comment;
+    data['postedby'] = postedby;
     data['_id'] = sId;
+    return data;
+  }
+  
+}
+
+class Toppings {
+  String? sId;
+  String? title;
+  String? image;
+  String? category;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
+  int? price;
+
+  Toppings(
+      {this.sId,
+      this.title,
+      this.image,
+      this.category,
+      this.createdAt,
+      this.updatedAt,
+      this.iV,
+      this.price});
+
+  Toppings.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    title = json['title'];
+    image = json['image'];
+    category = json['category'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+    price = json['price'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['title'] = title;
+    data['image'] = image;
+    data['category'] = category;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
+    data['price'] = price;
     return data;
   }
 }
