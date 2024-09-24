@@ -8,8 +8,11 @@ import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/bloc/cart/cart_bloc.dart';
 import 'package:my_app/bloc/category/category_bloc.dart';
 import 'package:my_app/bloc/products/product_bloc.dart';
+import 'package:my_app/bloc/side_topping/side_topping_event.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:my_app/main.dart';
+
+import 'bloc/side_topping/side_topping_bloc.dart';
 
 class Providers extends StatelessWidget {
   final Widget child;
@@ -28,7 +31,8 @@ class Providers extends StatelessWidget {
         create: (context) => SocialBlocBloc(authApiRepository: getIt()),
       ),
       BlocProvider(
-        create: (context) => CategoryBloc(categoryApiRepository: getIt())..add(FetchCategory()),
+        create: (context) =>
+            CategoryBloc(categoryApiRepository: getIt())..add(FetchCategory()),
       ),
       BlocProvider(
         create: (context) => ProductBloc(productApiRepository: getIt())
@@ -43,12 +47,14 @@ class Providers extends StatelessWidget {
             WishlistBloc(wishListApiRepository: getIt())..add(GetWishlist()),
       ),
       BlocProvider(
-        create: (context) =>
-            ProfileBloc(apiRepository: getIt()),
+        create: (context) => ProfileBloc(apiRepository: getIt()),
       ),
       BlocProvider(
-        create: (context) =>
-            CartBloc(),
+        create: (context) => CartBloc(),
+      ),
+      BlocProvider(
+        create: (context) => SideToppingBloc(sideToppingApiRepository: getIt())
+          ..add(FetchAllSideTopping()),
       ),
     ], child: child);
   }

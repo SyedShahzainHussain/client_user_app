@@ -18,4 +18,5 @@ class Urls {
   static String wishlistUrl = "wishlist";
   static String updateUserUrl = "update-user";
   static String toppingUrl = "topping";
+  static String sideToppingUrl = "sidetopping";
 }

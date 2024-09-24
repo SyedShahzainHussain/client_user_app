@@ -19,6 +19,8 @@ import 'package:my_app/repository/category/category_api_repository.dart';
 import 'package:my_app/repository/category/category_http_repository.dart';
 import 'package:my_app/repository/product/product_http_repository.dart';
 import 'package:my_app/repository/product/product_repository.dart';
+import 'package:my_app/repository/side_topping/side_topping_http_repository.dart';
+import 'package:my_app/repository/side_topping/side_topping_repository.dart';
 import 'package:my_app/repository/wishlist/wishlist_api_repository.dart';
 import 'package:my_app/repository/wishlist/wishlist_http_repository.dart';
 import 'firebase_options.dart';
@@ -103,4 +105,6 @@ void serviceLocator() {
       () => ProductHttpRepository());
   getIt.registerLazySingleton<WishListApiRepository>(
       () => WishlistHttpRepository());
+  getIt.registerLazySingleton<SideToppingApiRepository>(
+      () => SideToppingHttpRepository());
 }

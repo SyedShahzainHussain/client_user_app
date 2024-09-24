@@ -1,4 +1,5 @@
 import 'package:my_app/model/product_model.dart';
+import 'package:my_app/model/side_toppings.dart';
 
 class CartItem {
   String? sId;
@@ -10,6 +11,7 @@ class CartItem {
   String image;
   int quantity;
   List<Toppings>? selectedToppings;
+  List<SideToppins>? selectedSideToppings;
 
   CartItem({
     required this.sId,
@@ -21,6 +23,7 @@ class CartItem {
     required this.image,
     required this.quantity,
     this.selectedToppings = const [],
+    this.selectedSideToppings = const [],
   });
 
   // Convert a CartItem into a Map. The keys must correspond to the JSON keys.
@@ -36,6 +39,8 @@ class CartItem {
       'quantity': quantity,
       'selectedToppings':
           selectedToppings?.map((topping) => topping.toJson()).toList(),
+      'selectedSideToppings':
+          selectedSideToppings?.map((topping) => topping.toJson()).toList(),
     };
   }
 
@@ -52,6 +57,9 @@ class CartItem {
       quantity: json['quantity'],
       selectedToppings: (json['selectedToppings'] as List<dynamic>?)
           ?.map((topping) => Toppings.fromJson(topping))
+          .toList(),
+      selectedSideToppings: (json['selectedSideToppings'] as List<dynamic>?)
+          ?.map((topping) => SideToppins.fromJson(topping))
           .toList(),
     );
   }

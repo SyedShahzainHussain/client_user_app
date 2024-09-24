@@ -5,12 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_slider/gradient_slider.dart';
+import 'package:my_app/bloc/side_topping/side_topping_bloc.dart';
+import 'package:my_app/bloc/side_topping/side_topping_event.dart';
+import 'package:my_app/bloc/side_topping/side_topping_state.dart';
 import 'package:my_app/common/custom_appbar.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/data/response/status.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/model/cart_item_model.dart';
+import 'package:my_app/model/side_toppings.dart';
+import 'package:my_app/shimmers/side_topping_shimmer.dart';
 
 import '../../bloc/cart/cart_bloc.dart';
 import '../../model/product_model.dart';
@@ -36,6 +42,8 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
           .add(GetSpecificProductQuantity(productId: widget.data.sId!));
       context.read<CartBloc>().add(GetAllToppingsAccordingToTheirCategory(
           category: widget.data.category!));
+
+      context.read<SideToppingBloc>().add(FetchAllSideTopping());
     });
   }
 
@@ -435,106 +443,174 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                 ],
               ),
             ),
-            // SizedBox(
-            //   height: 20.h,
-            // ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 10.w),
-            //   child: Column(
-            //     children: [
-            //       Align(
-            //         alignment: Alignment.centerLeft,
-            //         child: Text(
-            //           "Side options",
-            //           style: TextStyle(
-            //             fontSize: 18.sp,
-            //             color: AppColors.lightoffblack,
-            //             fontWeight: FontWeight.w600,
-            //           ),
-            //         ),
-            //       ),
-            //       SizedBox(
-            //         height: 20.h,
-            //       ),
-            //       SizedBox(
-            //         height: 100.h,
-            //         child: ListView.separated(
-            //           separatorBuilder: (context, index) => SizedBox(
-            //             width: 10.w,
-            //           ),
-            //           scrollDirection: Axis.horizontal,
-            //           itemBuilder: (context, index) {
-            //             return Material(
-            //               elevation: 3.0,
-            //               borderRadius: BorderRadius.circular(15.r),
-            //               child: Container(
-            //                 height: 100.h,
-            //                 width: 84.w,
-            //                 decoration: BoxDecoration(
-            //                   color: const Color(0xff3C2F2F),
-            //                   borderRadius: BorderRadius.circular(15.r),
-            //                 ),
-            //                 child: Column(
-            //                   children: [
-            //                     Container(
-            //                       width: 84.w,
-            //                       height: 61.h,
-            //                       decoration: BoxDecoration(
-            //                         color: Colors.white,
-            //                         borderRadius: BorderRadius.circular(15.r),
-            //                       ),
-            //                       child: Center(
-            //                         child: Image.network(
-            //                           "https://www.simplyrecipes.com/thmb/Oikw9O41IDWOFmuJZQ2bs8dGVB8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2009__01__how-to-slice-onion-horiz-a2-1800-1ff872c2194e49169812d2fcbc1f3e6c.jpg",
-            //                           width: 55.w,
-            //                           height: 45.91.h,
-            //                         ),
-            //                       ),
-            //                     ),
-            //                     const Spacer(),
-            //                     Padding(
-            //                       padding: const EdgeInsets.symmetric(
-            //                           horizontal: 10),
-            //                       child: Row(
-            //                         mainAxisAlignment:
-            //                             MainAxisAlignment.spaceBetween,
-            //                         children: [
-            //                           Text(
-            //                             "Onions",
-            //                             style: TextStyle(
-            //                               fontSize: 12.sp,
-            //                               fontWeight: FontWeight.w500,
-            //                               color: Colors.white,
-            //                             ),
-            //                           ),
-            //                           Container(
-            //                             width: 16.w,
-            //                             height: 16.w,
-            //                             decoration: const BoxDecoration(
-            //                               color: Color(0xffEF2A39),
-            //                               shape: BoxShape.circle,
-            //                             ),
-            //                             child: const Icon(
-            //                               Icons.add,
-            //                               size: 12,
-            //                               color: Colors.white,
-            //                             ),
-            //                           )
-            //                         ],
-            //                       ),
-            //                     ),
-            //                     const Spacer(),
-            //                   ],
-            //                 ),
-            //               ),
-            //             );
-            //           },
-            //           itemCount: 10,
-            //         ),
-            //       ),
-            // ],
-            // ),
-            // )
+            SizedBox(
+              height: 20.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Side options",
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        color: AppColors.lightoffblack,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  BlocBuilder<SideToppingBloc, SideToppingState>(
+                      builder: (context, state) {
+                    switch (state.getAllSideToppings.status) {
+                      case Status.loading:
+                        return const SideToppingShimmer();
+                      case Status.complete:
+                        return SizedBox(
+                          height: 100.h,
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: 10.w,
+                            ),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final sideToppings =
+                                  state.getAllSideToppings.data!;
+                              bool isSelected = state.selectedSideToppings.any(
+                                  (data) =>
+                                      data.sId == sideToppings[index].sId);
+                              return Material(
+                                elevation: 3.0,
+                                borderRadius: BorderRadius.circular(15.r),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.read<SideToppingBloc>().add(
+                                        AddSideToppingEvent(
+                                            sideToppings[index]));
+                                    context
+                                        .read<SideToppingBloc>()
+                                        .add(GetTotalPrice());
+                                  },
+                                  child: Container(
+                                    height: 100.h,
+                                    width: 84.w,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xff3C2F2F),
+                                      borderRadius: BorderRadius.circular(15.r),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 84.w,
+                                          height: 61.h,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15.r),
+                                          ),
+                                          child: Center(
+                                            child: Image.network(
+                                              sideToppings[index].image!,
+                                              width: 55.w,
+                                              height: 45.91.h,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "price",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
+                                              Text(
+                                                "\$${sideToppings[index].price}",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                sideToppings[index].title!,
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                width: 16.w,
+                                                height: 16.w,
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xffEF2A39),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: isSelected
+                                                    ? Center(
+                                                        child: Text(
+                                                          "1",
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .bodyMedium!
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .white),
+                                                        ),
+                                                      )
+                                                    : const Icon(
+                                                        Icons.add,
+                                                        size: 12,
+                                                        color: Colors.white,
+                                                      ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            itemCount: state.getAllSideToppings.data!.length,
+                          ),
+                        );
+                      case Status.error:
+                        return Center(
+                          child:
+                              Text(state.getAllSideToppings.message.toString()),
+                        );
+                      default:
+                        return const SizedBox();
+                    }
+                  }),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -544,39 +620,43 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Row(
             children: [
-              BlocBuilder<CartBloc, CartItemState>(
-                builder: (context, state) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Total",
-                        style: TextStyle(
-                          color: const Color(0xff3C2F2F),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18.sp,
-                        ),
-                      ),
-                      Text.rich(TextSpan(
+              BlocBuilder<SideToppingBloc, SideToppingState>(
+                builder: (context, state1) {
+                  return BlocBuilder<CartBloc, CartItemState>(
+                    builder: (context, state) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextSpan(
-                              text: "\$",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.w600,
-                              )),
-                          TextSpan(
-                              text:
-                                  "${widget.data.price! * state.noOfCartItem}",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 36.sp,
-                                fontWeight: FontWeight.w600,
-                              )),
+                          Text(
+                            "Total",
+                            style: TextStyle(
+                              color: const Color(0xff3C2F2F),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18.sp,
+                            ),
+                          ),
+                          Text.rich(TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: "\$",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w600,
+                                  )),
+                              TextSpan(
+                                  text:
+                                      "${(widget.data.price! + state1.totalPrice) * state.noOfCartItem}",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 36.sp,
+                                    fontWeight: FontWeight.w600,
+                                  )),
+                            ],
+                          ))
                         ],
-                      ))
-                    ],
+                      );
+                    },
                   );
                 },
               ),
@@ -584,20 +664,24 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
               GestureDetector(
                 onTap: () {
                   final cartItem = CartItem(
-                    sId: widget.data.sId,
-                    title: widget.data.title,
-                    description: widget.data.description,
-                    price: widget.data.price,
-                    category: widget.data.category,
-                    brand: widget.data.brand,
-                    image: widget.data.images!.first,
-                    quantity: context.read<CartBloc>().state.noOfCartItem,
-                    selectedToppings: context
-                        .read<CartBloc>()
-                        .state
-                        .getselectedToppingsAccordingToThereCategory,
-                  );
+                      sId: widget.data.sId,
+                      title: widget.data.title,
+                      description: widget.data.description,
+                      price: widget.data.price,
+                      category: widget.data.category,
+                      brand: widget.data.brand,
+                      image: widget.data.images!.first,
+                      quantity: context.read<CartBloc>().state.noOfCartItem,
+                      selectedToppings: context
+                          .read<CartBloc>()
+                          .state
+                          .getselectedToppingsAccordingToThereCategory,
+                      selectedSideToppings: context
+                          .read<SideToppingBloc>()
+                          .state
+                          .selectedSideToppings);
                   context.read<CartBloc>().add(AddToCart(cartItem, context));
+                  context.read<SideToppingBloc>().add(ClearSideToppins());
                 },
                 child: Container(
                   height: 70.h,
