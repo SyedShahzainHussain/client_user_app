@@ -353,6 +353,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       );
                     },
                   ),
+                  Positioned(
+                      top: 20,
+                      right: 0,
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, RouteName.settingScreenName);
+                          },
+                          icon:
+                              const Icon(Icons.settings, color: Colors.white)))
                 ],
               ),
             ),

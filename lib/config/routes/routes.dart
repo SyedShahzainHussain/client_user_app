@@ -22,6 +22,7 @@ import 'package:my_app/view/home/submit_order_screen.dart';
 import 'package:my_app/view/order/tracking_order.dart';
 import 'package:my_app/view/profile/edit_profile_screen.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
+import 'package:my_app/view/setting/setting_screen.dart';
 
 import '../../view/cart/cart_screen.dart';
 
@@ -70,9 +71,14 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SearchScreen());
       case RouteName.allBrandScreenName:
         return MaterialPageRoute(builder: (_) => const AllBrandScreen());
+      case RouteName.settingScreenName:
+        return MaterialPageRoute(builder: (_) => const SettingScreen());
       case RouteName.cartScreenName:
         final isPushing = setting.arguments as bool;
-        return MaterialPageRoute(builder: (_) => CartScreen(isPushing: isPushing,));
+        return MaterialPageRoute(
+            builder: (_) => CartScreen(
+                  isPushing: isPushing,
+                ));
       case RouteName.addToCartScreenName:
         final data = setting.arguments as Data;
         return MaterialPageRoute(

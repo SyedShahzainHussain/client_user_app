@@ -36,4 +36,14 @@ class ImageString {
   static const home = "assets/icon/home.svg";
   static const heart = "assets/icon/heart.svg";
   static const verified = "assets/icon/verified.svg";
+  static const user2 = "assets/icon/User2.svg";
+  static const logout = "assets/icon/box-arrow-in-right.svg";
+  static const rateFull = "assets/icon/rate-full.svg";
+  static const notification = "assets/icon/Notification.svg";
+  static const mention = "assets/icon/mention.svg";
+  static const locationMap = "assets/icon/location-map.svg";
+  static const CreditCard = "assets/icon/Credit-card.svg";
+  static const lock1 = "assets/icon/lock1.svg";
+  static const book = "assets/icon/book.svg";
+
 }
