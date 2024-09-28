@@ -66,27 +66,6 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
-  dynamic _handleResponse(Response response) {
-    switch (response.statusCode) {
-      case 200:
-      case 201:
-        return response.data;
-      case 400:
-      case 401:
-      case 403:
-      case 404:
-      case 500:
-        // Extract message from response body if available
-        String errorMessage = response.data['message'] ??
-            response.statusMessage ??
-            'An error occurred';
-        throw errorMessage;
-      default:
-        throw FetchDataException(
-            'Error occurred with status code ${response.statusCode}');
-    }
-  }
-
   @override
   Future<dynamic> putFormData({
     required String url,
@@ -139,5 +118,59 @@ class NetworkApiServices extends BaseApiServices {
       throw FetchDataException("No Internet Connection");
     }
     return responseJson;
+  }
+
+  @override
+  Future getPostEmptyBodyApiResponse(String url,
+      [Map<String, String>? headers]) async {
+    dynamic responseJson;
+    try {
+      final response = await _dio.post(
+        url,
+        options: Options(headers: headers),
+      );
+      responseJson = _handleResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return responseJson;
+  }
+
+  @override
+  Future deletePostApiResponse(String url,
+      [dynamic body, Map<String, dynamic>? headers]) async {
+    dynamic returnReponse;
+    try {
+      final response = await _dio.delete(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+      returnReponse = _handleResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return returnReponse;
+  }
+
+  dynamic _handleResponse(Response response) {
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        return response.data;
+      case 400:
+      case 401:
+      case 403:
+      case 404:
+      case 500:
+        // Extract message from response body if available
+        String errorMessage = response.data['message'] ??
+            response.statusMessage ??
+            'An error occurred';
+        throw errorMessage;
+      default:
+        throw FetchDataException(
+            'Error occurred with status code ${response.statusCode}');
+    }
   }
 }

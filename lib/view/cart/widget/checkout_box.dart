@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/common/button.dart';
+import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/enums/enums.dart';
 import 'package:my_app/model/cart_item_model.dart';
 
 import '../../../bloc/cart/cart_bloc.dart';
+import '../../../bloc/order/order_bloc.dart';
 
 class CheckOutBox extends StatelessWidget {
   final List<CartItem> items;
@@ -113,7 +116,13 @@ class CheckOutBox extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          Button(title: "Check Out", onTap: () {})
+          Button(
+                  title: "Check Out",
+                  onTap: () {
+                   
+                      Navigator.pushNamed(context, RouteName.orderScreenName);
+                    
+                  })
         ],
       ),
     );

@@ -19,4 +19,8 @@ class Urls {
   static String updateUserUrl = "update-user";
   static String toppingUrl = "topping";
   static String sideToppingUrl = "sidetopping";
+  static String placeOrder = "order";
+  static String addToCartUrl = "cart";
+  static String deleteCartUrls = "emptycart";
+
 }

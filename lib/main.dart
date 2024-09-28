@@ -17,6 +17,7 @@ import 'package:my_app/repository/brand/brand_http_repository.dart';
 import 'package:my_app/repository/brand/brand_repository.dart';
 import 'package:my_app/repository/category/category_api_repository.dart';
 import 'package:my_app/repository/category/category_http_repository.dart';
+import 'package:my_app/repository/order/order_http_repository.dart';
 import 'package:my_app/repository/product/product_http_repository.dart';
 import 'package:my_app/repository/product/product_repository.dart';
 import 'package:my_app/repository/side_topping/side_topping_http_repository.dart';
@@ -25,6 +26,8 @@ import 'package:my_app/repository/wishlist/wishlist_api_repository.dart';
 import 'package:my_app/repository/wishlist/wishlist_http_repository.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'repository/order/order_api_repository.dart';
 
 void main() async {
   try {
@@ -107,4 +110,6 @@ void serviceLocator() {
       () => WishlistHttpRepository());
   getIt.registerLazySingleton<SideToppingApiRepository>(
       () => SideToppingHttpRepository());
+  getIt.registerLazySingleton<OrderApiRepository>(
+      () => OrderHttpRepository());
 }

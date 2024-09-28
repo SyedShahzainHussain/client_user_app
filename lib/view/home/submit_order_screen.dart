@@ -16,7 +16,7 @@ class SubmitOrderScreen extends StatelessWidget {
       backgroundColor: Colors.grey,
       body: PopScope(
         canPop: false,
-        onPopInvoked: (didPop) {
+        onPopInvokedWithResult: (didPop, _) {
           if (!didPop) {
             Navigator.pushNamedAndRemoveUntil(
                 context, RouteName.entryScreenName, (route) => false);

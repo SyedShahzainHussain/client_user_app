@@ -28,6 +28,7 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
     on<UpdateCartTotal>(_updateCartTotal);
     on<DeleteSpecificCart>(_deleteSpecificCart);
     on<LoadCartItem>(_loadCartItem);
+    on<ClearCartList>(_clearCartList);
   }
 
   // Todo Add Topppings
@@ -209,6 +210,20 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
     }
   }
 
+  // Todo Clear Cart List
+
+  _clearCartList(ClearCartList event, Emitter<CartItemState> emit) async  {
+     await saveCartItem([]);
+    emit(state.copyWith(
+      cartItem: [],
+      noOfCartItem: 1,
+      productQuantityInCart: 0,
+      totalCartPrice: 0,
+      selectedToppings: [],
+      getselectedToppingsAccordingToThereCategory: [],
+    ));
+  }
+
   // ! show Dialog before completely removing
   Future<bool?> removeFromCartDialog(
     int index,
@@ -221,10 +236,13 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         backgroundColor: Colors.white,
-        title:  Text("Removing Product",style: Theme.of(context)
+        title: Text(
+          "Removing Product",
+          style: Theme.of(context)
               .textTheme
               .bodyMedium!
-              .copyWith(color: Colors.black),),
+              .copyWith(color: Colors.black),
+        ),
         content: Text(
           "Are you sure you want to remove this product?",
           style: Theme.of(context)

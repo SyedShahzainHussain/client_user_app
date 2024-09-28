@@ -22,5 +22,6 @@ class RouteName {
   static const String editProfileScreenName = "/edit-profile-screen";
   static const String cartScreenName = "/cart-screen";
   static const String settingScreenName = "/setting-screen";
+  static const String placeOrderScreenName = "/place-order-screen";
 
 }

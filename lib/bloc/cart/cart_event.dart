@@ -66,3 +66,8 @@ class LoadCartItem extends CartItemEvent {
   final BuildContext context;
   LoadCartItem(this.context);
 }
+
+
+class ClearCartList extends CartItemEvent{
+  ClearCartList();
+}

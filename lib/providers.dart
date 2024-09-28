@@ -12,6 +12,7 @@ import 'package:my_app/bloc/side_topping/side_topping_event.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:my_app/main.dart';
 
+import 'bloc/order/order_bloc.dart';
 import 'bloc/side_topping/side_topping_bloc.dart';
 
 class Providers extends StatelessWidget {
@@ -55,6 +56,10 @@ class Providers extends StatelessWidget {
       BlocProvider(
         create: (context) => SideToppingBloc(sideToppingApiRepository: getIt())
           ..add(FetchAllSideTopping()),
+      ),
+      BlocProvider(
+        create: (context) => OrderBloc(orderApiRepository: getIt())
+        ,
       ),
     ], child: child);
   }

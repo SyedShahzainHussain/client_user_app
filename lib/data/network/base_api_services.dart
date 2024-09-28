@@ -23,4 +23,14 @@ abstract class BaseApiServices {
     File? image,
     List<File>? images,
   });
+
+
+  // Todo Post Empty Body
+    Future<dynamic> getPostEmptyBodyApiResponse(String url,
+      [Map<String, String>? headers]);
+
+
+  // Todo Delete Api
+   Future<dynamic> deletePostApiResponse(String url,
+      [ dynamic body,Map<String, String>? headers]);     
 }

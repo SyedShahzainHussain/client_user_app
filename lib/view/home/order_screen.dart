@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/config/colors.dart';
@@ -7,6 +9,9 @@ import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/enums/enums.dart';
 import 'package:my_app/extension/media_query_extension.dart';
+
+import '../../bloc/cart/cart_bloc.dart';
+import '../../bloc/order/order_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -68,9 +73,13 @@ class _OrderScreenState extends State<OrderScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Column(
                 children: [
-                  const RowTitleWidget(
-                    title1: "Order",
-                    price: "899",
+                  BlocBuilder<CartBloc, CartItemState>(
+                    builder: (context, state) {
+                      return RowTitleWidget(
+                        title1: "Order",
+                        price: state.totalCartPrice.toString(),
+                      );
+                    },
                   ),
                   const RowTitleWidget(
                     title1: "Taxes",
@@ -86,24 +95,28 @@ class _OrderScreenState extends State<OrderScreen> {
                   SizedBox(
                     height: 15.h,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total:",
-                        style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.lightoffblack),
-                      ),
-                      Text(
-                        "PKR 1200",
-                        style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.lightoffblack),
-                      )
-                    ],
+                  BlocBuilder<CartBloc, CartItemState>(
+                    builder: (context, state) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Total:",
+                            style: GoogleFonts.roboto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.lightoffblack),
+                          ),
+                          Text(
+                            "PKR ${state.totalCartPrice}",
+                            style: GoogleFonts.roboto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.lightoffblack),
+                          )
+                        ],
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 20.h,
@@ -245,69 +258,91 @@ class _OrderScreenState extends State<OrderScreen> {
         margin: const EdgeInsets.all(22),
         child: Row(
           children: [
-            Expanded(
-              child: SizedBox(
-                width: 105.w,
-                height: 70.h,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Total price",
-                        style: GoogleFonts.roboto(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xff808080)),
+            BlocBuilder<CartBloc, CartItemState>(
+              builder: (context, state) {
+                return Expanded(
+                  child: SizedBox(
+                    width: 105.w,
+                    height: 70.h,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Total price",
+                            style: GoogleFonts.roboto(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff808080)),
+                          ),
+                          SizedBox(
+                            height: 3.h,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "PKR ${state.totalCartPrice.toStringAsFixed(0)}",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 25.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Expanded(
-                        child: Text(
-                          "PKR 899",
-                          style: GoogleFonts.roboto(
-                              fontSize: 25.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
             SizedBox(
               width: 20.w,
             ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, RouteName.submitScreenName);
-                },
-                child: Container(
-                  height: 70.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.redColor,
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Center(
-                      child: FittedBox(
-                        child: Text(
-                          "Pay Now",
-                          style: GoogleFonts.inter(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white),
+            BlocListener<OrderBloc, OrderState>(
+              listener: (context, state) {
+                if (state.postApiStatus == PostApiStatus.success) {
+                  Navigator.pushNamed(context, RouteName.placeOrderScreenName);
+                }
+              },
+              child: BlocBuilder<OrderBloc, OrderState>(
+                builder: (context, state) {
+                  return Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        context
+                            .read<OrderBloc>()
+                            .add(PlaceOrderEvent(context: context));
+                      },
+                      child: Container(
+                        height: 70.h,
+                        decoration: BoxDecoration(
+                          color: AppColors.redColor,
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Center(
+                            child: state.postApiStatus == PostApiStatus.loading
+                                ? SpinKitCircle(
+                                    size: 20.w,
+                                    color: Colors.white,
+                                  )
+                                : FittedBox(
+                                    child: Text(
+                                      "Order Now",
+                                      style: GoogleFonts.inter(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             )
           ],

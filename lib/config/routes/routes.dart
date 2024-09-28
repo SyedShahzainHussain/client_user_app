@@ -19,6 +19,7 @@ import 'package:my_app/view/home/home_screen.dart';
 import 'package:my_app/view/home/order_screen.dart';
 import 'package:my_app/view/home/search_screen.dart';
 import 'package:my_app/view/home/submit_order_screen.dart';
+import 'package:my_app/view/order/place_order_screen.dart';
 import 'package:my_app/view/order/tracking_order.dart';
 import 'package:my_app/view/profile/edit_profile_screen.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
@@ -73,6 +74,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const AllBrandScreen());
       case RouteName.settingScreenName:
         return MaterialPageRoute(builder: (_) => const SettingScreen());
+      case RouteName.placeOrderScreenName:
+        return MaterialPageRoute(builder: (_) => const PlaceOrderScreen());
       case RouteName.cartScreenName:
         final isPushing = setting.arguments as bool;
         return MaterialPageRoute(
