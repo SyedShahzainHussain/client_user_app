@@ -193,4 +193,10 @@ class Toppings {
     data['price'] = price;
     return data;
   }
+
+
+  empty(){
+    return Toppings(category: null,createdAt: null,iV: null,image: null,price: null,sId: null,title: null,updatedAt: null);
+  }
+
 }

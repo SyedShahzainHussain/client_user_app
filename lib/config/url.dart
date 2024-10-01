@@ -22,5 +22,8 @@ class Urls {
   static String placeOrder = "order";
   static String addToCartUrl = "cart";
   static String deleteCartUrls = "emptycart";
+  static String googleUrls = "auth/google/callback";
+  static String facebookUrls = "auth/facebook/callback";
+
 
 }

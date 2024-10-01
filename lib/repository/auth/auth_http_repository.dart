@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:my_app/model/user_model.dart' as user;
+import 'package:my_app/model/user_model.dart';
 
 import 'auth_repository.dart';
 
@@ -17,11 +17,11 @@ class AuthHttpRepository extends AuthApiRepository {
   }
 
   @override
-  Future<user.UserModel> signIn(body) async {
+  Future<UserModel> signIn(body) async {
     try {
       final response =
           await baseApiServices.getPostApiResponse(Urls.loginUrl, body);
-      return user.UserModel.fromJson(response);
+      return UserModel.fromJson(response);
     } catch (_) {
       rethrow;
     }
@@ -48,23 +48,25 @@ class AuthHttpRepository extends AuthApiRepository {
   }
 
   @override
-  Future<User> signInWithGoogle() async {
+  Future<UserModel> signInWithGoogle(dynamic body) async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      final credentials = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credentials);
-      User user = userCredential.user!;
-      return user;
+      print("${Urls.baseUrl}${Urls.googleUrls}");
+      final response =
+          await baseApiServices.getPostEmptyBodyApiResponse(Urls.googleUrls);
+      return UserModel.fromJson(response);
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserModel> signInWithFacebook(dynamic body) async {
+    try {
+      final response =
+          await baseApiServices.getPostEmptyBodyApiResponse(Urls.facebookUrls);
+      return UserModel.fromJson(response);
+    } catch (e) {
+      print(e);
       rethrow;
     }
   }
@@ -72,12 +74,12 @@ class AuthHttpRepository extends AuthApiRepository {
   @override
   Future updateUser(File? image, Map<String, dynamic> additionalData) async {
     try {
-     final response = await baseApiServices.putFormData(
+      final response = await baseApiServices.putFormData(
           url: Urls.updateUserUrl,
           singleFile: true,
           image: image,
           additionalData: additionalData);
-          return response;
+      return response;
     } catch (e) {
       rethrow;
     }

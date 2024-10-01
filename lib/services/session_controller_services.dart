@@ -45,12 +45,5 @@ class SessionController {
     userModel = UserModel();
   }
 
-  Future<bool> checkIsGoogle() async {
-    final provider = await localStorage.readValue("provider") ?? "";
-    if (provider == "google") {
-      return true;
-    } else {
-      return false;
-    }
-  }
+
 }

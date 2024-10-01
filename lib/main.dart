@@ -24,17 +24,12 @@ import 'package:my_app/repository/side_topping/side_topping_http_repository.dart
 import 'package:my_app/repository/side_topping/side_topping_repository.dart';
 import 'package:my_app/repository/wishlist/wishlist_api_repository.dart';
 import 'package:my_app/repository/wishlist/wishlist_http_repository.dart';
-import 'firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'repository/order/order_api_repository.dart';
 
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
     serviceLocator();
 
     await SystemChrome.setPreferredOrientations([
@@ -43,7 +38,7 @@ void main() async {
     ]);
     const String enviroment = String.fromEnvironment(
       'ENVIRONMENT',
-      defaultValue: Environment.dev,
+      defaultValue: Environment.prod,
     );
     Environment().initConfig(enviroment);
     runApp(const MyApp());

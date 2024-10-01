@@ -1,19 +1,20 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:my_app/model/user_model.dart' as user;
+import 'package:my_app/model/user_model.dart';
 
 abstract class AuthApiRepository {
   // Todo Sign Up Method
   Future<dynamic> signUp(dynamic body);
   // Todo Sign In Method
-  Future<user.UserModel> signIn(dynamic body);
+  Future<UserModel> signIn(dynamic body);
   // Todo Forgot Password
   Future<dynamic> forgotPassword(dynamic body);
   // Todo Reset Password
   Future<dynamic> resetPassword(dynamic body);
   // Todo Google
-  Future<User> signInWithGoogle();
+  Future<UserModel> signInWithGoogle(dynamic body);
+    // Todo Facebook
+  Future<UserModel> signInWithFacebook(dynamic body);
 
   // Todo Update Profile
   Future<dynamic> updateUser(File? image, Map<String, dynamic> additionalData);

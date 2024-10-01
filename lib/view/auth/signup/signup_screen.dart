@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_app/bloc/auth/sign_up/sign_up_bloc.dart';
 import 'package:my_app/common/back_button.dart';
 import 'package:my_app/common/button.dart';
-import 'package:my_app/common/social_button.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/enums/enums.dart';
@@ -205,8 +204,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: context.height * 0.03),
-                      const SocialButton(),
+                   
                       SizedBox(height: context.height * 0.05),
                       GestureDetector(
                         onTap: () {

@@ -19,7 +19,6 @@ class SideToppingBloc extends Bloc<SideToppingEvent, SideToppingState> {
       FetchAllSideTopping event, Emitter<SideToppingState> emit) async {
     emit(state.copyWith(getAllSideToppings: ApiResponse.loading()));
     await sideToppingApiRepository.getAllSideToppings().then((value) {
-
       emit(state.copyWith(getAllSideToppings: ApiResponse.complete(value)));
     }).onError((error, _) {
       emit(state.copyWith(
@@ -50,9 +49,8 @@ class SideToppingBloc extends Bloc<SideToppingEvent, SideToppingState> {
     emit(state.copyWith(totalPrice: totalPrice));
   }
 
-
-_clearSideToppins(ClearSideToppins event,Emitter<SideToppingState> emit)async{
-  emit(state.copyWith(selectedSideToppings: []));
-}
-
+  _clearSideToppins(
+      ClearSideToppins event, Emitter<SideToppingState> emit) async {
+    emit(state.copyWith(selectedSideToppings: [],totalPrice: 0.0));
+  }
 }

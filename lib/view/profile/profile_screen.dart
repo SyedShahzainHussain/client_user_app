@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
@@ -243,39 +242,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Expanded(
                                       child: GestureDetector(
                                         onTap: () async {
-                                          final String provider =
-                                              await LocalStorage()
-                                                      .readValue("provider") ??
-                                                  "";
-                                          if (provider == "google") {
-                                            await GoogleSignIn()
-                                                .signOut()
-                                                .then((_) {
-                                              LocalStorage()
-                                                  .clearValue("provider");
-                                              if (context.mounted) {
-                                                Navigator
-                                                    .pushNamedAndRemoveUntil(
-                                                        context,
-                                                        RouteName
-                                                            .splashScreenName,
-                                                        (route) => false);
-                                              }
-                                            });
-                                          } else {
-                                            SessionController()
-                                                .logout()
-                                                .then((_) {
-                                              if (context.mounted) {
-                                                Navigator
-                                                    .pushNamedAndRemoveUntil(
-                                                        context,
-                                                        RouteName
-                                                            .splashScreenName,
-                                                        (route) => false);
-                                              }
-                                            });
-                                          }
+                                          SessionController()
+                                              .logout()
+                                              .then((_) {
+                                            if (context.mounted) {
+                                              Navigator.pushNamedAndRemoveUntil(
+                                                  context,
+                                                  RouteName.splashScreenName,
+                                                  (route) => false);
+                                            }
+                                          });
                                         },
                                         child: Container(
                                           height: 70.h,

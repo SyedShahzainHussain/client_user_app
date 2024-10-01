@@ -41,4 +41,17 @@ class SideToppins {
     data['__v'] = this.iV;
     return data;
   }
+
+  empty() {
+    return SideToppins(
+      
+        category: null,
+        createdAt: null,
+        iV: null,
+        image: null,
+        price: null,
+        sId: null,
+        title: null,
+        updatedAt: null);
+  }
 }

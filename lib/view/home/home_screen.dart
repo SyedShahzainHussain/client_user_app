@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(GetProfileData());
-     context.read<CartBloc>().add(LoadCartItem(context));
+    context.read<CartBloc>().add(LoadCartItem(context));
   }
 
   @override
@@ -51,10 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
         await Future.delayed(const Duration(seconds: 2));
         if (context.mounted) {
           context.read<CategoryBloc>().add(FetchCategory());
+          context.read<CategoryBloc>().add(ClearCategoryValue());
           context.read<ProductBloc>().add(const GetAllProducts("All"));
           context.read<BrandBloc>().add(GetAllBrand());
           context.read<WishlistBloc>().add(GetWishlist());
-           context.read<CartBloc>().add(LoadCartItem(context));
+          context.read<CartBloc>().add(LoadCartItem(context));
         }
       },
       child: Scaffold(
@@ -139,79 +140,56 @@ class _HomeScreenState extends State<HomeScreen> {
                           Padding(
                             padding:
                                 const EdgeInsets.only(left: 12.0, right: 22.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Material(
-                                    elevation: 5,
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    child: SizedBox(
-                                      height: 60.h,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context,
-                                              RouteName.searchScreenName);
-                                        },
-                                        child: TextFormField(
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            hintText:
-                                                context.localizations!.search,
-                                            hintStyle: TextStyle(
-                                              color: AppColors.lightoffblack,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 18.sp,
-                                            ),
-                                            prefixIcon: IconButton(
-                                                onPressed: null,
-                                                icon: SvgPicture.asset(
-                                                    ImageString.search)),
-                                          ),
-                                          style: TextStyle(
-                                            color: AppColors.lightoffblack,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 18.sp,
-                                          ),
-                                          cursorColor: Colors.black,
-                                        ),
+                            child: Material(
+                              elevation: 5,
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: SizedBox(
+                                height: 60.h,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, RouteName.searchScreenName);
+                                  },
+                                  child: TextFormField(
+                                    enabled: false,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide: BorderSide.none,
                                       ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      hintText: context.localizations!.search,
+                                      hintStyle: TextStyle(
+                                        color: AppColors.lightoffblack,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.sp,
+                                      ),
+                                      prefixIcon: IconButton(
+                                          onPressed: null,
+                                          icon: SvgPicture.asset(
+                                              ImageString.search)),
                                     ),
+                                    style: TextStyle(
+                                      color: AppColors.lightoffblack,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18.sp,
+                                    ),
+                                    cursorColor: Colors.black,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                Container(
-                                  width: 60.w,
-                                  height: 60.h,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.redColor,
-                                      borderRadius:
-                                          BorderRadius.circular(20.0)),
-                                  child: Center(
-                                      child: Padding(
-                                    padding: const EdgeInsets.all(13.0),
-                                    child: SvgPicture.asset(ImageString.filter),
-                                  )),
-                                )
-                              ],
+                              ),
                             ),
                           ),
 
@@ -518,16 +496,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return const AllBrandShimmer();
                                 case Status.complete:
                                   return SizedBox(
-                                    height: 102.h,
+                                    height: 162.h,
                                     child: Padding(
                                       padding:
                                           const EdgeInsets.only(left: 12.0),
                                       child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) {
-                                          return Material(
-                                            elevation: 3.0,
-                                            color: Colors.white,
+                                          return Container(
+                                            padding: const EdgeInsets.all(2.0),
+                                            width: 124.w,
                                             child: GestureDetector(
                                               onTap: () {
                                                 Navigator.pushNamed(
@@ -535,55 +513,50 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     RouteName
                                                         .allBrandScreenName);
                                               },
-                                              child: Container(
-                                                height: 102.h,
-                                                width: 134.w,
-                                                decoration: BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                        colors: [
-                                                      const Color(0xff161616)
-                                                          .withOpacity(0),
-                                                      const Color(0xffFFFFFF)
-                                                          .withOpacity(0),
-                                                      const Color(0xffFF9D01)
-                                                          .withOpacity(1),
-                                                    ],
-                                                        stops: const [
-                                                      0,
-                                                      0,
-                                                      1
-                                                    ],
-                                                        begin:
-                                                            Alignment.topCenter,
-                                                        end: Alignment
-                                                            .bottomCenter)),
-                                                child: Column(
-                                                  children: [
-                                                    CachedNetworkImage(
-                                                      fit: BoxFit.cover,
-                                                      imageUrl: state
-                                                          .getAllBrand
-                                                          .data![index]
-                                                          .image!,
-                                                      height: 55.h,
-                                                    ),
-                                                    const Spacer(),
-                                                    Text(
-                                                        state
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.3),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    12.0)),
+                                                    height: 110.h,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12.0),
+                                                      child: CachedNetworkImage(
+                                                        fit: BoxFit.cover,
+                                                        imageUrl: state
                                                             .getAllBrand
                                                             .data![index]
-                                                            .title!,
-                                                        style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 16,
-                                                        )),
-                                                    const SizedBox(
-                                                      height: 5,
+                                                            .image!,
+                                                        height: 55.h,
+                                                      ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                  Text(
+                                                    state
+                                                            .getAllBrand
+                                                            .data![index]
+                                                            .title ??
+                                                        "",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 16.sp,
+                                                    ),
+                                                    maxLines: 2,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           );

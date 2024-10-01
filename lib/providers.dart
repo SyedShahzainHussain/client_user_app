@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/bloc/auth/check_authentication/check_authentiaction_bloc.dart';
 import 'package:my_app/bloc/auth/forgot/forgot_bloc.dart';
 import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
-import 'package:my_app/bloc/auth/social_login_bloc/social_bloc_bloc.dart';
 import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/bloc/cart/cart_bloc.dart';
 import 'package:my_app/bloc/category/category_bloc.dart';
@@ -28,9 +27,7 @@ class Providers extends StatelessWidget {
       BlocProvider(
         create: (context) => ForgotBloc(authApiRepository: getIt()),
       ),
-      BlocProvider(
-        create: (context) => SocialBlocBloc(authApiRepository: getIt()),
-      ),
+      
       BlocProvider(
         create: (context) =>
             CategoryBloc(categoryApiRepository: getIt())..add(FetchCategory()),

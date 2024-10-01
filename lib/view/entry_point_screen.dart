@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/bloc/cart/cart_bloc.dart';
+import 'package:my_app/config/colors.dart';
 import 'package:my_app/view/cart/cart_screen.dart';
 import 'package:my_app/view/favourite/fovourite_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
@@ -19,9 +20,9 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
 
   List<Widget> pages = [
     const HomeScreen(),
-    const ProfileScreen(),
     const CartScreen(),
     const FavouriteScreen(),
+    const ProfileScreen(),
     // const TrackingOrder(),
   ];
 
@@ -48,6 +49,7 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
       bottomNavigationBar: BlocBuilder<CartBloc, CartItemState>(
         builder: (context, state) {
           return BottomNavigationBar(
+            
             backgroundColor: Colors.white,
             currentIndex: currentIndex,
             onTap: (index) {
@@ -55,16 +57,12 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
                 currentIndex = index;
               });
             },
-            elevation: 0.0,
             type: BottomNavigationBarType.fixed,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            selectedItemColor: Colors.black,
-            unselectedItemColor: Colors.grey.withOpacity(0.5),
+            selectedItemColor: AppColors.redColor,
+            unselectedItemColor: Colors.grey.withOpacity(0.8),
             items:  [
               const BottomNavigationBarItem(icon: Icon(Icons.apps), label: "Home"),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Profile"),
+             
               BottomNavigationBarItem(
                   icon: badges.Badge(
                     badgeContent: Text(state.cartItem.length.toString()),
@@ -73,6 +71,8 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
                   label: "Cart"),
               const BottomNavigationBarItem(
                   icon: Icon(Icons.favorite), label: "Favorite"),
+                   const BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: "Profile"),
             ],
           );
         },

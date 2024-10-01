@@ -5,6 +5,7 @@ import 'package:my_app/config/colors.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool isLeading;
+  final VoidCallback? onLeadingPress;
   final List<Widget>? actions;
   final Color? backGroundColor;
   const CustomAppBar({
@@ -13,6 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.isLeading = true,
     this.actions,
     this.backGroundColor,
+    this.onLeadingPress,
   });
 
   @override
@@ -31,7 +33,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leading: isLeading
           ? IconButton(
-              onPressed: () {
+              onPressed: onLeadingPress?? () {
                 Navigator.pop(context);
               },
               icon: Icon(

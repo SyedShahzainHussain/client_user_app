@@ -9,6 +9,7 @@ import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/enums/enums.dart';
 import 'package:my_app/extension/media_query_extension.dart';
+import 'package:my_app/utils/utils.dart';
 
 import '../../bloc/cart/cart_bloc.dart';
 import '../../bloc/order/order_bloc.dart';
@@ -295,7 +296,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                 );
               },
-            ),
+            ), 
             SizedBox(
               width: 20.w,
             ),
@@ -303,6 +304,7 @@ class _OrderScreenState extends State<OrderScreen> {
               listener: (context, state) {
                 if (state.postApiStatus == PostApiStatus.success) {
                   Navigator.pushNamed(context, RouteName.placeOrderScreenName);
+                  Utils.showToast("Order has been placed successfully!");
                 }
               },
               child: BlocBuilder<OrderBloc, OrderState>(

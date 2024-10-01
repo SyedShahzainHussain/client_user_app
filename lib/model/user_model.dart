@@ -26,12 +26,8 @@ class User {
   String? sId;
   String? name;
   String? email;
-  String? password;
   String? number;
   String? role;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
   String? address;
   String? image;
   List<String>? wishlist;
@@ -41,12 +37,8 @@ class User {
       {this.sId,
       this.name,
       this.email,
-      this.password,
       this.number,
       this.role,
-      this.createdAt,
-      this.updatedAt,
-      this.iV,
       this.address,
       this.image,
       this.wishlist,
@@ -56,12 +48,8 @@ class User {
     sId = json['_id'];
     name = json['name'];
     email = json['email'];
-    password = json['password'];
     number = json['number'];
     role = json['role'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
     address = json['address'];
     image = json['image'];
     wishlist = json['wishlist'].cast<String>();
@@ -73,12 +61,8 @@ class User {
     data['_id'] = sId;
     data['name'] = name;
     data['email'] = email;
-    data['password'] = password;
     data['number'] = number;
     data['role'] = role;
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
-    data['__v'] = iV;
     data['address'] = address;
     data['image'] = image;
     data['wishlist'] = wishlist;

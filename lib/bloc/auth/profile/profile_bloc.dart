@@ -30,8 +30,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  _clearPickImageEvent(
-      ClearPickImageEvent event, Emitter<ProfileState> emit)  {
+  _clearPickImageEvent(ClearPickImageEvent event, Emitter<ProfileState> emit) {
     emit(state.copyWith(image: XFile("")));
   }
 
@@ -64,18 +63,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   _getProfileData(GetProfileData event, Emitter<ProfileState> emit) async {
-    final address = SessionController().userModel.user!.address.toString();
-    final name = await SessionController().checkIsGoogle() == true
-        ? await SessionController().localStorage.readValue("name")
-        : SessionController().userModel.user!.name.toString();
-    final email = await SessionController().checkIsGoogle() == true
-        ? await SessionController().localStorage.readValue("email")
-        : SessionController().userModel.user!.email.toString();
-    final profileImage = await SessionController().checkIsGoogle() == true
-        ? await SessionController().localStorage.readValue("profilePic") ??
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-        : SessionController().userModel.user!.image ??
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
+    final address = SessionController().userModel.user?.address.toString()??"";
+    final name = SessionController().userModel.user!.name.toString();
+    final email = SessionController().userModel.user!.email.toString();
+    final profileImage = SessionController().userModel.user!.image ??
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
 
     emit(state.copyWith(
         name: name, address: address, email: email, profilePic: profileImage));
