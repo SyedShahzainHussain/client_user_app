@@ -62,7 +62,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             event.context
                 .read<OrderBloc>()
                 .add(DeleteCart(context: event.context));
-
+            event.context.read<CartBloc>().add(ClearCartList());
             emit(state.copyWith(postApiStatus: PostApiStatus.success));
           }
         });
@@ -83,9 +83,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     };
 
     await orderApiRepository.clearCart(jsonEncode(itemsToRemove)).then((_) {
-      if (event.context.mounted) {
-        event.context.read<CartBloc>().add(ClearCartList());
-      }
+      if (event.context.mounted) {}
     });
   }
 }

@@ -116,6 +116,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                 for (var product in productList)
                                   ProductTile(
                                     productModel: product,
+                                    
                                   )
                               ],
                             ),

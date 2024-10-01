@@ -31,6 +31,13 @@ class AddToCartScreen extends StatefulWidget {
 class _AddToCartScreenState extends State<AddToCartScreen> {
   double value = 0.5;
 
+
+
+
+
+
+
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -46,6 +53,8 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
 
     context.read<SideToppingBloc>().add(FetchAllSideTopping());
   }
+
+  
 
   
   @override
@@ -64,24 +73,24 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
             context.read<SideToppingBloc>().add(ClearSideToppins());
             Navigator.pop(context);
           },
-          actions: [
-            BlocBuilder<CartBloc, CartItemState>(
-              builder: (context, state) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, RouteName.cartScreenName,
-                            arguments: true);
-                      },
-                      icon: badges.Badge(
-                        badgeContent: Text(state.cartItem.length.toString()),
-                        child: const Icon(Icons.shopping_cart),
-                      )),
-                );
-              },
-            )
-          ],
+          // actions: [
+          //   BlocBuilder<CartBloc, CartItemState>(
+          //     builder: (context, state) {
+          //       return Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: IconButton(
+          //             onPressed: () {
+          //               Navigator.pushNamed(context, RouteName.cartScreenName,
+          //                   arguments: true);
+          //             },
+          //             icon: badges.Badge(
+          //               badgeContent: Text(state.cartItem.length.toString()),
+          //               child: const Icon(Icons.shopping_cart),
+          //             )),
+          //       );
+          //     },
+          //   )
+          // ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -326,6 +335,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                 height: context.height * 0.02,
               ),
               // Todo Toppins Widget
+              if(widget.data.toppings!=null)
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                 child: Column(
@@ -472,7 +482,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
               SizedBox(
                 height: 20.h,
               ),
-
+    
               // Todo Side Options
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w),

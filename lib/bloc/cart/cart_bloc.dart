@@ -93,7 +93,7 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
       newCount = 1;
     }
 
-    emit(state.copyWith(noOfCartItem: newCount));
+    emit(state.copyWith(noOfCartItem: newCount)); 
   }
 
   // Todo Add To Cart
@@ -103,7 +103,7 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
         cartList.indexWhere((cartItem) => cartItem.sId == event.cartItem.sId);
 
     if (index >= 0) {
-      if (cartList[index].quantity == event.cartItem.quantity) {
+      if (cartList[index].quantity >= event.cartItem.quantity) {
         Utils.showToast(
             "This Product Quantity is already in the cart. \nPlease increase quantity");
       } else {
@@ -113,7 +113,7 @@ class CartBloc extends Bloc<CartItemEvent, CartItemState> {
     } else {
       cartList.add(event.cartItem);
       Utils.showToast("Product Added To Cart!");
-    }
+    } 
     emit(state.copyWith(cartItem: cartList));
     event.context.read<CartBloc>().add(UpdateCartTotal());
     saveCartItem(state.cartItem);

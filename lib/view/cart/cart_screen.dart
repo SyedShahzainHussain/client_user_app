@@ -12,27 +12,28 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
         appBar: CustomAppBar(
           isLeading: isPushing == true ? true : false,
           title: "Cart",
         ),
-        bottomSheet:BlocBuilder<CartBloc, CartItemState>(
-                builder: (context, state) {
-                  return state.cartItem.isNotEmpty
-                      ? isPushing?  CheckOutBox(
+        bottomSheet: BlocBuilder<CartBloc, CartItemState>(
+          builder: (context, state) {
+            return state.cartItem.isNotEmpty
+                ? isPushing
+                    ? CheckOutBox(
+                        items: state.cartItem,
+                      )
+                    : Container(
+                        margin: const EdgeInsets.only(
+                            bottom: kBottomNavigationBarHeight),
+                        child: CheckOutBox(
                           items: state.cartItem,
-                        ): Container(
-                        margin: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-                          child: CheckOutBox(
-                            items: state.cartItem,
-                          ),
-                        )
-                      : const SizedBox();
-                },
-              ),
-  
+                        ),
+                      )
+                : const SizedBox();
+          },
+        ),
         body: BlocBuilder<CartBloc, CartItemState>(
           builder: (context, state) {
             final cart = state.cartItem;
@@ -56,11 +57,13 @@ class CartScreen extends StatelessWidget {
                                 DeleteSpecificCart(cart[index].sId!, context));
                           },
                           onRemove: () {
+                        
                             context
                                 .read<CartBloc>()
                                 .add(RemoveFromCart(cart[index].sId!, context));
                           },
                           onAdd: () {
+                          
                             context
                                 .read<CartBloc>()
                                 .add(AddOneToCart(cart[index], context));
