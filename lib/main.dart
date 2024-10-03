@@ -80,6 +80,11 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               scaffoldBackgroundColor: AppColors.primaryColor,
               primaryColor: AppColors.buttonColor,
+              indicatorColor: AppColors.buttonColor,
+              textSelectionTheme: const TextSelectionThemeData(
+                  cursorColor: AppColors.buttonColor, //<-- SEE HERE
+                  selectionColor: AppColors.buttonColor,
+                  selectionHandleColor: AppColors.buttonColor),
               textTheme:
                   GoogleFonts.acmeTextTheme(Typography.englishLike2018.apply(
                 fontSizeFactor: 1.sp,
@@ -105,6 +110,5 @@ void serviceLocator() {
       () => WishlistHttpRepository());
   getIt.registerLazySingleton<SideToppingApiRepository>(
       () => SideToppingHttpRepository());
-  getIt.registerLazySingleton<OrderApiRepository>(
-      () => OrderHttpRepository());
+  getIt.registerLazySingleton<OrderApiRepository>(() => OrderHttpRepository());
 }

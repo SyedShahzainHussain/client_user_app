@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/config/colors.dart';
@@ -13,6 +14,7 @@ import 'package:my_app/utils/utils.dart';
 
 import '../../bloc/cart/cart_bloc.dart';
 import '../../bloc/order/order_bloc.dart';
+import '../../services/session_controller_services.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -22,8 +24,59 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  Payment payment = Payment.visa;
+  Payment payment = Payment.cash;
   ValueNotifier<bool> checkBoxNotifier = ValueNotifier<bool>(false);
+
+  Future<void> initPaymentSheet() async {
+    try {
+      Stripe.publishableKey =
+          "pk_test_51N17P0BpfnaVUIFxFYuWBLEoZtWqPl3DFdTWFWgDMXTdyIJErhEUJWbP3nKb2OeIIvoTH3H2ahd2Eg1PoQy4fHIK00zdaDUvEE";
+
+      BillingDetails billingDetails = BillingDetails(
+        address: const Address(
+          city: "Karachi",
+          country: "US",
+          line1: "addr1",
+          line2: "addr2",
+          postalCode: "21231",
+          state: "Kolango",
+        ),
+        email: SessionController().userModel.user?.email ?? "",
+        name: SessionController().userModel.user?.name ?? "",
+        phone: SessionController().userModel.user?.number ?? "",
+      ); 
+
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          billingDetails: billingDetails,
+          merchantDisplayName: 'Prospects',
+          paymentIntentClientSecret:
+              "pi_3Q5lXiBpfnaVUIFx2UM9wcIN_secret_XfHRb2HdyMToeWvgK0Ik8nFWC",
+          customerEphemeralKeySecret:
+              "sk_test_51N17P0BpfnaVUIFxHZX2hjXntIdH7IG5AmOQVbWF7GpYVdK30gn2V8ZzgFTCxgrGDDhjDerayvemczNXAOCr1boo00PnNdBd03",
+          customFlow: false,
+          style: ThemeMode.light,
+          googlePay: const PaymentSheetGooglePay(
+            merchantCountryCode: 'US',
+            currencyCode: '',
+            testEnv: true,
+          ),
+        ),
+      );
+
+      await Stripe.instance.presentPaymentSheet().then((value) {
+        print('success');
+      }).onError((error, _) {
+        if (error is StripeException) {
+          Utils.showToast(error.error.localizedMessage.toString());
+        } else {
+          Utils.showToast('Stripe Error: $error');
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,89 +222,103 @@ class _OrderScreenState extends State<OrderScreen> {
                   cardNumber = "43566 **** **** 0505";
                   name = "Visa Card";
                   break;
-                case Payment.masterCard:
-                  imagePath = ImageString.masterImage;
-                  cardNumber = "5105 **** **** 0505";
-                  name = "Mater Card";
+                case Payment.cash:
+                  imagePath = ImageString.cashImage;
+                  cardNumber = "Cash On Delivery";
+                  name = "Cash";
                   break;
               }
-              return Container(
-                  margin: EdgeInsets.only(bottom: 20.h),
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: payment == data
-                          ? AppColors.secondaryTextColor
-                          : const Color(0xffF3F4F6)),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: Image.asset(
-                      imagePath,
-                      width: 70.w,
-                      height: 70.h,
-                    ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(name,
-                            style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.sp,
-                              color:
-                                  payment == data ? Colors.white : Colors.black,
-                            )),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Text(cardNumber,
-                            style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.sp,
-                              color: payment == data
-                                  ? Colors.black
-                                  : const Color(0xff808080),
-                            )),
-                      ],
-                    ),
-                    trailing: Radio<Payment>(
-                        activeColor: Colors.white,
-                        focusColor: Colors.white,
-                        fillColor: const WidgetStatePropertyAll(Colors.white),
-                        visualDensity: VisualDensity.compact,
-                        value: data,
-                        groupValue: payment,
-                        onChanged: (value) {
-                          setState(() {
-                            payment = value!;
-                          });
-                        }),
-                  ));
+              return GestureDetector(
+                onTap: () async {
+                  setState(() {
+                    payment =
+                        data; // Update the payment method when the container is tapped
+                  });
+
+                  if (data == Payment.visa) {
+                    // Initiate the payment sheet when Visa is selected
+                    await initPaymentSheet();
+                  }
+                },
+                child: Container(
+                    margin: EdgeInsets.only(bottom: 20.h),
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: payment == data
+                            ? AppColors.secondaryTextColor
+                            : const Color(0xffF3F4F6)),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Image.asset(
+                        imagePath,
+                        width: 70.w,
+                        height: 70.h,
+                      ),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(name,
+                              style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.sp,
+                                color: payment == data
+                                    ? Colors.white
+                                    : Colors.black,
+                              )),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Text(cardNumber,
+                              style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.sp,
+                                color: payment == data
+                                    ? Colors.black
+                                    : const Color(0xff808080),
+                              )),
+                        ],
+                      ),
+                      trailing: Radio<Payment>(
+                          activeColor: Colors.white,
+                          focusColor: Colors.white,
+                          fillColor: const WidgetStatePropertyAll(Colors.white),
+                          visualDensity: VisualDensity.compact,
+                          value: data,
+                          groupValue: payment,
+                          onChanged: (value) {
+                            setState(() {
+                              payment = value!;
+                            });
+                          }),
+                    )),
+              );
             }),
-            Row(
-              children: [
-                ValueListenableBuilder(
-                    valueListenable: checkBoxNotifier,
-                    builder: (context, data, _) {
-                      return Checkbox(
-                        visualDensity: VisualDensity.compact,
-                        side: const BorderSide(color: AppColors.redColor),
-                        activeColor: AppColors.redColor,
-                        value: checkBoxNotifier.value,
-                        onChanged: (value) {
-                          checkBoxNotifier.value = !checkBoxNotifier.value;
-                        },
-                      );
-                    }),
-                Text(
-                  "Save card details for future payments",
-                  style: GoogleFonts.roboto(
-                    color: const Color(0xff808080),
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                )
-              ],
-            )
+            // Row(
+            //   children: [
+            //     ValueListenableBuilder(
+            //         valueListenable: checkBoxNotifier,
+            //         builder: (context, data, _) {
+            //           return Checkbox(
+            //             visualDensity: VisualDensity.compact,
+            //             side: const BorderSide(color: AppColors.redColor),
+            //             activeColor: AppColors.redColor,
+            //             value: checkBoxNotifier.value,
+            //             onChanged: (value) {
+            //               checkBoxNotifier.value = !checkBoxNotifier.value;
+            //             },
+            //           );
+            //         }),
+            //     Text(
+            //       "Save card details for future payments",
+            //       style: GoogleFonts.roboto(
+            //         color: const Color(0xff808080),
+            //         fontSize: 16.sp,
+            //         fontWeight: FontWeight.w400,
+            //       ),
+            //     )
+            //   ],
+            // )
           ],
         ),
       ),
@@ -296,7 +363,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                 );
               },
-            ), 
+            ),
             SizedBox(
               width: 20.w,
             ),

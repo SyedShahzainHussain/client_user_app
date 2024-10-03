@@ -1,6 +1,6 @@
 enum Payment {
+  cash,
   visa,
-  masterCard,
 }
 
 enum PostApiStatus{

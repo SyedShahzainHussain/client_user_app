@@ -8,8 +8,6 @@ import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
-import 'package:my_app/services/session_controller_services.dart';
-import 'package:my_app/services/storage/local_storage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../bloc/auth/profile/profile_bloc.dart';
@@ -25,6 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+
 
   @override
   void initState() {
@@ -54,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 clipBehavior: Clip.none,
                 children: [
                   SizedBox(
-                    height: context.height,
+                    height: context.height - kBottomNavigationBarHeight,
                     width: context.width,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,123 +174,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          final String provider =
-                                              await LocalStorage()
-                                                      .readValue("provider") ??
-                                                  "";
-                                          if (provider == "google") {
-                                          } else {
-                                            Navigator.pushNamed(context,
-                                                RouteName.editProfileScreenName,
-                                                arguments: {
-                                                  "image": state
-                                                          .profilePic.isEmpty
-                                                      ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                                                      : state.profilePic,
-                                                  "title": nameController.text,
-                                                  "address":
-                                                      addressController.text,
-                                                });
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 70.h,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.lightoffblack,
-                                            borderRadius:
-                                                BorderRadius.circular(20.r),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(width: 10.w),
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: Text(
-                                                    "Edit Profile",
-                                                    style: GoogleFonts.roboto(
-                                                      fontSize: 18.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10.w),
-                                                Expanded(
-                                                  child: IconButton(
-                                                    onPressed: null,
-                                                    icon: SvgPicture.asset(
-                                                        ImageString.edit),
-                                                  ),
-                                                ),
-                                              ],
+                                const Spacer(),
+                                GestureDetector(
+                                  onTap: () async {
+                                    Navigator.pushNamed(context,
+                                        RouteName.editProfileScreenName,
+                                        arguments: {
+                                          "image": state.profilePic.isEmpty
+                                              ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                              : state.profilePic,
+                                          "title": nameController.text,
+                                          "address": addressController.text,
+                                        });
+                                  },
+                                  child: Container(
+                                    height: 70.h,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.lightoffblack,
+                                      borderRadius: BorderRadius.circular(20.r),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(width: 10.w),
+                                          Text(
+                                            "Edit Profile",
+                                            style: GoogleFonts.roboto(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                        ),
+                                          SizedBox(width: 10.w),
+                                          IconButton(
+                                            onPressed: null,
+                                            icon: SvgPicture.asset(
+                                                ImageString.edit),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    SizedBox(width: 20.w),
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          SessionController()
-                                              .logout()
-                                              .then((_) {
-                                            if (context.mounted) {
-                                              Navigator.pushNamedAndRemoveUntil(
-                                                  context,
-                                                  RouteName.splashScreenName,
-                                                  (route) => false);
-                                            }
-                                          });
-                                        },
-                                        child: Container(
-                                          height: 70.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20.r),
-                                            border: Border.all(
-                                              color: AppColors.redColor,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                FittedBox(
-                                                  child: Text(
-                                                    "Log out",
-                                                    style: GoogleFonts.roboto(
-                                                      fontSize: 18.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: AppColors.redColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: null,
-                                                  icon: SvgPicture.asset(
-                                                      ImageString.signout),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                const Spacer(
+                                  flex: 2,
                                 ),
                               ],
                             ),
@@ -330,15 +263,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ),
                   Positioned(
-                      top: 20,
-                      right: 0,
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, RouteName.settingScreenName);
-                          },
-                          icon:
-                              const Icon(Icons.settings, color: Colors.white)))
+                    top: 20,
+                    right: 0,
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, RouteName.settingScreenName);
+                        },
+                        icon: const Icon(Icons.settings, color: Colors.white)),
+                  ),
                 ],
               ),
             ),
@@ -401,3 +334,48 @@ class TextFormWidget2 extends StatelessWidget {
     );
   }
 }
+
+
+   // Expanded(
+                                    //   child: GestureDetector(
+                                    //     onTap: () async {
+                                    //
+                                    //     },
+                                    //     child: Container(
+                                    //       height: 70.h,
+                                    //       decoration: BoxDecoration(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(20.r),
+                                    //         border: Border.all(
+                                    //           color: AppColors.redColor,
+                                    //           width: 2,
+                                    //         ),
+                                    //       ),
+                                    //       child: Padding(
+                                    //         padding: const EdgeInsets.all(4.0),
+                                    //         child: Row(
+                                    //           mainAxisAlignment:
+                                    //               MainAxisAlignment.center,
+                                    //           children: [
+                                    //             FittedBox(
+                                    //               child: Text(
+                                    //                 "Log out",
+                                    //                 style: GoogleFonts.roboto(
+                                    //                   fontSize: 18.sp,
+                                    //                   fontWeight:
+                                    //                       FontWeight.w500,
+                                    //                   color: AppColors.redColor,
+                                    //                 ),
+                                    //               ),
+                                    //             ),
+                                    //             IconButton(
+                                    //               onPressed: null,
+                                    //               icon: SvgPicture.asset(
+                                    //                   ImageString.signout),
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),

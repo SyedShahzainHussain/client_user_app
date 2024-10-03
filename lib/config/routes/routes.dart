@@ -23,6 +23,8 @@ import 'package:my_app/view/order/place_order_screen.dart';
 import 'package:my_app/view/order/tracking_order.dart';
 import 'package:my_app/view/profile/edit_profile_screen.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
+import 'package:my_app/view/setting/pages/account_information.dart';
+import 'package:my_app/view/setting/pages/change_password_screen.dart';
 import 'package:my_app/view/setting/setting_screen.dart';
 
 import '../../view/cart/cart_screen.dart';
@@ -76,6 +78,10 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SettingScreen());
       case RouteName.placeOrderScreenName:
         return MaterialPageRoute(builder: (_) => const PlaceOrderScreen());
+      case RouteName.accountInformationScreenName:
+        return MaterialPageRoute(builder: (_) => const AccountInformation());
+      case RouteName.changePasswordScreenName:
+        return MaterialPageRoute(builder: (_) => const ChangePasswordScreen());
       case RouteName.cartScreenName:
         final isPushing = setting.arguments as bool;
         return MaterialPageRoute(

@@ -11,14 +11,12 @@ import 'package:my_app/bloc/side_topping/side_topping_state.dart';
 import 'package:my_app/common/custom_appbar.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
-import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/data/response/status.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/model/cart_item_model.dart';
 import 'package:my_app/shimmers/side_topping_shimmer.dart';
 import '../../bloc/cart/cart_bloc.dart';
 import '../../model/product_model.dart';
-import 'package:badges/badges.dart' as badges;
 
 class AddToCartScreen extends StatefulWidget {
   final Data data;
@@ -30,13 +28,6 @@ class AddToCartScreen extends StatefulWidget {
 
 class _AddToCartScreenState extends State<AddToCartScreen> {
   double value = 0.5;
-
-
-
-
-
-
-
 
   @override
   void didChangeDependencies() {
@@ -53,8 +44,6 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
 
     context.read<SideToppingBloc>().add(FetchAllSideTopping());
   }
-
-  
 
   
   @override

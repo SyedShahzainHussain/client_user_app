@@ -50,7 +50,6 @@ class AuthHttpRepository extends AuthApiRepository {
   @override
   Future<UserModel> signInWithGoogle(dynamic body) async {
     try {
-      print("${Urls.baseUrl}${Urls.googleUrls}");
       final response =
           await baseApiServices.getPostEmptyBodyApiResponse(Urls.googleUrls);
       return UserModel.fromJson(response);
