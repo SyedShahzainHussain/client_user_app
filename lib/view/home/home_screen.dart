@@ -26,6 +26,9 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import '../../bloc/category/category_bloc.dart';
 import '../../bloc/products/product_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+import '../../common/t_rounded_image.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -193,6 +196,40 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
 
+                          SizedBox(
+                            height: context.height * 0.05,
+                          ),
+                          Column(
+                            children: [
+                              CarouselSlider(
+                                items: [
+                                  TRoundedImage(
+                                    onPressed: () {},
+                                    imageUrl:
+                                        "https://st3.depositphotos.com/11117316/15498/i/380/depositphotos_154987706-stock-photo-3d-illustration-of-detailed-virtual.jpg",
+                                    isNetworkImage: true,
+                                  ),
+                                  TRoundedImage(
+                                    onPressed: () {},
+                                    imageUrl:
+                                        "https://st4.depositphotos.com/1000423/25337/i/380/depositphotos_253378908-stock-photo-business-district-and-wireless-technologies.jpg",
+                                    isNetworkImage: true,
+                                  ),
+                                  TRoundedImage(
+                                    onPressed: () {},
+                                    imageUrl:
+                                        "https://st3.depositphotos.com/1000423/13385/i/380/depositphotos_133858438-stock-photo-creating-wireless-technologies-mixed-media.jpg",
+                                    isNetworkImage: true,
+                                  ),
+                                ],
+                                options: CarouselOptions(
+                                  viewportFraction: 1.0,
+                                  onPageChanged: (index, _) {},
+                                ),
+                              ),
+                              
+                            ],
+                          ),
                           SizedBox(
                             height: context.height * 0.05,
                           ),
