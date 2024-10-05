@@ -24,7 +24,9 @@ import 'package:my_app/view/order/tracking_order.dart';
 import 'package:my_app/view/profile/edit_profile_screen.dart';
 import 'package:my_app/view/profile/profile_screen.dart';
 import 'package:my_app/view/setting/pages/account_information.dart';
+import 'package:my_app/view/setting/pages/change_language_screen.dart';
 import 'package:my_app/view/setting/pages/change_password_screen.dart';
+import 'package:my_app/view/setting/pages/rate_app_screen.dart';
 import 'package:my_app/view/setting/setting_screen.dart';
 
 import '../../view/cart/cart_screen.dart';
@@ -82,6 +84,10 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const AccountInformation());
       case RouteName.changePasswordScreenName:
         return MaterialPageRoute(builder: (_) => const ChangePasswordScreen());
+      case RouteName.appRateScreenName:
+        return MaterialPageRoute(builder: (_) => const RateAppScreen());
+      case RouteName.changeLanguageScreenName:
+        return MaterialPageRoute(builder: (_) =>  ChangeLanguageScreen());
       case RouteName.cartScreenName:
         final isPushing = setting.arguments as bool;
         return MaterialPageRoute(

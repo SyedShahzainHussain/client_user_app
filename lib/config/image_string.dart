@@ -20,6 +20,7 @@ class ImageString {
   static const call = "assets/images/call.png";
     static const placeOrder = "assets/images/place_order.png";
   static const cashImage = "assets/images/cash.png";
+  static const rateImage = "assets/images/start.png";
 
   // Todo Icons
   static const user = "assets/icon/user.svg";

@@ -25,6 +25,8 @@ class RouteName {
   static const String placeOrderScreenName = "/place-order-screen";
   static const String accountInformationScreenName = "/account-information-screen";
   static const String changePasswordScreenName = "/change-Password-screen";
+  static const String appRateScreenName = "/app-rate-screen";
+  static const String changeLanguageScreenName = "/change-language-screen";
 
 
 }

@@ -20,7 +20,7 @@ class TRoundedImage extends StatelessWidget {
     this.isNetworkImage = false,
     this.width,
     this.height,
-    this.borderRadius = 12.0,
+    this.borderRadius = 22.0,
     this.backgroundColor,
     this.applyImageRadius = true,
     this.border,
@@ -51,8 +51,9 @@ class TRoundedImage extends StatelessWidget {
           child: isNetworkImage
               ? CachedNetworkImage(
                   imageUrl: imageUrl,
+                  fit: BoxFit.fill,
                   progressIndicatorBuilder: (context, url, progress) =>
-                      const ShimmerEffect(width: double.infinity, height: 190),
+                      const ShimmerEffect(width: double.infinity, height: 150),
                   errorWidget: (context, url, error) =>
                       const Icon(Icons.error, color: Colors.red),
                 )

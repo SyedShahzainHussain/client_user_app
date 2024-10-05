@@ -202,32 +202,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           Column(
                             children: [
                               CarouselSlider(
-                                items: [
-                                  TRoundedImage(
+
+                                items: List.generate(
+                                  10,
+                                  (int index) => TRoundedImage(
+                                    height: 150,
+                                    width: double.infinity,
                                     onPressed: () {},
                                     imageUrl:
-                                        "https://st3.depositphotos.com/11117316/15498/i/380/depositphotos_154987706-stock-photo-3d-illustration-of-detailed-virtual.jpg",
+                                        "https://mir-s3-cdn-cf.behance.net/project_modules/hd/1d8ef1131620399.6198777370341.png",
                                     isNetworkImage: true,
                                   ),
-                                  TRoundedImage(
-                                    onPressed: () {},
-                                    imageUrl:
-                                        "https://st4.depositphotos.com/1000423/25337/i/380/depositphotos_253378908-stock-photo-business-district-and-wireless-technologies.jpg",
-                                    isNetworkImage: true,
-                                  ),
-                                  TRoundedImage(
-                                    onPressed: () {},
-                                    imageUrl:
-                                        "https://st3.depositphotos.com/1000423/13385/i/380/depositphotos_133858438-stock-photo-creating-wireless-technologies-mixed-media.jpg",
-                                    isNetworkImage: true,
-                                  ),
-                                ],
+                                ),
                                 options: CarouselOptions(
-                                  viewportFraction: 1.0,
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+
+                                  enlargeFactor: 0.3,
+                                  viewportFraction: 0.9,
                                   onPageChanged: (index, _) {},
                                 ),
                               ),
-                              
                             ],
                           ),
                           SizedBox(

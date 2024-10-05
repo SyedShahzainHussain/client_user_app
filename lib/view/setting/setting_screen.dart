@@ -9,6 +9,7 @@ import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
 
 import '../../services/session_controller_services.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -125,11 +126,27 @@ class _SettingScreenState extends State<SettingScreen> {
                           endIndent: 20,
                           indent: 20,
                         ),
+                        // SettingListTileWidget(
+                        //   title: "Payment Methods",
+                        //   subTitle: "Add your Credit & Debit cards",
+                        //   image: ImageString.CreditCard,
+                        //   onTap: () {},
+                        // ),
+                        // const Divider(
+                        //   color: Color(0xffF4F5F7),
+                        //   height: .4,
+                        //   endIndent: 20,
+                        //   indent: 20,
+                        // ),
                         SettingListTileWidget(
-                          title: "Payment Methods",
-                          subTitle: "Add your Credit & Debit cards",
-                          image: ImageString.CreditCard,
-                          onTap: () {},
+                          title: "Change Language",
+                          subTitle: "Change your App Language",
+                          isIcon: true,
+                          icon: Icons.language,
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, RouteName.changeLanguageScreenName);
+                          },
                         ),
                         const Divider(
                           color: Color(0xffF4F5F7),
@@ -151,9 +168,16 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                         SettingListTileWidget(
                           title: "Invite your friends",
-                          subTitle: "Get \$59 for each invitation!",
+                          subTitle: "Send the link to user",
                           image: ImageString.mention,
-                          onTap: () {},
+                          onTap: () async {
+                            try {
+                              await Share.shareUri(
+                                  Uri.parse("https://www.google.com/"));
+                            } catch (e) {
+                              rethrow;
+                            }
+                          },
                         ),
                       ],
                     )
@@ -331,7 +355,10 @@ class _SettingScreenState extends State<SettingScreen> {
                             title: "Rate Us",
                             subTitle: "You will receive daily updates",
                             image: ImageString.rateFull,
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, RouteName.appRateScreenName);
+                            },
                           ),
                           const Divider(
                             color: Color(0xffF4F5F7),
@@ -485,15 +512,20 @@ class _SettingScreenState extends State<SettingScreen> {
 }
 
 class SettingListTileWidget extends StatelessWidget {
-  final String title, subTitle, image;
+  final String title, subTitle;
+  final String? image;
   final VoidCallback onTap;
+  final bool isIcon;
+  final IconData? icon;
 
   const SettingListTileWidget({
     super.key,
     required this.title,
     required this.subTitle,
-    required this.image,
+    this.image,
     required this.onTap,
+    this.icon,
+    this.isIcon = false,
   });
 
   @override
@@ -502,9 +534,15 @@ class SettingListTileWidget extends StatelessWidget {
       onTap: onTap,
       leading: IconButton(
         onPressed: onTap,
-        icon: SvgPicture.asset(
-          image,
-        ),
+        icon: isIcon
+            ? Icon(
+                icon,
+                color: const Color(0xffC1C7D0),
+                size: 18.0,
+              )
+            : SvgPicture.asset(
+                image!,
+              ),
         color: const Color(0xffC1C7D0),
       ),
       title: Column(
