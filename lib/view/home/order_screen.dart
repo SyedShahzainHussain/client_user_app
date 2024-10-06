@@ -9,6 +9,7 @@ import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/enums/enums.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/utils/utils.dart';
 
@@ -44,7 +45,7 @@ class _OrderScreenState extends State<OrderScreen> {
         email: SessionController().userModel.user?.email ?? "",
         name: SessionController().userModel.user?.name ?? "",
         phone: SessionController().userModel.user?.number ?? "",
-      ); 
+      );
 
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
@@ -65,7 +66,9 @@ class _OrderScreenState extends State<OrderScreen> {
       );
 
       await Stripe.instance.presentPaymentSheet().then((value) {
-        print('success');
+        if (mounted) {
+          context.read<OrderBloc>().add(PlaceOrderEvent(context: context));
+        }
       }).onError((error, _) {
         if (error is StripeException) {
           Utils.showToast(error.error.localizedMessage.toString());
@@ -113,7 +116,7 @@ class _OrderScreenState extends State<OrderScreen> {
               height: 5.h,
             ),
             Text(
-              "Order summary",
+              context.localizations!.order_summary,
               style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
                   fontSize: 20.sp,
@@ -130,17 +133,17 @@ class _OrderScreenState extends State<OrderScreen> {
                   BlocBuilder<CartBloc, CartItemState>(
                     builder: (context, state) {
                       return RowTitleWidget(
-                        title1: "Order",
+                        title1: context.localizations!.order,
                         price: state.totalCartPrice.toString(),
                       );
                     },
                   ),
-                  const RowTitleWidget(
-                    title1: "Taxes",
+                  RowTitleWidget(
+                    title1: context.localizations!.taxes,
                     price: "100",
                   ),
-                  const RowTitleWidget(
-                    title1: "Delivery fees",
+                  RowTitleWidget(
+                    title1: context.localizations!.delivery_fees,
                     price: "200",
                   ),
                   const Divider(
@@ -155,14 +158,14 @@ class _OrderScreenState extends State<OrderScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Total:",
+                            "${context.localizations!.total}:",
                             style: GoogleFonts.roboto(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.lightoffblack),
                           ),
                           Text(
-                            "PKR ${state.totalCartPrice}",
+                            "EURO ${state.totalCartPrice}",
                             style: GoogleFonts.roboto(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -179,7 +182,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Estimated delivery time:",
+                        "${context.localizations!.estimated_delivery_time}:",
                         style: GoogleFonts.roboto(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -201,7 +204,7 @@ class _OrderScreenState extends State<OrderScreen> {
               height: context.height * 0.05,
             ),
             Text(
-              "Payment methods",
+              context.localizations!.payment_methods,
               style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
                   fontSize: 20.sp,
@@ -220,12 +223,12 @@ class _OrderScreenState extends State<OrderScreen> {
                 case Payment.visa:
                   imagePath = ImageString.visaImage;
                   cardNumber = "43566 **** **** 0505";
-                  name = "Visa Card";
+                  name = context.localizations!.visa_card;
                   break;
                 case Payment.cash:
                   imagePath = ImageString.cashImage;
-                  cardNumber = "Cash On Delivery";
-                  name = "Cash";
+                  cardNumber = context.localizations!.cash_on_delivery;
+                  name = context.localizations!.cash;
                   break;
               }
               return GestureDetector(
@@ -234,11 +237,6 @@ class _OrderScreenState extends State<OrderScreen> {
                     payment =
                         data; // Update the payment method when the container is tapped
                   });
-
-                  if (data == Payment.visa) {
-                    // Initiate the payment sheet when Visa is selected
-                    await initPaymentSheet();
-                  }
                 },
                 child: Container(
                     margin: EdgeInsets.only(bottom: 20.h),
@@ -339,7 +337,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "Total price",
+                            context.localizations!.total_price,
                             style: GoogleFonts.roboto(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,
@@ -350,7 +348,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           ),
                           Expanded(
                             child: Text(
-                              "PKR ${state.totalCartPrice.toStringAsFixed(0)}",
+                              "EURO ${state.totalCartPrice.toStringAsFixed(0)}",
                               style: GoogleFonts.roboto(
                                   fontSize: 25.sp,
                                   fontWeight: FontWeight.w600,
@@ -371,17 +369,25 @@ class _OrderScreenState extends State<OrderScreen> {
               listener: (context, state) {
                 if (state.postApiStatus == PostApiStatus.success) {
                   Navigator.pushNamed(context, RouteName.placeOrderScreenName);
-                  Utils.showToast("Order has been placed successfully!");
+                  Utils.showToast(context
+                      .localizations!.order_has_been_placed_successfully);
                 }
               },
               child: BlocBuilder<OrderBloc, OrderState>(
                 builder: (context, state) {
                   return Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        context
-                            .read<OrderBloc>()
-                            .add(PlaceOrderEvent(context: context));
+                      onTap: () async {
+                        // Check if the payment method is Cash or Visa
+                        if (payment == Payment.cash) {
+                          // Place order directly for cash
+                          context
+                              .read<OrderBloc>()
+                              .add(PlaceOrderEvent(context: context));
+                        } else if (payment == Payment.visa) {
+                          // Initiate Stripe Payment for Visa
+                          await initPaymentSheet();
+                        }
                       },
                       child: Container(
                         height: 70.h,
@@ -399,7 +405,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                   )
                                 : FittedBox(
                                     child: Text(
-                                      "Order Now",
+                                      context.localizations!.order_now,
                                       style: GoogleFonts.inter(
                                           fontSize: 18.sp,
                                           fontWeight: FontWeight.w600,
@@ -446,7 +452,7 @@ class RowTitleWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            "PKR $price",
+            "EURO $price",
             style: GoogleFonts.roboto(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w400,

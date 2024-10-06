@@ -8,6 +8,7 @@ import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/data/response/status.dart';
 import 'package:my_app/enums/enums.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/shimmers/all_product_shimmer.dart';
 import 'package:my_app/utils/utils.dart';
@@ -35,7 +36,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
-          "Favourite",
+          context.localizations!.favourite,
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
@@ -83,7 +84,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                 SizedBox(height: context.height * .4),
                                 Center(
                                   child: Text(
-                                    "Your wishlist is empty!",
+                                    context.localizations!.your_wishlist_is_empty,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!

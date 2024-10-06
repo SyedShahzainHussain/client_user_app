@@ -65,8 +65,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(
-        title: "Edit Profile",
+      appBar:  CustomAppBar(
+        title: context.localizations!.editProfile,
       ),
       body: BlocListener<ProfileBloc, ProfileState>(
         listenWhen: (previous, current) => previous.message != current.message,
@@ -154,7 +154,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   TextFieldWidget(
                       textEditingController: addressController,
-                      hintText: "Address",
+                      hintText: context.localizations!.address,
                       validator: (value) {
                         return null;
                       }),
@@ -175,7 +175,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onTap: () {
                 updateProfile();
               },
-              title: "Update Profile",
+              title: context.localizations!.update_profile,
             ),
           );
         },

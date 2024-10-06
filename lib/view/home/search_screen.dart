@@ -10,6 +10,7 @@ import 'package:my_app/bloc/products/product_bloc.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/data/response/status.dart';
 import 'package:my_app/enums/enums.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/shimmers/all_product_shimmer.dart';
 import 'package:my_app/utils/utils.dart';
@@ -74,7 +75,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             setState(() {});
                           },
                           child: const Icon(Icons.close, color: Colors.grey)),
-                  hintText: "Search Product",
+                  hintText: context.localizations!.search_product,
                   hintStyle: Theme.of(context)
                       .textTheme
                       .bodyMedium!
@@ -102,7 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         title: Text(
-          "Search Products",
+          context.localizations!.search_products,
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
@@ -137,7 +138,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             SizedBox(height: context.height * .3),
                             Center(
                               child: Text(
-                                "No Product Found!",
+                                "${context.localizations!.noProductFound}!",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -193,7 +194,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               SizedBox(height: context.height * .3),
                               Center(
                                 child: Text(
-                                  "No Product Found!",
+                                  "${context.localizations!.noProductFound}!",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!

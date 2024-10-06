@@ -5,6 +5,7 @@ import 'package:my_app/common/button.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 
 class SubmitOrderScreen extends StatelessWidget {
@@ -54,7 +55,7 @@ class SubmitOrderScreen extends StatelessWidget {
                       height: context.height * 0.025.h,
                     ),
                     Text(
-                      " Success !",
+                      " ${context.localizations!.success} !",
                       style: GoogleFonts.poppins(
                         color: AppColors.redColor,
                         fontWeight: FontWeight.w700,
@@ -67,7 +68,7 @@ class SubmitOrderScreen extends StatelessWidget {
                     SizedBox(
                       width: context.width * .5,
                       child: Text(
-                        "Your payment was successful. A receipt for this purchase has been sent to your email.",
+                        context.localizations!.your_payment_was_successful,
                         style: GoogleFonts.roboto(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
@@ -81,7 +82,7 @@ class SubmitOrderScreen extends StatelessWidget {
                     SizedBox(
                         width: context.width * .5,
                         child: Button(
-                          title: "Go Back",
+                          title: context.localizations!.go_back,
                           onTap: () {
                             Navigator.pushNamedAndRemoveUntil(context,
                                 RouteName.entryScreenName, (route) => false);

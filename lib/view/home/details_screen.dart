@@ -7,6 +7,7 @@ import 'package:my_app/bloc/products/product_bloc.dart';
 import 'package:my_app/common/custom_appbar.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/model/product_model.dart';
 import 'package:readmore/readmore.dart';
@@ -35,7 +36,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context,RouteName.cartScreenName,arguments: true);
+                      Navigator.pushNamed(context, RouteName.cartScreenName,
+                          arguments: true);
                     },
                     icon: badges.Badge(
                       badgeContent: Text(state.cartItem.length.toString()),
@@ -371,7 +373,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: Center(
                       child: FittedBox(
                         child: Text(
-                          "PKR ${widget.data.price}",
+                          "EURO ${widget.data.price}",
                           style: GoogleFonts.roboto(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w600,
@@ -402,7 +404,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         child: Center(
                           child: FittedBox(
                             child: Text(
-                              "Add To Cart Now",
+                              context.localizations!.add_to_cart_now,
                               style: GoogleFonts.inter(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w600,

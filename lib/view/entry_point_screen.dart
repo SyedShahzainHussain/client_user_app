@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/bloc/cart/cart_bloc.dart';
 import 'package:my_app/config/colors.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/view/cart/cart_screen.dart';
 import 'package:my_app/view/favourite/fovourite_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
@@ -49,7 +50,6 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
       bottomNavigationBar: BlocBuilder<CartBloc, CartItemState>(
         builder: (context, state) {
           return BottomNavigationBar(
-            
             backgroundColor: Colors.white,
             currentIndex: currentIndex,
             onTap: (index) {
@@ -60,19 +60,21 @@ class _EntryPointScreenState extends State<EntryPointScreen> {
             type: BottomNavigationBarType.fixed,
             selectedItemColor: AppColors.redColor,
             unselectedItemColor: Colors.grey.withOpacity(0.8),
-            items:  [
-              const BottomNavigationBarItem(icon: Icon(Icons.apps), label: "Home"),
-             
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.apps), label: context.localizations!.home),
               BottomNavigationBarItem(
                   icon: badges.Badge(
                     badgeContent: Text(state.cartItem.length.toString()),
                     child: const Icon(Icons.shopping_bag),
                   ),
-                  label: "Cart"),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite), label: "Favorite"),
-                   const BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Profile"),
+                  label: context.localizations!.cart),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: context.localizations!.favorite),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: context.localizations!.profile),
             ],
           );
         },

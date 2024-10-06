@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/common/button.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/model/cart_item_model.dart';
 
 import '../../../bloc/cart/cart_bloc.dart';
@@ -66,9 +67,9 @@ class CheckOutBox extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Subtotal",
-                style: TextStyle(
+              Text(
+                context.localizations!.subtotal,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
@@ -93,9 +94,9 @@ class CheckOutBox extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Total",
-                style: TextStyle(
+              Text(
+                context.localizations!.total,
+                style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black87),
@@ -115,12 +116,10 @@ class CheckOutBox extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Button(
-                  title: "Check Out",
-                  onTap: () {
-                   
-                      Navigator.pushNamed(context, RouteName.orderScreenName);
-                    
-                  })
+              title: context.localizations!.check_out,
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.orderScreenName);
+              })
         ],
       ),
     );

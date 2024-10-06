@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_app/common/button.dart';
 import 'package:my_app/config/colors.dart';
+import 'package:my_app/extension/localization_extension.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -24,7 +25,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
-            "Change Password",
+            context.localizations!.change_password,
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
@@ -53,7 +54,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Current Password",
+                      context.localizations!.current_password,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
@@ -69,7 +70,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           .bodySmall!
                           .copyWith(color: Colors.black),
                       decoration: InputDecoration(
-                        hintText: "Current Password",
+                        hintText: context.localizations!.current_password,
                         hintStyle:
                             Theme.of(context).textTheme.bodyLarge!.copyWith(),
                         border: const OutlineInputBorder(),
@@ -82,7 +83,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       height: 20.h,
                     ),
                     Text(
-                      "New Password",
+                      context.localizations!.new_password,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
@@ -98,7 +99,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           .bodySmall!
                           .copyWith(color: Colors.black),
                       decoration: InputDecoration(
-                          hintText: "New Password",
+                          hintText: context.localizations!.new_password,
                           hintStyle:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(),
                           border: const OutlineInputBorder(),
@@ -110,7 +111,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       height: 20.h,
                     ),
                     Text(
-                      "Confirm New Password",
+                      context.localizations!.confirm_new_password,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
@@ -126,7 +127,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           .bodySmall!
                           .copyWith(color: Colors.black),
                       decoration: InputDecoration(
-                          hintText: "Confirm New Password",
+                          hintText: context.localizations!.confirm_new_password,
                           hintStyle:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(),
                           border: const OutlineInputBorder(),
@@ -139,7 +140,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ),
                     Button(
                       showRadius: true,
-                      title: "Change Password",
+                      title: context.localizations!.change_password,
                       onTap: () {},
                     )
                   ],

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_app/common/button.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 
 class PlaceOrderScreen extends StatelessWidget {
@@ -43,7 +44,7 @@ class PlaceOrderScreen extends StatelessWidget {
                 height: 10.h,
               ),
               Text(
-                "Thank you for placing the order",
+                context.localizations!.thank_you_for_placing_the_order,
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 20.sp,
@@ -55,7 +56,7 @@ class PlaceOrderScreen extends StatelessWidget {
                 height: 10.h,
               ),
               Text(
-                "We’ll get to you as soon as possible",
+                context.localizations!.we_get_to_you_as_soon_as_possible,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 17.sp,
@@ -75,7 +76,7 @@ class PlaceOrderScreen extends StatelessWidget {
             padding:  EdgeInsets.symmetric(horizontal: 24.w),
             child: Button(
               showRadius: true,
-              title: "Go Home",
+              title: context.localizations!.go_home,
               onTap: () {
                  Navigator.pushNamedAndRemoveUntil(context,
                                 RouteName.entryScreenName, (route) => false);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/common/custom_appbar.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/view/cart/widget/cart_tile.dart';
 import 'package:my_app/view/cart/widget/checkout_box.dart';
 
@@ -15,7 +16,7 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
         appBar: CustomAppBar(
           isLeading: isPushing == true ? true : false,
-          title: "Cart",
+          title: context.localizations!.cart,
         ),
         bottomSheet: BlocBuilder<CartBloc, CartItemState>(
           builder: (context, state) {
@@ -40,7 +41,7 @@ class CartScreen extends StatelessWidget {
             return cart.isEmpty
                 ? Center(
                     child: Text(
-                      "No Cart Found",
+                      context.localizations!.no_cart_found,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

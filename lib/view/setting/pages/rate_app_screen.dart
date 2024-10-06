@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_app/common/button.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 
@@ -33,7 +34,7 @@ class RateAppScreen extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                        "Your opinion matters!",
+                        context.localizations!.your_opinion_matters,
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
@@ -51,7 +52,7 @@ class RateAppScreen extends StatelessWidget {
                       height: context.height * 0.01,
                     ),
                     Text(
-                      "We work super hard to make app\n better for you, and would love to know:\n how would you rate the app?",
+                     context.localizations!.rate_subtitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: Colors.grey,
                             fontWeight: FontWeight.w500,
@@ -88,7 +89,7 @@ class RateAppScreen extends StatelessWidget {
                       keyboardType: TextInputType.multiline,
                       maxLines: 5,
                       decoration: InputDecoration(
-                        hintText: "Message",
+                        hintText: context.localizations!.message,
                         hintStyle: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -109,7 +110,7 @@ class RateAppScreen extends StatelessWidget {
         margin: const EdgeInsets.all(12.0),
         child: Button(
           showRadius: true,
-          title: "Submit",
+          title: context.localizations!.submit,
           onTap: () {},
         ),
       ),

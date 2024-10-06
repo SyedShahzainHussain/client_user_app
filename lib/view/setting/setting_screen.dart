@@ -7,6 +7,7 @@ import 'package:my_app/common/custom_appbar.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/extension/localization_extension.dart';
 
 import '../../services/session_controller_services.dart';
 import 'package:share_plus/share_plus.dart';
@@ -26,9 +27,9 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         backGroundColor: Colors.white,
-        title: "Profile",
+        title: context.localizations!.profile,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -84,8 +85,8 @@ class _SettingScreenState extends State<SettingScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const TitleWidget(
-                      title: "General",
+                    TitleWidget(
+                      title: context.localizations!.general,
                     ),
                     const SizedBox(
                       height: 10,
@@ -97,8 +98,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     Column(
                       children: [
                         SettingListTileWidget(
-                          title: "Account information",
-                          subTitle: "Change your Account information",
+                          title: context.localizations!.account_information,
+                          subTitle: context
+                              .localizations!.change_your_account_information,
                           image: ImageString.user2,
                           onTap: () {
                             Navigator.pushNamed(context,
@@ -112,8 +114,8 @@ class _SettingScreenState extends State<SettingScreen> {
                           indent: 20,
                         ),
                         SettingListTileWidget(
-                          title: "Password",
-                          subTitle: "Change your Password",
+                          title: context.localizations!.password,
+                          subTitle: context.localizations!.change_password,
                           image: ImageString.lock1,
                           onTap: () {
                             Navigator.pushNamed(
@@ -139,8 +141,9 @@ class _SettingScreenState extends State<SettingScreen> {
                         //   indent: 20,
                         // ),
                         SettingListTileWidget(
-                          title: "Change Language",
-                          subTitle: "Change your App Language",
+                          title: context.localizations!.change_language,
+                          subTitle:
+                              context.localizations!.change_your_app_language,
                           isIcon: true,
                           icon: Icons.language,
                           onTap: () {
@@ -155,8 +158,9 @@ class _SettingScreenState extends State<SettingScreen> {
                           indent: 20,
                         ),
                         SettingListTileWidget(
-                          title: "Delivery Locations",
-                          subTitle: "Change your Delivery Locations",
+                          title: context.localizations!.delivery_locations,
+                          subTitle: context
+                              .localizations!.change_your_delivery_locations,
                           image: ImageString.locationMap,
                           onTap: () {},
                         ),
@@ -167,8 +171,9 @@ class _SettingScreenState extends State<SettingScreen> {
                           indent: 20,
                         ),
                         SettingListTileWidget(
-                          title: "Invite your friends",
-                          subTitle: "Send the link to user",
+                          title: context.localizations!.invite_your_friends,
+                          subTitle:
+                              context.localizations!.send_the_link_to_user,
                           image: ImageString.mention,
                           onTap: () async {
                             try {
@@ -203,8 +208,8 @@ class _SettingScreenState extends State<SettingScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const TitleWidget(
-                      title: "Notifications",
+                    TitleWidget(
+                      title: context.localizations!.notifications,
                     ),
                     const SizedBox(
                       height: 10,
@@ -227,7 +232,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Notifications",
+                                context.localizations!.notifications,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14.sp,
@@ -235,7 +240,8 @@ class _SettingScreenState extends State<SettingScreen> {
                                 ),
                               ),
                               Text(
-                                "You will receive daily updates",
+                                context.localizations!
+                                    .you_will_receive_daily_updates,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12.sp,
@@ -339,8 +345,8 @@ class _SettingScreenState extends State<SettingScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const TitleWidget(
-                        title: "More",
+                      TitleWidget(
+                        title: context.localizations!.more,
                       ),
                       const SizedBox(
                         height: 10,
@@ -352,8 +358,9 @@ class _SettingScreenState extends State<SettingScreen> {
                       Column(
                         children: [
                           SettingListTileWidget(
-                            title: "Rate Us",
-                            subTitle: "You will receive daily updates",
+                            title: context.localizations!.rate_us,
+                            subTitle: context
+                                .localizations!.you_will_receive_daily_updates,
                             image: ImageString.rateFull,
                             onTap: () {
                               Navigator.pushNamed(
@@ -367,8 +374,9 @@ class _SettingScreenState extends State<SettingScreen> {
                             indent: 20,
                           ),
                           SettingListTileWidget(
-                            title: "FAQ",
-                            subTitle: "Frequently Asked Questions",
+                            title: context.localizations!.faq,
+                            subTitle: context
+                                .localizations!.frequently_asked_questions,
                             image: ImageString.book,
                             onTap: () {},
                           ),
@@ -395,7 +403,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           return AlertDialog(
                             backgroundColor: Colors.white,
                             title: Text(
-                              "Logout",
+                              context.localizations!.logOut,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge!
@@ -404,7 +412,8 @@ class _SettingScreenState extends State<SettingScreen> {
                                       fontWeight: FontWeight.bold),
                             ),
                             content: Text(
-                              "Do you Really want to logout?",
+                              context
+                                  .localizations!.do_you_really_want_to_logout,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
@@ -428,7 +437,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                     foregroundColor: Colors.grey,
                                     padding: EdgeInsets.zero),
                                 child: Text(
-                                  "Cancel",
+                                  context.localizations!.cancel,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -455,7 +464,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                   padding: EdgeInsets.zero,
                                 ),
                                 child: Text(
-                                  "Log Out",
+                                  context.localizations!.log_out,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -476,7 +485,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     color: const Color(0xffC1C7D0),
                   ),
                   title: Text(
-                    "Log Out",
+                    context.localizations!.log_out,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14.sp,

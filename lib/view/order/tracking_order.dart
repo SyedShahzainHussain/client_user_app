@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 
 class TrackingOrder extends StatelessWidget {
@@ -55,7 +56,7 @@ class TrackingOrder extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Delivery Your Order",
+                                    context.localizations!.delivery_your_order,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 16.sp,
@@ -64,7 +65,7 @@ class TrackingOrder extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
-                                    "Coming within 30 minutes",
+                                    "${context.localizations!.coming_within} 30 ${context.localizations!.minutes}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 14.sp,
@@ -182,7 +183,7 @@ class TrackingOrder extends StatelessWidget {
                                           BorderRadius.circular(12.r)),
                                   child: Center(
                                     child: Text(
-                                      "Detail",
+                                     context.localizations!.detail,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 14.sp,
@@ -242,7 +243,7 @@ class TrackingOrder extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "Restaurant",
+                                          context.localizations!.restaurant,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12.sp,
@@ -307,7 +308,7 @@ class TrackingOrder extends StatelessWidget {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  "Restaurant",
+                                                context.localizations!.restaurant,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 12.sp,
@@ -386,7 +387,7 @@ class TrackingOrder extends StatelessWidget {
                                   Row(
                                     children: [
                                       Text(
-                                        "Delivery",
+                                        context.localizations!.delivery,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 12.sp,

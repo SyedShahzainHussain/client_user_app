@@ -9,6 +9,7 @@ import 'package:my_app/bloc/category/category_bloc.dart';
 import 'package:my_app/bloc/products/product_bloc.dart';
 import 'package:my_app/bloc/side_topping/side_topping_event.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
+import 'package:my_app/bloc/change_languages/change_language_bloc.dart';
 import 'package:my_app/main.dart';
 
 import 'bloc/order/order_bloc.dart';
@@ -27,7 +28,6 @@ class Providers extends StatelessWidget {
       BlocProvider(
         create: (context) => ForgotBloc(authApiRepository: getIt()),
       ),
-      
       BlocProvider(
         create: (context) =>
             CategoryBloc(categoryApiRepository: getIt())..add(FetchCategory()),
@@ -55,8 +55,10 @@ class Providers extends StatelessWidget {
           ..add(FetchAllSideTopping()),
       ),
       BlocProvider(
-        create: (context) => OrderBloc(orderApiRepository: getIt())
-        ,
+        create: (context) => OrderBloc(orderApiRepository: getIt()),
+      ),
+      BlocProvider(
+        create: (context) => ChangeLanguageBloc()..add(LoadSavedLanguage()),
       ),
     ], child: child);
   }

@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 SizedBox(height: context.height * 0.03),
                                 TextFormWidget2(
                                   controller: addressController,
-                                  labelText: "Delivery address",
+                                  labelText: context.localizations!.deliveryAddress,
                                   keyboardType: TextInputType.streetAddress,
                                 ),
                                 SizedBox(height: context.height * 0.03),
@@ -133,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Payment Details",
+                                            context.localizations!.paymentDetails,
                                             style: GoogleFonts.roboto(
                                               fontSize: 18.sp,
                                               fontWeight: FontWeight.w500,
@@ -154,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Order history",
+                                            context.localizations!.orderhistory,
                                             style: GoogleFonts.roboto(
                                               fontSize: 18.sp,
                                               fontWeight: FontWeight.w500,
@@ -203,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         children: [
                                           SizedBox(width: 10.w),
                                           Text(
-                                            "Edit Profile",
+                                            context.localizations!.editProfile,
                                             style: GoogleFonts.roboto(
                                               fontSize: 18.sp,
                                               fontWeight: FontWeight.w500,

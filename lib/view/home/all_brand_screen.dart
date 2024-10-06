@@ -59,7 +59,8 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                     fontWeight: FontWeight.w400,
                     fontSize: 14.sp,
                     color: const Color(0xff7A869A)),
-                decoration: InputDecoration(     suffixIcon: _brandSearchController.text.isEmpty
+                decoration: InputDecoration(
+                  suffixIcon: _brandSearchController.text.isEmpty
                       ? const Icon(Icons.search, color: Colors.grey)
                       : GestureDetector(
                           onTap: () {
@@ -100,125 +101,140 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
               case Status.loading:
                 return const AllBrandsShimmer();
               case Status.complete:
-                return state.getAllBrandWithQuery.data!.isEmpty? const SizedBox() : ListView.separated(
-                  separatorBuilder: (context, index) =>
-                      Padding(padding: EdgeInsets.only(bottom: 10.h)),
-                  itemBuilder: (context, index) {
-                    return Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.r),
-                            color: Colors.white),
-                        child: Column(
-                          children: [
-                            const Divider(
-                              color: Color(0xffF4F5F7),
-                            ),
-                            SizedBox(
-                              height: context.height * 0.02,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
+                return state.getAllBrandWithQuery.data!.isEmpty
+                    ? const SizedBox()
+                    : ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            Padding(padding: EdgeInsets.only(bottom: 10.h)),
+                        itemBuilder: (context, index) {
+                          return Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.r),
-                                  child: Image.network(
-                                    state.getAllBrandWithQuery.data![index]
-                                        .image!,
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
+                                  color: Colors.white),
+                              child: Column(
+                                children: [
+                                  const Divider(
+                                    color: Color(0xffF4F5F7),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 12.w,
-                                ),
-                                Expanded(
-                                    child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
+                                  SizedBox(
+                                    height: context.height * 0.02,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(12.r),
+                                        child: Image.network(
                                           state.getAllBrandWithQuery
-                                              .data![index].title!,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16.sp,
-                                            color: const Color(0xff172B4D),
+                                              .data![index].image!,
+                                          width: 50,
+                                          height: 50,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 12.w,
+                                      ),
+                                      Expanded(
+                                          child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                state.getAllBrandWithQuery
+                                                    .data![index].title!,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16.sp,
+                                                  color:
+                                                      const Color(0xff172B4D),
+                                                ),
+                                                maxLines: 1,
+                                              ),
+                                              SizedBox(
+                                                width: 5.w,
+                                              ),
+                                              Flexible(
+                                                child: SvgPicture.asset(
+                                                    ImageString.verified),
+                                              ),
+                                            ],
                                           ),
-                                          maxLines: 1,
-                                        ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        Flexible(
-                                          child: SvgPicture.asset(
-                                              ImageString.verified),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 0.5.h,
-                                    ),
-                                    Text(
-                                      "8700 Beverly, CA 90048",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12.sp,
-                                          color: const Color(0xff7A869A)),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(
-                                      height: 0.5.h,
-                                    ),
-                                    Text(
-                                      "2 items",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12.sp,
-                                          color: const Color(0xff7A869A)),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ))
-                              ],
-                            ),
-                            SizedBox(
-                              height: context.height * 0.02,
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xffEF9F27),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.r),
+                                          SizedBox(
+                                            height: 0.5.h,
+                                          ),
+                                          Text(
+                                            "8700 Beverly, CA 90048",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.sp,
+                                                color: const Color(0xff7A869A)),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          SizedBox(
+                                            height: 0.5.h,
+                                          ),
+                                          Text(
+                                            "2 items",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.sp,
+                                                color: const Color(0xff7A869A)),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ))
+                                    ],
                                   ),
-                                ),
-                                onPressed: () {},
-                                child: Text(
-                                  "Visit",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14.sp,
-                                    color: Colors.white,
+                                  SizedBox(
+                                    height: context.height * 0.02,
                                   ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ));
-                  },
-                  itemCount: state.getAllBrandWithQuery.data!.length,
-                );
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            const Color(0xffEF9F27),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12.r),
+                                        ),
+                                      ),
+                                      onPressed: () {},
+                                      child: Text(
+                                        context.localizations!.visit,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14.sp,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ));
+                        },
+                        itemCount: state.getAllBrandWithQuery.data!.length,
+                      );
               case Status.error:
                 return Center(
-                  child: Text(state.getAllBrandWithQuery.message.toString(),style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black),),
+                  child: Text(
+                    state.getAllBrandWithQuery.message.toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: Colors.black),
+                  ),
                 );
               default:
                 return const SizedBox();

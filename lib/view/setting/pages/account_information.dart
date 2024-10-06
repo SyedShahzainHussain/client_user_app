@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_app/config/colors.dart';
+import 'package:my_app/extension/localization_extension.dart';
 
 import '../../../bloc/auth/profile/profile_bloc.dart';
 import '../../../common/button.dart';
@@ -39,7 +40,7 @@ class _AccountInformationState extends State<AccountInformation> {
               backgroundColor: Colors.white,
               centerTitle: true,
               title: Text(
-                "Account Information",
+                context.localizations!.account_information,
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!
@@ -67,7 +68,7 @@ class _AccountInformationState extends State<AccountInformation> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Name",
+                        context.localizations!.name,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -83,7 +84,7 @@ class _AccountInformationState extends State<AccountInformation> {
                             .bodySmall!
                             .copyWith(color: Colors.black),
                         decoration: InputDecoration(
-                          hintText: "Name",
+                          hintText: context.localizations!.name,
                           hintStyle:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(),
                           border: const OutlineInputBorder(),
@@ -96,7 +97,7 @@ class _AccountInformationState extends State<AccountInformation> {
                         height: 20.h,
                       ),
                       Text(
-                        "E-Mail",
+                        context.localizations!.email,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -112,7 +113,7 @@ class _AccountInformationState extends State<AccountInformation> {
                             .bodySmall!
                             .copyWith(color: Colors.black),
                         decoration: InputDecoration(
-                            hintText: "E-Mail",
+                            hintText: context.localizations!.email,
                             hintStyle: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!
@@ -126,7 +127,7 @@ class _AccountInformationState extends State<AccountInformation> {
                         height: 20.h,
                       ),
                       Text(
-                        "Address",
+                        context.localizations!.address,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -142,7 +143,7 @@ class _AccountInformationState extends State<AccountInformation> {
                             .bodySmall!
                             .copyWith(color: Colors.black),
                         decoration: InputDecoration(
-                            hintText: "Address",
+                            hintText: context.localizations!.address,
                             hintStyle: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!
@@ -157,7 +158,7 @@ class _AccountInformationState extends State<AccountInformation> {
                       ),
                       Button(
                         showRadius: true,
-                        title: "Update Profile",
+                        title: context.localizations!.update_profile,
                         onTap: () {},
                       )
                     ],

@@ -10,6 +10,7 @@ import 'package:my_app/common/custom_appbar.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/data/response/status.dart';
 import 'package:my_app/enums/enums.dart';
+import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/shimmers/all_product_shimmer.dart';
 import 'package:my_app/utils/utils.dart';
 import 'package:my_app/view/home/widget/product_tile.dart';
@@ -31,8 +32,8 @@ class _AllProductScreenState extends State<AllProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: "All Products",
+      appBar:  CustomAppBar(
+        title: context.localizations!.add_to_cart,
       ),
       body: BlocBuilder<WishlistBloc, WishlistState>(
         buildWhen: (previous, current) =>
@@ -64,8 +65,8 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                 : 1;
                         final rows = (displayedItem!.length / columns).ceil();
                         return displayedItem.isEmpty
-                            ? const Center(
-                                child: Text("No Product Found"),
+                            ?  Center(
+                                child: Text(context.localizations!.noProductFound),
                               )
                             : Padding(
                                 padding: const EdgeInsets.only(
