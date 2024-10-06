@@ -162,7 +162,10 @@ class _SettingScreenState extends State<SettingScreen> {
                           subTitle: context
                               .localizations!.change_your_delivery_locations,
                           image: ImageString.locationMap,
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, RouteName.addressScreenName);
+                          },
                         ),
                         const Divider(
                           color: Color(0xffF4F5F7),

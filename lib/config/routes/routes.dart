@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/model/product_model.dart';
+import 'package:my_app/view/address/add_new_address_screen.dart';
 import 'package:my_app/view/auth/forgot_password/forgot_password_screen.dart';
 import 'package:my_app/view/auth/login/login_screen.dart';
 import 'package:my_app/view/auth/on_board/on_board_screen.dart';
@@ -29,6 +30,7 @@ import 'package:my_app/view/setting/pages/change_password_screen.dart';
 import 'package:my_app/view/setting/pages/rate_app_screen.dart';
 import 'package:my_app/view/setting/setting_screen.dart';
 
+import '../../view/address/address_screen.dart';
 import '../../view/cart/cart_screen.dart';
 
 class Routes {
@@ -87,7 +89,11 @@ class Routes {
       case RouteName.appRateScreenName:
         return MaterialPageRoute(builder: (_) => const RateAppScreen());
       case RouteName.changeLanguageScreenName:
-        return MaterialPageRoute(builder: (_) =>  ChangeLanguageScreen());
+        return MaterialPageRoute(builder: (_) =>  const ChangeLanguageScreen());
+      case RouteName.addressScreenName:
+        return MaterialPageRoute(builder: (_) =>  const AddressScreen());
+      case RouteName.newAddressScreenName:
+        return MaterialPageRoute(builder: (_) =>  const AddNewAddressScreen());
       case RouteName.cartScreenName:
         final isPushing = setting.arguments as bool;
         return MaterialPageRoute(
