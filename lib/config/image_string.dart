@@ -18,9 +18,11 @@ class ImageString {
   static const line2 = "assets/images/line.png";
   static const message = "assets/images/message.png";
   static const call = "assets/images/call.png";
-    static const placeOrder = "assets/images/place_order.png";
+  static const placeOrder = "assets/images/place_order.png";
   static const cashImage = "assets/images/cash.png";
   static const rateImage = "assets/images/start.png";
+  static const standardImage = "assets/images/standard.png";
+  static const satelliteImage = "assets/images/satellite.png";
 
   // Todo Icons
   static const user = "assets/icon/user.svg";
@@ -48,6 +50,4 @@ class ImageString {
   static const CreditCard = "assets/icon/Credit-card.svg";
   static const lock1 = "assets/icon/lock1.svg";
   static const book = "assets/icon/book.svg";
-
-
 }

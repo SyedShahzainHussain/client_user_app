@@ -53,10 +53,11 @@ dependencies:
   google_sign_in: ^6.2.1
   flutter_stripe: ^11.1.0
   custom_rating_bar: ^3.0.0
-  location: ^7.0.0
+  location: ^5.0.0
   google_maps_flutter: ^2.9.0
   share_plus: ^7.0.0
   shared_preferences: ^2.3.2
+  geolocator: ^13.0.1
   # language
   flutter_localizations:
     sdk: flutter
