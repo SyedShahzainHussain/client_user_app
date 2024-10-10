@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_app/bloc/google_place_api/google_place_api_bloc.dart';
 import 'package:my_app/common/button.dart';
@@ -11,6 +10,7 @@ import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/enums/enums.dart';
 import 'package:my_app/extension/media_query_extension.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class AddNewAddressScreen extends StatefulWidget {
   final String address;
@@ -46,6 +46,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
     if (widget.address.isEmpty ||
         widget.latitude == 0.0 ||
         widget.longitude == 0.0) {
+      print("Get Current Position");
       context
           .read<GooglePlaceApiBloc>()
           .add(GetCurrentPosition(context: context));
@@ -137,42 +138,46 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
             // Todo Google Map
             BlocBuilder<GooglePlaceApiBloc, GooglePlaceApiState>(
               builder: (context, state) {
-                return GoogleMap(
-                  onCameraMove: _onCameraMove,
-                  mapType: mapType,
-                  zoomControlsEnabled: false,
-                  myLocationButtonEnabled: false,
-                  myLocationEnabled: true,
-                  onMapCreated: (GoogleMapController controller) {
-                    googleMapController = controller;
-                    if (widget.address.isEmpty ||
-                        widget.latitude == 0.0 ||
-                        widget.longitude == 0.0) {
-                      googleMapController.animateCamera(
-                        CameraUpdate.newCameraPosition(
-                          CameraPosition(
-                            target: LatLng(state.position!.latitude,
-                                state.position!.longitude),
-                            zoom: 14.4746,
-                          ),
+                return state.position == null
+                    ? SizedBox()
+                    : GoogleMap(
+                        onCameraMove: _onCameraMove,
+                        mapType: mapType,
+                        zoomControlsEnabled: false,
+                        myLocationButtonEnabled: false,
+                        myLocationEnabled: true,
+                        onMapCreated: (GoogleMapController controller) {
+                          googleMapController = controller;
+                          if (widget.address.isEmpty ||
+                              widget.latitude == 0.0 ||
+                              widget.longitude == 0.0) {
+                            googleMapController.animateCamera(
+                              CameraUpdate.newCameraPosition(
+                                CameraPosition(
+                                  target: LatLng(state.position!.latitude,
+                                      state.position!.longitude),
+                                  zoom: 14.4746,
+                                ),
+                              ),
+                            );
+                          } else {
+                            googleMapController.animateCamera(
+                              CameraUpdate.newCameraPosition(
+                                CameraPosition(
+                                  target:
+                                      LatLng(widget.latitude, widget.longitude),
+                                  zoom: 14.4746,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(state.position!.latitude,
+                              state.position!.longitude),
+                          zoom: 15,
                         ),
                       );
-                    } else {
-                      googleMapController.animateCamera(
-                        CameraUpdate.newCameraPosition(
-                          CameraPosition(
-                            target: LatLng(widget.latitude, widget.longitude),
-                            zoom: 14.4746,
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                  initialCameraPosition: const CameraPosition(
-                    target: LatLng(0, 0),
-                    zoom: 15,
-                  ),
-                );
               },
             ),
             DraggableScrollableSheet(
@@ -254,6 +259,11 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            final selectedAddress = context
+                                .read<GooglePlaceApiBloc>()
+                                .state
+                                .selectedAddress;
+                            _controller.text = selectedAddress;
                             // Animate the sheet to maximum size (1.0)
                             sheetController.animateTo(
                               1.0, // Maximum size
@@ -327,82 +337,110 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                                       SizedBox(
                                                         width: 5.w,
                                                       ),
-                                                      Expanded(
-                                                        child: SizedBox(
-                                                          height: 40,
-                                                          child: TextFormField(
-                                                            controller:
-                                                                _controller,
-                                                            maxLines: 1,
-                                                            autofocus: true,
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .labelLarge!
-                                                                .copyWith(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                      BlocBuilder<
+                                                          GooglePlaceApiBloc,
+                                                          GooglePlaceApiState>(
+                                                        builder:
+                                                            (context, state) {
+                                                          return Expanded(
+                                                            child: SizedBox(
+                                                              height: 40,
+                                                              child:
+                                                                  TextFormField(
+                                                                controller:
+                                                                    _controller,
+                                                                maxLines: 1,
+                                                                autofocus: true,
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .labelLarge!
+                                                                    .copyWith(
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                                textAlignVertical:
+                                                                    TextAlignVertical
+                                                                        .center,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  fillColor: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.3),
+                                                                  filled: true,
+                                                                  suffixIcon: state
+                                                                              .postApiStatus ==
+                                                                          PostApiStatus
+                                                                              .loading
+                                                                      ? IconButton(
+                                                                          onPressed:
+                                                                              null,
+                                                                          icon:
+                                                                              LoadingAnimationWidget.waveDots(
+                                                                            color:
+                                                                                Colors.grey,
+                                                                            size:
+                                                                                20,
+                                                                          ),
+                                                                        )
+                                                                      : IconButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            _controller.clear();
+                                                                          },
+                                                                          icon:
+                                                                              const Icon(
+                                                                            Icons.close_rounded,
+                                                                            size:
+                                                                                20,
+                                                                            color:
+                                                                                Color(0xff83829A),
+                                                                          ),
+                                                                        ),
+                                                                  isDense: true,
+                                                                  isCollapsed:
+                                                                      true,
+                                                                  contentPadding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                    left: 8,
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              9),
+                                                                      borderSide: const BorderSide(
+                                                                          color: Color(
+                                                                              0xff83829A),
+                                                                          width:
+                                                                              0.4)),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              9),
+                                                                      borderSide: const BorderSide(
+                                                                          color: Color(
+                                                                              0xff83829A),
+                                                                          width:
+                                                                              0.4)),
+                                                                  border: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              9),
+                                                                      borderSide: const BorderSide(
+                                                                          color: Color(
+                                                                              0xff83829A),
+                                                                          width:
+                                                                              0.4)),
                                                                 ),
-                                                            textAlignVertical:
-                                                                TextAlignVertical
-                                                                    .center,
-                                                            decoration:
-                                                                InputDecoration(
-                                                              fillColor: Colors
-                                                                  .grey
-                                                                  .withOpacity(
-                                                                      0.3),
-                                                              filled: true,
-                                                              suffixIcon:
-                                                                  const Icon(
-                                                                Icons.close,
-                                                                size: 20,
-                                                                color: Color(
-                                                                    0xff83829A),
                                                               ),
-                                                              isDense: true,
-                                                              isCollapsed: true,
-                                                              contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                left: 8,
-                                                              ),
-                                                              focusedBorder: OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              9),
-                                                                  borderSide: const BorderSide(
-                                                                      color: Color(
-                                                                          0xff83829A),
-                                                                      width:
-                                                                          0.4)),
-                                                              enabledBorder: OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              9),
-                                                                  borderSide: const BorderSide(
-                                                                      color: Color(
-                                                                          0xff83829A),
-                                                                      width:
-                                                                          0.4)),
-                                                              border: OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              9),
-                                                                  borderSide: const BorderSide(
-                                                                      color: Color(
-                                                                          0xff83829A),
-                                                                      width:
-                                                                          0.4)),
                                                             ),
-                                                          ),
-                                                        ),
+                                                          );
+                                                        },
                                                       ),
                                                     ],
                                                   ),
@@ -418,39 +456,68 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                                     case PostApiStatus.loading:
                                                       return const SizedBox();
                                                     case PostApiStatus.success:
-                                                      return ListView.builder(
-                                                        physics:
-                                                            const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: state
-                                                            .predictions!
-                                                            .predictions!
-                                                            .length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          return GestureDetector(
-                                                            onTap: () async {},
-                                                            child: ListTile(
-                                                              title: Text(
-                                                                state
-                                                                    .predictions!
-                                                                    .predictions![
-                                                                        index]
-                                                                    .description!,
+                                                      return state
+                                                              .predictions!
+                                                              .predictions!
+                                                              .isEmpty
+                                                          ? Center(
+                                                              child: Text(
+                                                                "No Address Found",
                                                                 style: Theme.of(
                                                                         context)
                                                                     .textTheme
-                                                                    .labelLarge!
+                                                                    .labelMedium!
                                                                     .copyWith(
                                                                         color: Colors
-                                                                            .black),
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
                                                               ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
+                                                            )
+                                                          : ListView.builder(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .zero,
+                                                              physics:
+                                                                  const NeverScrollableScrollPhysics(),
+                                                              shrinkWrap: true,
+                                                              itemCount: state
+                                                                  .predictions!
+                                                                  .predictions!
+                                                                  .length,
+                                                              itemBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                return GestureDetector(
+                                                                  onTap:
+                                                                      () async {},
+                                                                  child:
+                                                                      ListTile(
+                                                                    leading:
+                                                                        const Icon(
+                                                                      Icons
+                                                                          .location_on_rounded,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                    title: Text(
+                                                                      state
+                                                                          .predictions!
+                                                                          .predictions![
+                                                                              index]
+                                                                          .description!,
+                                                                      style: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .labelLarge!
+                                                                          .copyWith(
+                                                                              color: Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            );
                                                     case PostApiStatus.error:
-                                                      print("Error");
                                                       return const Center(
                                                         child: Text(
                                                             "Error Occured"),
@@ -519,7 +586,25 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                                     width: 5.w,
                                                   ),
                                                   IconButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      final selectedAddress =
+                                                          context
+                                                              .read<
+                                                                  GooglePlaceApiBloc>()
+                                                              .state
+                                                              .selectedAddress;
+                                                      _controller.text =
+                                                          selectedAddress;
+                                                      // Animate the sheet to maximum size (1.0)
+                                                      sheetController.animateTo(
+                                                        1.0, // Maximum size
+                                                        duration: const Duration(
+                                                            milliseconds:
+                                                                300), // Duration of animation
+                                                        curve: Curves
+                                                            .easeInOut, // Animation curve
+                                                      );
+                                                    },
                                                     icon: const Icon(
                                                       Icons.edit_outlined,
                                                       color: Colors.black,
