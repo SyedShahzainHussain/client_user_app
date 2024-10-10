@@ -23,6 +23,7 @@ class ImageString {
   static const rateImage = "assets/images/start.png";
   static const standardImage = "assets/images/standard.png";
   static const satelliteImage = "assets/images/satellite.png";
+  static const mapIconImage = "assets/images/map_icon.png";
 
   // Todo Icons
   static const user = "assets/icon/user.svg";

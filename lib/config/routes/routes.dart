@@ -89,11 +89,21 @@ class Routes {
       case RouteName.appRateScreenName:
         return MaterialPageRoute(builder: (_) => const RateAppScreen());
       case RouteName.changeLanguageScreenName:
-        return MaterialPageRoute(builder: (_) =>  const ChangeLanguageScreen());
+        return MaterialPageRoute(builder: (_) => const ChangeLanguageScreen());
       case RouteName.addressScreenName:
-        return MaterialPageRoute(builder: (_) =>  const AddressScreen());
+        return MaterialPageRoute(builder: (_) => const AddressScreen());
       case RouteName.newAddressScreenName:
-        return MaterialPageRoute(builder: (_) =>  const AddNewAddressScreen());
+        final Map<String, dynamic> data =
+            setting.arguments as Map<String, dynamic>;
+        final address = data["address"];
+        final latitude = data["latitude"];
+        final longitude = data["longitude"];
+        return MaterialPageRoute(
+            builder: (_) => AddNewAddressScreen(
+                  address: address,
+                  latitude: latitude,
+                  longitude: longitude,
+                ));
       case RouteName.cartScreenName:
         final isPushing = setting.arguments as bool;
         return MaterialPageRoute(

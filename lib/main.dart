@@ -19,6 +19,8 @@ import 'package:my_app/repository/brand/brand_http_repository.dart';
 import 'package:my_app/repository/brand/brand_repository.dart';
 import 'package:my_app/repository/category/category_api_repository.dart';
 import 'package:my_app/repository/category/category_http_repository.dart';
+import 'package:my_app/repository/google_place_repository/google_place_api_repository.dart';
+import 'package:my_app/repository/google_place_repository/google_place_http_repository.dart';
 import 'package:my_app/repository/order/order_http_repository.dart';
 import 'package:my_app/repository/product/product_http_repository.dart';
 import 'package:my_app/repository/product/product_repository.dart';
@@ -118,4 +120,6 @@ void serviceLocator() {
   getIt.registerLazySingleton<SideToppingApiRepository>(
       () => SideToppingHttpRepository());
   getIt.registerLazySingleton<OrderApiRepository>(() => OrderHttpRepository());
+  getIt.registerLazySingleton<GooglePlaceApiHttpRepository>(
+      () => GooglePlaceApiRepository());
 }

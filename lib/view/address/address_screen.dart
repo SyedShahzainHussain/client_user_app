@@ -25,7 +25,9 @@ class AddressScreen extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
           bottomSheetTheme: const BottomSheetThemeData(
-              backgroundColor: Colors.white, elevation: 10.0,)),
+        backgroundColor: Colors.white,
+        elevation: 10.0,
+      )),
       child: Scaffold(
         appBar: const CustomAppBar(
           title: "Addresses",
@@ -67,7 +69,7 @@ class AddressScreen extends StatelessWidget {
                       Text(
                         address[index].city,
                         style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                               color: const Color.fromARGB(255, 14, 13, 13),
+                              color: const Color.fromARGB(255, 14, 13, 13),
                               fontWeight: FontWeight.w500,
                             ),
                         maxLines: 1,
@@ -92,9 +94,20 @@ class AddressScreen extends StatelessWidget {
                   const Spacer(),
                   Row(
                     children: [
-                      const Icon(
-                        Icons.edit,
-                        color: Colors.grey,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteName.newAddressScreenName,
+                              arguments: {
+                                "address": address[index].address,
+                                "latitude": 24.8916,
+                                "longitude": 67.0681
+                              });
+                        },
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.grey,
+                        ),
                       ),
                       SizedBox(
                         width: 10.w,
@@ -122,7 +135,8 @@ class AddressScreen extends StatelessWidget {
           child: Button(
             title: "Add New Address",
             onTap: () {
-              Navigator.pushNamed(context, RouteName.newAddressScreenName);
+              Navigator.pushNamed(context, RouteName.newAddressScreenName,
+                  arguments: {"address": "", "latitude": 0.0, "longitude": 0.0});
             },
             showRadius: true,
           ),
