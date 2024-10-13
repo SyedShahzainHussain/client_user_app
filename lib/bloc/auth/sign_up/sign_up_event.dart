@@ -11,6 +11,10 @@ class EmailChange extends SignUpEvent {
   final String email;
   const EmailChange(this.email);
 }
+class AddresssChange extends SignUpEvent {
+  final String address;
+  const AddresssChange(this.address );
+}
 
 class PasswordChange extends SignUpEvent {
   final String password;

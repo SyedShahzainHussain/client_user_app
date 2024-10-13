@@ -15,6 +15,7 @@ import 'package:my_app/view/chat/chat_screen.dart';
 import 'package:my_app/view/entry_point_screen.dart';
 import 'package:my_app/view/home/all_brand_screen.dart';
 import 'package:my_app/view/home/all_product_screen.dart';
+import 'package:my_app/view/home/brand_detail_screen.dart';
 import 'package:my_app/view/home/details_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
 import 'package:my_app/view/home/order_screen.dart';
@@ -92,6 +93,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ChangeLanguageScreen());
       case RouteName.addressScreenName:
         return MaterialPageRoute(builder: (_) => const AddressScreen());
+      // case RouteName.brandDetailsScreen:
+      //   return MaterialPageRoute(builder: (_) => const BrandDetailScreen());
       case RouteName.newAddressScreenName:
         final Map<String, dynamic> data =
             setting.arguments as Map<String, dynamic>;

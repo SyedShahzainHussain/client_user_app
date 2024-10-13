@@ -40,6 +40,7 @@ class Data {
   String? totalrating;
   String? createdAt;
   String? updatedAt;
+  String? address;
   int? iV;
   List<Ratings>? ratings;
   List<Toppings>? toppings;
@@ -59,7 +60,7 @@ class Data {
       this.updatedAt,
       this.iV,
       this.ratings,
-      this.toppings});
+      this.toppings,this.address,});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -74,6 +75,7 @@ class Data {
     totalrating = json['totalrating'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
+    address = json["address"];
     iV = json['__v'];
     if (json['ratings'] != null) {
       ratings = <Ratings>[];
@@ -103,6 +105,7 @@ class Data {
     data['totalrating'] = totalrating;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
+    data["address"]= address;
     data['__v'] = iV;
     if (ratings != null) {
       data['ratings'] = ratings!.map((v) => v.toJson()).toList();

@@ -32,5 +32,5 @@ abstract class BaseApiServices {
 
   // Todo Delete Api
    Future<dynamic> deletePostApiResponse(String url,
-      [ dynamic body,Map<String, String>? headers]);     
+      [ dynamic body,Map<String, String>? headers,Map<String, dynamic>? queryParameters,]);     
 }

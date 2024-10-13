@@ -5,6 +5,7 @@ class SignUpState extends Equatable {
   final String name;
   final String password;
   final String phoneNumber;
+  final String address;
   final bool isObsecure;
   final bool isCheckBox;
   final String message;
@@ -18,6 +19,7 @@ class SignUpState extends Equatable {
     this.phoneNumber = '',
     this.message = '',
     this.name = '',
+    this.address = '',
     this.postApiStatus = PostApiStatus.initial,
   });
 
@@ -28,6 +30,7 @@ class SignUpState extends Equatable {
     String? phoneNumber,
     bool? isObsecure,
     String? message,
+    String? address,
     PostApiStatus? postApiStatus,
     bool? isCheckBox,
   }) {
@@ -39,7 +42,8 @@ class SignUpState extends Equatable {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       postApiStatus: postApiStatus ?? this.postApiStatus,
       isCheckBox: isCheckBox ?? this.isCheckBox,
-      name: name??this.name,
+      name: name ?? this.name,
+      address: address ?? this.address,
     );
   }
 
@@ -53,5 +57,6 @@ class SignUpState extends Equatable {
         postApiStatus,
         isCheckBox,
         name,
+        address,
       ];
 }

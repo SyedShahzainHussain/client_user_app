@@ -11,7 +11,6 @@ class OrderHttpRepository extends OrderApiRepository {
     try {
       await baseApiServices.getPostEmptyBodyApiResponse(Urls.placeOrder);
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -30,6 +29,30 @@ class OrderHttpRepository extends OrderApiRepository {
     try {
       await baseApiServices.deletePostApiResponse(
         Urls.deleteCartUrls,
+        body,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> checkOutOrder(body) async {
+    try {
+      await baseApiServices.getPostApiResponse(
+        Urls.cashOnDelivery,
+        body,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> checkOutStripeOrder(body) async {
+    try {
+      await baseApiServices.getPostApiResponse(
+        Urls.stripePayment,
         body,
       );
     } catch (e) {

@@ -137,5 +137,10 @@
     "cart": "Carrello",
     "favorite": "Preferiti",
     "profile": "Profilo",
-        "language_has_been_changed_successfully":"La lingua è stata cambiata con successo."
+        "language_has_been_changed_successfully":"La lingua è stata cambiata con successo.",
+         "delivery_address":"Indirizzo di consegna",
+         "change":"Modifica",
+           "add_New_Address":"Aggiungi nuovo indirizzo",
+            "select_Address":"Seleziona Indirizzo",
+            "change_Address":"Cambia indirizzo"
 }

@@ -139,7 +139,12 @@
             "cart":"Cart",
             "favorite":"Favorite",
             "profile":"Profile",
-            "language_has_been_changed_successfully":"Language has been changed successfully."
+            "language_has_been_changed_successfully":"Language has been changed successfully.",
+            "delivery_address":"Delivery Address",
+            "change":"Change",
+            "add_New_Address":"Add New Address",
+            "select_Address":"Select Address",
+            "change_Address":"Change Address"
             
 
       

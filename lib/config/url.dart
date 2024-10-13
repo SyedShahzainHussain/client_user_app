@@ -24,6 +24,8 @@ class Urls {
   static String deleteCartUrls = "emptycart";
   static String googleUrls = "auth/google/callback";
   static String facebookUrls = "auth/facebook/callback";
-
-
+  static String cashOnDelivery = "order";
+  static String stripePayment = "payment";
+  static String resturant = "resturant";
+  static String address = "address";
 }

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/config/image_string.dart';
+import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/data/response/status.dart';
 import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
@@ -210,7 +211,10 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                                               BorderRadius.circular(12.r),
                                         ),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(context,
+                                            RouteName.brandDetailsScreen);
+                                      },
                                       child: Text(
                                         context.localizations!.visit,
                                         style: TextStyle(

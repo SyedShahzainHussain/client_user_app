@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_app/bloc/address/address_bloc.dart';
 import 'package:my_app/bloc/auth/check_authentication/check_authentiaction_bloc.dart';
 import 'package:my_app/bloc/auth/forgot/forgot_bloc.dart';
 import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:my_app/bloc/cart/cart_bloc.dart';
 import 'package:my_app/bloc/category/category_bloc.dart';
 import 'package:my_app/bloc/google_place_api/google_place_api_bloc.dart';
 import 'package:my_app/bloc/products/product_bloc.dart';
+import 'package:my_app/bloc/restaurant/restaurant_bloc.dart';
 import 'package:my_app/bloc/side_topping/side_topping_event.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:my_app/bloc/change_languages/change_language_bloc.dart';
@@ -64,6 +66,12 @@ class Providers extends StatelessWidget {
       BlocProvider(
         create: (context) =>
             GooglePlaceApiBloc(googlePlaceApiRepository: getIt()),
+      ),
+      BlocProvider(
+        create: (context) => RestaurantBloc(restaurantRepository: getIt()),
+      ),
+      BlocProvider(
+        create: (context) => AddressBloc(addressHttpRepository: getIt()),
       ),
     ], child: child);
   }

@@ -138,12 +138,13 @@ class NetworkApiServices extends BaseApiServices {
 
   @override
   Future deletePostApiResponse(String url,
-      [dynamic body, Map<String, dynamic>? headers]) async {
+      [dynamic body, Map<String, dynamic>? headers,Map<String, dynamic>? queryParameters,]) async {
     dynamic returnReponse;
     try {
       final response = await _dio.delete(
         url,
         data: body,
+        queryParameters: queryParameters,
         options: Options(headers: headers),
       );
       returnReponse = _handleResponse(response);

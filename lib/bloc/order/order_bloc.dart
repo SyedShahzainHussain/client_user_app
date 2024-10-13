@@ -9,6 +9,7 @@ import 'package:my_app/enums/enums.dart';
 import 'package:my_app/model/product_model.dart';
 import 'package:my_app/repository/order/order_api_repository.dart';
 import 'package:my_app/repository/side_topping/side_topping_repository.dart';
+import 'package:my_app/utils/utils.dart';
 
 part 'order_event.dart';
 part 'order_state.dart';
@@ -20,6 +21,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       : super(const OrderState(postApiStatus: PostApiStatus.initial)) {
     on<PlaceOrderEvent>(_placeOrderEvent);
     on<DeleteCart>(_deleteCart);
+    on<CashOnDelivery>(_cashOnDelivery);
+    on<StripePayment>(_stripePayment);
   }
 
   _placeOrderEvent(PlaceOrderEvent event, Emitter<OrderState> emit) async {
@@ -84,6 +87,35 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     await orderApiRepository.clearCart(jsonEncode(itemsToRemove)).then((_) {
       if (event.context.mounted) {}
+    });
+  }
+
+  _cashOnDelivery(CashOnDelivery event, Emitter<OrderState> emit) async {
+    emit(state.copyWith(postApiStatus: PostApiStatus.loading));
+    final body = {"amount": event.amount, "address": event.address};
+    await orderApiRepository.checkOutOrder(body).then((value) {
+      if (event.context.mounted) {
+        event.context.read<OrderBloc>().add(DeleteCart(context: event.context));
+        event.context.read<CartBloc>().add(ClearCartList());
+        emit(state.copyWith(postApiStatus: PostApiStatus.success));
+        
+      }
+    }).onError((error, _) {
+      emit(state.copyWith(postApiStatus: PostApiStatus.error));
+    });
+  }
+
+  _stripePayment(StripePayment event, Emitter<OrderState> emit) async {
+    emit(state.copyWith(postApiStatus: PostApiStatus.loading));
+    final body = {};
+    await orderApiRepository.checkOutStripeOrder(body).then((value) {
+      if (event.context.mounted) {
+        event.context.read<OrderBloc>().add(DeleteCart(context: event.context));
+        event.context.read<CartBloc>().add(ClearCartList());
+        emit(state.copyWith(postApiStatus: PostApiStatus.success));
+      }
+    }).onError((error, _) {
+      emit(state.copyWith(postApiStatus: PostApiStatus.error));
     });
   }
 }

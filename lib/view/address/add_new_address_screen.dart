@@ -3,7 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_app/bloc/address/address_bloc.dart';
+import 'package:my_app/bloc/address/address_event.dart';
+import 'package:my_app/bloc/address/address_state.dart';
 import 'package:my_app/bloc/google_place_api/google_place_api_bloc.dart';
 import 'package:my_app/common/button.dart';
 import 'package:my_app/config/colors.dart';
@@ -11,6 +15,7 @@ import 'package:my_app/config/image_string.dart';
 import 'package:my_app/enums/enums.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:my_app/utils/utils.dart';
 
 class AddNewAddressScreen extends StatefulWidget {
   final String address;
@@ -139,7 +144,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
             BlocBuilder<GooglePlaceApiBloc, GooglePlaceApiState>(
               builder: (context, state) {
                 return state.position == null
-                    ? SizedBox()
+                    ? const SizedBox()
                     : GoogleMap(
                         onCameraMove: _onCameraMove,
                         mapType: mapType,
@@ -490,7 +495,41 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                                                       index) {
                                                                 return GestureDetector(
                                                                   onTap:
-                                                                      () async {},
+                                                                      () async {
+                                                                    context.read<GooglePlaceApiBloc>().add(GetTheEditAddress(
+                                                                        address: state
+                                                                            .predictions!
+                                                                            .predictions![index]
+                                                                            .description!));
+                                                                    sheetController
+                                                                        .animateTo(
+                                                                      0.30, // Maximum size
+                                                                      duration: const Duration(
+                                                                          milliseconds:
+                                                                              300), // Duration of animation
+                                                                      curve: Curves
+                                                                          .easeInOut, // Animation curve
+                                                                    );
+                                                                    List<Location>
+                                                                        locations =
+                                                                        await locationFromAddress(state
+                                                                            .predictions!
+                                                                            .predictions![index]
+                                                                            .description!);
+                                                                    googleMapController
+                                                                        .animateCamera(
+                                                                      CameraUpdate
+                                                                          .newCameraPosition(
+                                                                        CameraPosition(
+                                                                          target: LatLng(
+                                                                              locations[0].latitude,
+                                                                              locations[0].longitude),
+                                                                          zoom:
+                                                                              14.4746,
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
                                                                   child:
                                                                       ListTile(
                                                                     leading:
@@ -654,31 +693,53 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
             ),
             isAtMaxSize
                 ? const SizedBox()
-                : Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(25.0),
-                          topRight: Radius.circular(25.0)),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(25.0),
-                                topRight: Radius.circular(25.0))),
-                        child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 15.0),
-                            child: Button(
-                              showRadius: true,
-                              title: "Add address details",
-                              onTap: () {},
-                            )),
-                      ),
-                    )),
+                : BlocListener<AddressBloc, AddressState>(
+                    listener: (context, state) {
+                      if (state.postApiStatus == PostApiStatus.success) {
+                        Utils.showToast("Address Added!");
+                      }
+                    },
+                    child: BlocBuilder<AddressBloc, AddressState>(
+                      builder: (context, state) {
+                        return Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Material(
+                              elevation: 5.0,
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(25.0),
+                                  topRight: Radius.circular(25.0)),
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(25.0),
+                                        topRight: Radius.circular(25.0))),
+                                child: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 15.0),
+                                    child: Button(
+                                      loading: state.postApiStatus ==
+                                          PostApiStatus.loading,
+                                      showRadius: true,
+                                      title: "Add address details",
+                                      onTap: () async {
+                                        final selectedAddress = context
+                                            .read<GooglePlaceApiBloc>()
+                                            .state
+                                            .selectedAddress;
+                                        if (selectedAddress.isNotEmpty) {
+                                          context.read<AddressBloc>().add(
+                                              CreateAddress(context: context));
+                                        }
+                                      },
+                                    )),
+                              ),
+                            ));
+                      },
+                    ),
+                  ),
             showMapIcon
                 ? const SizedBox()
                 : Center(

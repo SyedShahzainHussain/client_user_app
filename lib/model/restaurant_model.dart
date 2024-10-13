@@ -1,26 +1,26 @@
-class AddressModel {
+class RestaurantModel {
   String? sId;
+  String? title;
   String? address;
-  double? latitude;
-  double? longitude;
+  String? image;
   String? createdAt;
   String? updatedAt;
   int? iV;
 
-  AddressModel(
+  RestaurantModel(
       {this.sId,
+      this.title,
       this.address,
-      this.latitude,
-      this.longitude,
+      this.image,
       this.createdAt,
       this.updatedAt,
       this.iV});
-
-  AddressModel.fromJson(Map<String, dynamic> json) {
+      
+  RestaurantModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    title = json['title'];
     address = json['address'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    image = json['image'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -29,9 +29,9 @@ class AddressModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
+    data['title'] = title;
     data['address'] = address;
-    data['latitude'] = latitude;
-    data['longitude'] = longitude;
+    data['image'] = image;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;

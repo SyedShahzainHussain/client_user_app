@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
 import 'package:my_app/common/custom_appbar.dart';
+import 'package:my_app/common/shimmer_effect.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
@@ -48,9 +50,16 @@ class _SettingScreenState extends State<SettingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 40.r,
-                      backgroundImage: NetworkImage(state.profilePic),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100.r),
+                      child: CachedNetworkImage(
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            ShimmerEffect(width: 100.w, height: 100.w),
+                        imageUrl: state.profilePic,
+                        width: 100.w,
+                        height: 100.h,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     SizedBox(
                       height: 10.h,

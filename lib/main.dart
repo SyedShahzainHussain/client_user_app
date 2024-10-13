@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/config/colors.dart';
@@ -13,6 +14,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_app/environment/environment.dart';
 import 'package:my_app/bloc/change_languages/change_language_bloc.dart';
 import 'package:my_app/providers.dart';
+import 'package:my_app/repository/address/address_http_repository.dart';
+import 'package:my_app/repository/address/address_repository.dart';
 import 'package:my_app/repository/auth/auth_api_repository.dart';
 import 'package:my_app/repository/auth/auth_http_repository.dart';
 import 'package:my_app/repository/brand/brand_http_repository.dart';
@@ -24,6 +27,8 @@ import 'package:my_app/repository/google_place_repository/google_place_http_repo
 import 'package:my_app/repository/order/order_http_repository.dart';
 import 'package:my_app/repository/product/product_http_repository.dart';
 import 'package:my_app/repository/product/product_repository.dart';
+import 'package:my_app/repository/restaurant/restaurant_http_repository.dart';
+import 'package:my_app/repository/restaurant/restaurant_repository.dart';
 import 'package:my_app/repository/side_topping/side_topping_http_repository.dart';
 import 'package:my_app/repository/side_topping/side_topping_repository.dart';
 import 'package:my_app/repository/wishlist/wishlist_api_repository.dart';
@@ -32,6 +37,8 @@ import 'package:my_app/repository/wishlist/wishlist_http_repository.dart';
 import 'repository/order/order_api_repository.dart';
 
 void main() async {
+  Stripe.publishableKey =
+      "pk_test_51Q5KJwFZrkxj3I7BTUqIczunxa6jOSZ2InlMq9W6A4C6ZHQZHijvBX3lvjUgLyVwBUOQ0YA60HzzeCDGKMaXfNIp00Rc0FKvlp";
   try {
     WidgetsFlutterBinding.ensureInitialized();
     serviceLocator();
@@ -122,4 +129,7 @@ void serviceLocator() {
   getIt.registerLazySingleton<OrderApiRepository>(() => OrderHttpRepository());
   getIt.registerLazySingleton<GooglePlaceApiHttpRepository>(
       () => GooglePlaceApiRepository());
+  getIt.registerLazySingleton<RestaurantHttpRepository>(
+      () => RestaurantRepository());
+      getIt.registerLazySingleton<AddressRepository>(()=>AddressHttpRepository());
 }

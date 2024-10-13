@@ -24,7 +24,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -113,7 +112,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 SizedBox(height: context.height * 0.03),
                                 TextFormWidget2(
                                   controller: addressController,
-                                  labelText: context.localizations!.deliveryAddress,
+                                  labelText:
+                                      context.localizations!.deliveryAddress,
                                   keyboardType: TextInputType.streetAddress,
                                 ),
                                 SizedBox(height: context.height * 0.03),
@@ -133,7 +133,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            context.localizations!.paymentDetails,
+                                            context
+                                                .localizations!.paymentDetails,
                                             style: GoogleFonts.roboto(
                                               fontSize: 18.sp,
                                               fontWeight: FontWeight.w500,
@@ -174,58 +175,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ],
                                   ),
                                 ),
-                                const Spacer(),
-                                GestureDetector(
-                                  onTap: () async {
-                                    Navigator.pushNamed(context,
-                                        RouteName.editProfileScreenName,
-                                        arguments: {
-                                          "image": state.profilePic.isEmpty
-                                              ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                                              : state.profilePic,
-                                          "title": nameController.text,
-                                          "address": addressController.text,
-                                        });
-                                  },
-                                  child: Container(
-                                    height: 70.h,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.lightoffblack,
-                                      borderRadius: BorderRadius.circular(20.r),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          SizedBox(width: 10.w),
-                                          Text(
-                                            context.localizations!.editProfile,
-                                            style: GoogleFonts.roboto(
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          SizedBox(width: 10.w),
-                                          IconButton(
-                                            onPressed: null,
-                                            icon: SvgPicture.asset(
-                                                ImageString.edit),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                const Spacer(
-                                  flex: 2,
-                                ),
+                                // const Spacer(),
+                                // GestureDetector(
+                                //   onTap: () async {
+                                //     Navigator.pushNamed(context,
+                                //         RouteName.editProfileScreenName,
+                                //         arguments: {
+                                //           "image": state.profilePic.isEmpty
+                                //               ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                //               : state.profilePic,
+                                //           "title": nameController.text,
+                                //           "address": addressController.text,
+                                //         });
+                                //   },
+                                //   child: Container(
+                                //     height: 70.h,
+                                //     decoration: BoxDecoration(
+                                //       color: AppColors.lightoffblack,
+                                //       borderRadius: BorderRadius.circular(20.r),
+                                //     ),
+                                //     child: Padding(
+                                //       padding: const EdgeInsets.all(4.0),
+                                //       child: Row(
+                                //         crossAxisAlignment:
+                                //             CrossAxisAlignment.center,
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.center,
+                                //         children: [
+                                //           SizedBox(width: 10.w),
+                                //           Text(
+                                //             context.localizations!.editProfile,
+                                //             style: GoogleFonts.roboto(
+                                //               fontSize: 18.sp,
+                                //               fontWeight: FontWeight.w500,
+                                //             ),
+                                //           ),
+                                //           SizedBox(width: 10.w),
+                                //           IconButton(
+                                //             onPressed: null,
+                                //             icon: SvgPicture.asset(
+                                //                 ImageString.edit),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                                // SizedBox(
+                                //   height: 20.h,
+                                // ),
+                                // const Spacer(
+                                //   flex: 2,
+                                // ),
                               ],
                             ),
                           ),

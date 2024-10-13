@@ -16,13 +16,17 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<PasswordVisibleOrNot>(_isPasswordVisibleOrNot);
     on<CheckBoxVisibleOrNot>(_checkBoxVisibleOrNot);
     on<PhoneNumberChange>(_phoneNumberChange);
+    on<AddresssChange>(_addresssChange);
     on<NameChange>(_nameChanged);
     on<SignUpButton>(_signUpButton);
-
   }
 
   _emailChanged(EmailChange event, Emitter<SignUpState> emit) async {
     emit(state.copyWith(email: event.email));
+  }
+
+  _addresssChange(AddresssChange event, Emitter<SignUpState> emit) async {
+    emit(state.copyWith(address: event.address));
   }
 
   _passwordChanged(PasswordChange event, Emitter<SignUpState> emit) async {
@@ -43,7 +47,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     emit(state.copyWith(isObsecure: !state.isObsecure));
   }
 
-  _phoneNumberChange(PhoneNumberChange event,Emitter<SignUpState> emit)async{
+  _phoneNumberChange(PhoneNumberChange event, Emitter<SignUpState> emit) async {
     emit(state.copyWith(phoneNumber: event.phoneNumber));
   }
 
@@ -53,6 +57,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       "password": state.password,
       "number": state.phoneNumber,
       "name": state.name,
+      "address": state.address,
     };
     emit(state.copyWith(postApiStatus: PostApiStatus.loading, message: ""));
     await loginRepository.signUp(jsonEncode(body)).then((value) async {
@@ -65,4 +70,3 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     });
   }
 }
-  

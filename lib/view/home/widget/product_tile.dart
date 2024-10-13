@@ -90,7 +90,8 @@ class ProductTile extends StatelessWidget {
                   ),
                   BlocBuilder<WishlistBloc, WishlistState>(
                     builder: (context, state) {
-                     bool isInWishlist = state.wishlistProduct.any((product) => product.sId == productModel.sId);
+                      bool isInWishlist = state.wishlistProduct
+                          .any((product) => product.sId == productModel.sId);
 
                       return IconButton(
                         onPressed: () {

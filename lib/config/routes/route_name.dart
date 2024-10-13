@@ -29,6 +29,7 @@ class RouteName {
   static const String changeLanguageScreenName = "/change-language-screen";
   static const String addressScreenName = "/address-screen-name";
   static const String newAddressScreenName = "/new-address-screen-name";
+  static const String brandDetailsScreen = "/brand-screen-name";
 
 
 }

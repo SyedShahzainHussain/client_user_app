@@ -11,6 +11,7 @@ import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/main.dart';
 import 'package:my_app/utils/utils.dart';
+import 'package:my_app/view/auth/signup/widget/sign_up_address_field_widget.dart';
 import 'package:my_app/view/auth/signup/widget/sign_up_email_field_widget.dart';
 import 'package:my_app/view/auth/signup/widget/sign_up_name_field_widget.dart';
 import 'package:my_app/view/auth/signup/widget/sign_up_password_field_widget.dart';
@@ -81,6 +82,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       SizedBox(height: context.height * 0.02),
                       // Todo SignUp Email Field Widget
                       const SignUpEmailFieldWidget(),
+                      SizedBox(height: context.height * 0.02),
+                      // Todo SignUp Address Field Widget
+                      const SignUpAddressFieldWidget(),
                       SizedBox(height: context.height * 0.02),
                       // Todo SignUp Phone Number Field Widget
                       const SignUpPhoneNumberFieldWidget(),
@@ -204,7 +208,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ],
                         ),
                       ),
-                   
+
                       SizedBox(height: context.height * 0.05),
                       GestureDetector(
                         onTap: () {

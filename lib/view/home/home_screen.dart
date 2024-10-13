@@ -9,6 +9,7 @@ import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
 import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/bloc/cart/cart_bloc.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
+import 'package:my_app/common/shimmer_effect.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
@@ -84,6 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12.0),
                       child: CachedNetworkImage(
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            ShimmerEffect(width: 50.w, height: 50.w),
                         imageUrl: state.profilePic.isEmpty
                             ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                             : state.profilePic.toString(),
@@ -199,10 +202,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(
                             height: context.height * 0.05,
                           ),
+                          // Todo Banner
                           Column(
                             children: [
                               CarouselSlider(
-
                                 items: List.generate(
                                   10,
                                   (int index) => TRoundedImage(
@@ -217,7 +220,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 options: CarouselOptions(
                                   autoPlay: true,
                                   enlargeCenterPage: true,
-
                                   enlargeFactor: 0.3,
                                   viewportFraction: 0.9,
                                   onPageChanged: (index, _) {},
