@@ -165,7 +165,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 case PostApiStatus.error:
                   return Center(
                     child: Text(
-                      "Something Wrong",
+                      state.message.toString(),
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
