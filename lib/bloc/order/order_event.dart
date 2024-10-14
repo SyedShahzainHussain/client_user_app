@@ -23,6 +23,8 @@ class CashOnDelivery extends OrderEvent {
 }
 
 class StripePayment extends OrderEvent {
+    final double amount;
+  final String  address;
     final BuildContext context;
-  StripePayment({required this.context});
+  StripePayment({required this.context,required this.amount,required this.address});
 }

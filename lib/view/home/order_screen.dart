@@ -39,7 +39,9 @@ class _OrderScreenState extends State<OrderScreen> {
   Map<String, dynamic>? paymentIntentData;
 
   Future<void> makePayment(
-      {required String amount, required String currency}) async {
+      {required double amount,
+      required String currency,
+      required String address}) async {
     try {
       paymentIntentData = await createPaymentIntent(amount, currency);
       if (paymentIntentData != null) {
@@ -52,7 +54,7 @@ class _OrderScreenState extends State<OrderScreen> {
           paymentIntentClientSecret: paymentIntentData!['client_secret'],
           customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
         ));
-        displayPaymentSheet();
+        displayPaymentSheet(address: address, amount: amount);
       }
     } catch (e, s) {
       if (kDebugMode) {
@@ -61,11 +63,12 @@ class _OrderScreenState extends State<OrderScreen> {
     }
   }
 
-  displayPaymentSheet() async {
+  displayPaymentSheet({required String address, required double amount}) async {
     try {
       await Stripe.instance.presentPaymentSheet();
       if (mounted) {
-        context.read<OrderBloc>().add(StripePayment(context: context));
+        context.read<OrderBloc>().add(
+            StripePayment(context: context, address: address, amount: amount));
       }
     } on Exception catch (e) {
       if (e is StripeException) {
@@ -84,7 +87,7 @@ class _OrderScreenState extends State<OrderScreen> {
     }
   }
 
-  createPaymentIntent(String amount, String currency) async {
+  createPaymentIntent(double amount, String currency) async {
     try {
       Map<String, dynamic> body = {
         'amount': calculateAmount(amount),
@@ -96,7 +99,7 @@ class _OrderScreenState extends State<OrderScreen> {
           body: body,
           headers: {
             'Authorization':
-                'Bearer sk_test_51N17P0BpfnaVUIFxHZX2hjXntIdH7IG5AmOQVbWF7GpYVdK30gn2V8ZzgFTCxgrGDDhjDerayvemczNXAOCr1boo00PnNdBd03',
+                'Bearer sk_test_51Q5KJwFZrkxj3I7BCQUE2wNyCzIxY3xp7XkfpHXcwQEbmNcU1GWkgOJMLOL2EkDv32OO0F9zQX4TDiSI4z8CVSDh00xNRAkZPT',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
       return jsonDecode(response.body);
@@ -105,9 +108,9 @@ class _OrderScreenState extends State<OrderScreen> {
     }
   }
 
-  calculateAmount(String amount) {
-    final a = (int.parse(amount)) * 100;
-    return a.toString();
+  String calculateAmount(double amount) {
+     final int a = (amount * 100).toInt();  // Convert to integer
+    return a.toString();  
   }
 
   @override
@@ -520,6 +523,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     // Check if the payment method is Cash or Visa
                                     if (payment == Payment.cash) {
                                       // Place order directly for cash
+
                                       context.read<OrderBloc>().add(
                                           CashOnDelivery(
                                               context: context,
@@ -535,7 +539,15 @@ class _OrderScreenState extends State<OrderScreen> {
                                     } else if (payment == Payment.visa) {
                                       // Initiate Stripe Payment for Visa
                                       await makePayment(
-                                          amount: "100", currency: 'USD');
+                                          amount: totalWithTax,
+                                          currency: 'USD',
+                                          address:
+                                              addressBloc.selectedAddress ==
+                                                      null
+                                                  ? profileBloc.address
+                                                  : addressBloc
+                                                      .selectedAddress!.address
+                                                      .toString());
                                     }
                                   },
                                   child: Container(

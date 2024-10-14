@@ -27,6 +27,8 @@ import 'package:my_app/repository/google_place_repository/google_place_http_repo
 import 'package:my_app/repository/order/order_http_repository.dart';
 import 'package:my_app/repository/product/product_http_repository.dart';
 import 'package:my_app/repository/product/product_repository.dart';
+import 'package:my_app/repository/rating/rating_api_repository.dart';
+import 'package:my_app/repository/rating/rating_http_repository.dart';
 import 'package:my_app/repository/restaurant/restaurant_http_repository.dart';
 import 'package:my_app/repository/restaurant/restaurant_repository.dart';
 import 'package:my_app/repository/side_topping/side_topping_http_repository.dart';
@@ -131,5 +133,7 @@ void serviceLocator() {
       () => GooglePlaceApiRepository());
   getIt.registerLazySingleton<RestaurantHttpRepository>(
       () => RestaurantRepository());
-      getIt.registerLazySingleton<AddressRepository>(()=>AddressHttpRepository());
+  getIt.registerLazySingleton<AddressRepository>(() => AddressHttpRepository());
+  getIt
+      .registerLazySingleton<RatingApiRepository>(() => RatingHttpRepository());
 }

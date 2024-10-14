@@ -58,19 +58,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     await orderApiRepository
         .addToCart(jsonEncode(orderData))
-        .then((value) async {
-      if (event.context.mounted) {
-        await orderApiRepository.placeOrdersApi().then((_) {
-          if (event.context.mounted) {
-            event.context
-                .read<OrderBloc>()
-                .add(DeleteCart(context: event.context));
-            event.context.read<CartBloc>().add(ClearCartList());
-            emit(state.copyWith(postApiStatus: PostApiStatus.success));
-          }
-        });
-      }
-    }).onError((error, _) {
+        .then((value) async {})
+        .onError((error, _) {
       emit(state.copyWith(postApiStatus: PostApiStatus.error));
     });
   }
@@ -93,8 +82,38 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   _cashOnDelivery(CashOnDelivery event, Emitter<OrderState> emit) async {
     emit(state.copyWith(postApiStatus: PostApiStatus.loading));
     final body = {"amount": event.amount, "address": event.address};
+
+    final cartListData = event.context.read<CartBloc>().state.cartItem;
+
+    final selectedToppings =
+        event.context.read<CartBloc>().state.selectedToppings;
+
+    final selectedSideToppings =
+        event.context.read<SideToppingBloc>().state.selectedSideToppings;
+
+    final orderData = {
+      "cart": cartListData.map((item) {
+        final topping = selectedToppings.firstWhere(
+          (t) => t.sId == item.sId,
+          orElse: () => Toppings().empty(),
+        );
+        final sideTopping = selectedSideToppings.firstWhere(
+          (st) => st.sId == item.sId,
+          orElse: () => SideToppins().empty(),
+        );
+
+        return {
+          "product": item.sId,
+          "count": item.quantity,
+          "topping": topping.sId,
+          "sidetopping": sideTopping.sId,
+        };
+      }).toList()
+    };
+
+    await orderApiRepository.addToCart(jsonEncode(orderData));
+
     await orderApiRepository.checkOutOrder(body).then((value) {
-    
       if (event.context.mounted) {
         event.context.read<CartBloc>().add(ClearCartList());
         emit(state.copyWith(postApiStatus: PostApiStatus.success));
@@ -106,7 +125,38 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   _stripePayment(StripePayment event, Emitter<OrderState> emit) async {
     emit(state.copyWith(postApiStatus: PostApiStatus.loading));
-    final body = {};
+  final body = {"amount": event.amount, "address": event.address};
+
+    final cartListData = event.context.read<CartBloc>().state.cartItem;
+
+    final selectedToppings =
+        event.context.read<CartBloc>().state.selectedToppings;
+
+    final selectedSideToppings =
+        event.context.read<SideToppingBloc>().state.selectedSideToppings;
+
+    final orderData = {
+      "cart": cartListData.map((item) {
+        final topping = selectedToppings.firstWhere(
+          (t) => t.sId == item.sId,
+          orElse: () => Toppings().empty(),
+        );
+        final sideTopping = selectedSideToppings.firstWhere(
+          (st) => st.sId == item.sId,
+          orElse: () => SideToppins().empty(),
+        );
+
+        return {
+          "product": item.sId,
+          "count": item.quantity,
+          "topping": topping.sId,
+          "sidetopping": sideTopping.sId,
+        };
+      }).toList()
+    };
+
+    await orderApiRepository.addToCart(jsonEncode(orderData));
+
     await orderApiRepository.checkOutStripeOrder(body).then((value) {
       if (event.context.mounted) {
         event.context.read<CartBloc>().add(ClearCartList());

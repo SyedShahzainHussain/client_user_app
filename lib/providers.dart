@@ -10,6 +10,7 @@ import 'package:my_app/bloc/cart/cart_bloc.dart';
 import 'package:my_app/bloc/category/category_bloc.dart';
 import 'package:my_app/bloc/google_place_api/google_place_api_bloc.dart';
 import 'package:my_app/bloc/products/product_bloc.dart';
+import 'package:my_app/bloc/rating/ratng_bloc.dart';
 import 'package:my_app/bloc/restaurant/restaurant_bloc.dart';
 import 'package:my_app/bloc/side_topping/side_topping_event.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
@@ -76,6 +77,9 @@ class Providers extends StatelessWidget {
       ),
       BlocProvider(
         create: (context) => ChangePasswordBloc(authHttpRepository: getIt()),
+      ),
+      BlocProvider(
+        create: (context) => RatingBloc(ratingApiRepository: getIt()),
       ),
     ], child: child);
   }
