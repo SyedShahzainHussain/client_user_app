@@ -83,4 +83,13 @@ class AuthHttpRepository extends AuthApiRepository {
       rethrow;
     }
   }
+
+  @override
+  Future updatePassword(dynamic body) async {
+    try {
+      await baseApiServices.getPutApiResponse(Urls.changePassword, body);
+    } catch (_) {
+      rethrow;
+    }
+  }
 }

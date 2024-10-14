@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:my_app/bloc/auth/password/password_bloc.dart';
+import 'package:my_app/bloc/auth/password/password_event.dart';
+import 'package:my_app/bloc/auth/password/password_state.dart';
 import 'package:my_app/common/button.dart';
 import 'package:my_app/config/colors.dart';
+import 'package:my_app/enums/enums.dart';
 import 'package:my_app/extension/localization_extension.dart';
+import 'package:my_app/utils/utils.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -16,12 +22,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final password = TextEditingController();
   final confirmNewPassword = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool obSecure1 = false;
+  bool obSecure2 = false;
+  bool obSecure3 = false;
 
   save() {
     final validate = _formKey.currentState!.validate();
     if (!validate) return;
     if (validate) {
-      
+      context.read<ChangePasswordBloc>().add(ChangePassword(
+          confirmPassword: confirmNewPassword.text,
+          currentPassword: currentPassword.text));
     }
   }
 
@@ -75,6 +86,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         height: 10.h,
                       ),
                       TextFormField(
+                        obscureText: obSecure1,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "${context.localizations!.password} is required";
@@ -87,6 +99,18 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             .bodySmall!
                             .copyWith(color: Colors.black),
                         decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  obSecure1 = !obSecure1;
+                                });
+                              },
+                              icon: Icon(
+                                obSecure1
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
+                                color: AppColors.lightGrey,
+                              )),
                           hintText: context.localizations!.current_password,
                           hintStyle:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(),
@@ -110,6 +134,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         height: 10.h,
                       ),
                       TextFormField(
+                        obscureText: obSecure2,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "${context.localizations!.password} is required";
@@ -122,6 +147,18 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             .bodySmall!
                             .copyWith(color: Colors.black),
                         decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    obSecure2 = !obSecure2;
+                                  });
+                                },
+                                icon: Icon(
+                                  obSecure2
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  color: AppColors.lightGrey,
+                                )),
                             hintText: context.localizations!.new_password,
                             hintStyle: Theme.of(context)
                                 .textTheme
@@ -146,6 +183,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         height: 10.h,
                       ),
                       TextFormField(
+                        obscureText: obSecure3,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "${context.localizations!.confirmPassword} is required";
@@ -162,6 +200,18 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             .bodySmall!
                             .copyWith(color: Colors.black),
                         decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    obSecure3 = !obSecure3;
+                                  });
+                                },
+                                icon: Icon(
+                                  obSecure3
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  color: AppColors.lightGrey,
+                                )),
                             hintText:
                                 context.localizations!.confirm_new_password,
                             hintStyle: Theme.of(context)
@@ -176,12 +226,32 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       SizedBox(
                         height: 50.h,
                       ),
-                      Button(
-                        showRadius: true,
-                        title: context.localizations!.change_password,
-                        onTap: () {
-                          save();
+                      BlocListener<ChangePasswordBloc, ChangePasswordState>(
+                        listener: (context, state) {
+                          if (state.postApiStatus == PostApiStatus.success) {
+                            Utils.showToast(state.message);
+                            currentPassword.clear();
+                            confirmNewPassword.clear();
+                            password.clear();
+                          } else if (state.postApiStatus ==
+                              PostApiStatus.error) {
+                            Utils.showToast(state.message);
+                          }
                         },
+                        child: BlocBuilder<ChangePasswordBloc,
+                            ChangePasswordState>(
+                          builder: (context, state) {
+                            return Button(
+                              loading:
+                                  state.postApiStatus == PostApiStatus.loading,
+                              showRadius: true,
+                              title: context.localizations!.change_password,
+                              onTap: () {
+                                save();
+                              },
+                            );
+                          },
+                        ),
                       )
                     ],
                   ),

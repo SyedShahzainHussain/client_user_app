@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/bloc/address/address_bloc.dart';
 import 'package:my_app/bloc/auth/check_authentication/check_authentiaction_bloc.dart';
 import 'package:my_app/bloc/auth/forgot/forgot_bloc.dart';
+import 'package:my_app/bloc/auth/password/password_bloc.dart';
 import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
 import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/bloc/cart/cart_bloc.dart';
@@ -72,6 +73,9 @@ class Providers extends StatelessWidget {
       ),
       BlocProvider(
         create: (context) => AddressBloc(addressHttpRepository: getIt()),
+      ),
+      BlocProvider(
+        create: (context) => ChangePasswordBloc(authHttpRepository: getIt()),
       ),
     ], child: child);
   }

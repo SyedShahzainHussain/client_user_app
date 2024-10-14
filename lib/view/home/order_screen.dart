@@ -10,6 +10,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/bloc/address/address_bloc.dart';
+import 'package:my_app/bloc/address/address_event.dart';
 import 'package:my_app/bloc/address/address_state.dart';
 import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
 import 'package:my_app/config/colors.dart';
@@ -256,6 +257,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                         ),
                                         InkWell(
                                           onTap: () {
+                                            context
+                                                .read<AddressBloc>()
+                                                .add(GetAddress());
                                             Utils.showAddressDialog(context);
                                           },
                                           child: Text(

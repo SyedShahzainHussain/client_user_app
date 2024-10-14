@@ -28,4 +28,5 @@ class Urls {
   static String stripePayment = "payment";
   static String resturant = "resturant";
   static String address = "address";
+  static String changePassword = "change-password";
 }

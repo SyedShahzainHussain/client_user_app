@@ -19,6 +19,9 @@ abstract class AuthApiRepository {
   // Todo Update Profile
   Future<dynamic> updateUser(File? image, Map<String, dynamic> additionalData);
 
+  // Todo Update Password
+  Future<void> updatePassword(dynamic body);
+
 
 }
  

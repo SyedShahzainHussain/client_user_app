@@ -94,11 +94,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     emit(state.copyWith(postApiStatus: PostApiStatus.loading));
     final body = {"amount": event.amount, "address": event.address};
     await orderApiRepository.checkOutOrder(body).then((value) {
+    
       if (event.context.mounted) {
-        event.context.read<OrderBloc>().add(DeleteCart(context: event.context));
         event.context.read<CartBloc>().add(ClearCartList());
         emit(state.copyWith(postApiStatus: PostApiStatus.success));
-        
       }
     }).onError((error, _) {
       emit(state.copyWith(postApiStatus: PostApiStatus.error));
@@ -110,7 +109,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     final body = {};
     await orderApiRepository.checkOutStripeOrder(body).then((value) {
       if (event.context.mounted) {
-        event.context.read<OrderBloc>().add(DeleteCart(context: event.context));
         event.context.read<CartBloc>().add(ClearCartList());
         emit(state.copyWith(postApiStatus: PostApiStatus.success));
       }

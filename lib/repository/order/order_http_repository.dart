@@ -39,11 +39,13 @@ class OrderHttpRepository extends OrderApiRepository {
   @override
   Future<void> checkOutOrder(body) async {
     try {
-      await baseApiServices.getPostApiResponse(
+    final respose  =   await baseApiServices.getPostApiResponse(
         Urls.cashOnDelivery,
         body,
       );
+        print("Data $respose");
     } catch (e) {
+      print("Error $e");
       rethrow;
     }
   }
