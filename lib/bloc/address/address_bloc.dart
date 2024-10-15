@@ -39,12 +39,12 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   }
 
   _getAddress(GetAddress event, Emitter<AddressState> emit) async {
-    emit(state.copyWith(postApiStatus: PostApiStatus.loading));
+    emit(state.copyWith(postApiStatus: PostApiStatus.loading,message: ""));
     await addressHttpRepository.getAddressList().then((value) {
       emit(state.copyWith(
           postApiStatus: PostApiStatus.success, addressList: value));
     }).onError((error, _) {
-      emit(state.copyWith(postApiStatus: PostApiStatus.error));
+      emit(state.copyWith(postApiStatus: PostApiStatus.error,message: error.toString()));
     });
   }
 
