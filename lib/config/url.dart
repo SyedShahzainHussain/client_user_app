@@ -20,6 +20,7 @@ class Urls {
   static String toppingUrl = "topping";
   static String sideToppingUrl = "sidetopping";
   static String placeOrder = "order";
+  static String getOrder = "order";
   static String addToCartUrl = "cart";
   static String deleteCartUrls = "emptycart";
   static String googleUrls = "auth/google/callback";

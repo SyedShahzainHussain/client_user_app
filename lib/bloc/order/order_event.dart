@@ -28,3 +28,9 @@ class StripePayment extends OrderEvent {
     final BuildContext context;
   StripePayment({required this.context,required this.amount,required this.address});
 }
+
+
+
+class GetOrder extends OrderEvent{
+   GetOrder();
+}

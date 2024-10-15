@@ -30,6 +30,8 @@ class RouteName {
   static const String addressScreenName = "/address-screen-name";
   static const String newAddressScreenName = "/new-address-screen-name";
   static const String brandDetailsScreen = "/brand-screen-name";
+  static const String getOrdersScreen = "/get-order-screen-name";
+
 
 
 }

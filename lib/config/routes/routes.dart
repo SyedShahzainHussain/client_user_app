@@ -17,6 +17,7 @@ import 'package:my_app/view/home/all_brand_screen.dart';
 import 'package:my_app/view/home/all_product_screen.dart';
 import 'package:my_app/view/home/brand_detail_screen.dart';
 import 'package:my_app/view/home/details_screen.dart';
+import 'package:my_app/view/home/get_order_screen.dart';
 import 'package:my_app/view/home/home_screen.dart';
 import 'package:my_app/view/home/order_screen.dart';
 import 'package:my_app/view/home/search_screen.dart';
@@ -93,6 +94,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ChangeLanguageScreen());
       case RouteName.addressScreenName:
         return MaterialPageRoute(builder: (_) => const AddressScreen());
+      case RouteName.getOrdersScreen:
+        return MaterialPageRoute(builder: (_) => const GetOrderScreen());
       // case RouteName.brandDetailsScreen:
       //   return MaterialPageRoute(builder: (_) => const BrandDetailScreen());
       case RouteName.newAddressScreenName:

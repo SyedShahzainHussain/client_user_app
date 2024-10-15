@@ -163,7 +163,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ),
                                           ),
                                           IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.pushNamed(context,
+                                                  RouteName.getOrdersScreen);
+                                            },
                                             icon: const Icon(
                                               Icons.arrow_forward_ios_rounded,
                                               color: Color(0xff808080),

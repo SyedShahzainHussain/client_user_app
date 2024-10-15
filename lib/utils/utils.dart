@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:my_app/bloc/address/address_bloc.dart';
 import 'package:my_app/bloc/address/address_event.dart';
 import 'package:my_app/bloc/address/address_state.dart';
@@ -294,5 +295,20 @@ class Utils {
                 },
               ),
             ));
+  }
+
+  String formatDate(String dateString) {
+    try {
+      // Parse the date string into a DateTime object
+      DateTime date = DateTime.parse(dateString);
+
+      // Format the DateTime object into a desired string format
+      String formattedDate = DateFormat('dd MMM yyyy').format(date);
+
+      return formattedDate;
+    } catch (e) {
+      print('Error formatting date: $e');
+      return 'Invalid date';
+    }
   }
 }

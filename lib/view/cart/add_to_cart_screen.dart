@@ -722,6 +722,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                         context
                             .read<CartBloc>()
                             .add(AddToCart(cartItem, context));
+
                         // context.read<SideToppingBloc>().add(ClearSideToppins());
                         // context.read<CartBloc>().add(ClearSideToppins());
                       },

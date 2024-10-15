@@ -1,6 +1,7 @@
 import 'package:my_app/config/url.dart';
 import 'package:my_app/data/network/base_api_services.dart';
 import 'package:my_app/data/network/network_api_services.dart';
+import 'package:my_app/model/order_model.dart';
 import 'package:my_app/repository/order/order_api_repository.dart';
 
 class OrderHttpRepository extends OrderApiRepository {
@@ -39,11 +40,11 @@ class OrderHttpRepository extends OrderApiRepository {
   @override
   Future<void> checkOutOrder(body) async {
     try {
-    final respose  =   await baseApiServices.getPostApiResponse(
+      final respose = await baseApiServices.getPostApiResponse(
         Urls.cashOnDelivery,
         body,
       );
-        print("Data $respose");
+      print("Data $respose");
     } catch (e) {
       print("Error $e");
       rethrow;
@@ -57,6 +58,17 @@ class OrderHttpRepository extends OrderApiRepository {
         Urls.stripePayment,
         body,
       );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<OrderModel>> getOrders() async {
+    try {
+    final response =    await baseApiServices.getGetApiResponse(Urls.getOrder);
+    final data = response as List;
+    return data.map((e)=>OrderModel.fromJson(e)).toList();
     } catch (e) {
       rethrow;
     }

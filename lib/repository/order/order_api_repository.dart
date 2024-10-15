@@ -1,3 +1,5 @@
+import 'package:my_app/model/order_model.dart';
+
 abstract class OrderApiRepository {
   // Todo Add To Cart Api
 
@@ -15,4 +17,7 @@ abstract class OrderApiRepository {
 
   // Todo Checkout Order Stripe Payment
   Future<void> checkOutStripeOrder(dynamic body);
+
+  // Todo Get Order
+  Future<List<OrderModel>>  getOrders();
 }

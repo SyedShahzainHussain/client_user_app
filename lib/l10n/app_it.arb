@@ -142,5 +142,6 @@
          "change":"Modifica",
            "add_New_Address":"Aggiungi nuovo indirizzo",
             "select_Address":"Seleziona Indirizzo",
-            "change_Address":"Cambia indirizzo"
+            "change_Address":"Cambia indirizzo",
+              "my_orders":"I miei ordini"
 }

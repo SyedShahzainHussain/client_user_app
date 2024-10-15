@@ -109,8 +109,8 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   String calculateAmount(double amount) {
-     final int a = (amount * 100).toInt();  // Convert to integer
-    return a.toString();  
+    final int a = (amount * 100).toInt(); // Convert to integer
+    return a.toString();
   }
 
   @override
