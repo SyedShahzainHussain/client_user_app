@@ -6,8 +6,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
-import 'package:my_app/bloc/brand/brand_bloc.dart';
 import 'package:my_app/bloc/cart/cart_bloc.dart';
+import 'package:my_app/bloc/restaurant/rastaurant_state.dart';
+import 'package:my_app/bloc/restaurant/restaurant_event.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:my_app/common/shimmer_effect.dart';
 import 'package:my_app/config/colors.dart';
@@ -27,9 +28,9 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import '../../bloc/category/category_bloc.dart';
 import '../../bloc/products/product_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
-import '../../common/t_rounded_image.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
+import '../../bloc/restaurant/restaurant_bloc.dart';
+// import '../../common/t_rounded_image.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -44,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     context.read<ProfileBloc>().add(GetProfileData());
     context.read<CartBloc>().add(LoadCartItem(context));
+    context.read<RestaurantBloc>().add(FetchRestaurant());
   }
 
   @override
@@ -57,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context.read<CategoryBloc>().add(FetchCategory());
           context.read<CategoryBloc>().add(ClearCategoryValue());
           context.read<ProductBloc>().add(const GetAllProducts("All"));
-          context.read<BrandBloc>().add(GetAllBrand());
+          context.read<RestaurantBloc>().add(FetchRestaurant());
           context.read<WishlistBloc>().add(GetWishlist());
           context.read<CartBloc>().add(LoadCartItem(context));
         }
@@ -203,33 +205,33 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: context.height * 0.05,
                           ),
                           // Todo Banner
-                          Column(
-                            children: [
-                              CarouselSlider(
-                                items: List.generate(
-                                  10,
-                                  (int index) => TRoundedImage(
-                                    height: 150,
-                                    width: double.infinity,
-                                    onPressed: () {},
-                                    imageUrl:
-                                        "https://mir-s3-cdn-cf.behance.net/project_modules/hd/1d8ef1131620399.6198777370341.png",
-                                    isNetworkImage: true,
-                                  ),
-                                ),
-                                options: CarouselOptions(
-                                  autoPlay: true,
-                                  enlargeCenterPage: true,
-                                  enlargeFactor: 0.3,
-                                  viewportFraction: 0.9,
-                                  onPageChanged: (index, _) {},
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: context.height * 0.05,
-                          ),
+                          // Column(
+                          //   children: [
+                          //     CarouselSlider(
+                          //       items: List.generate(
+                          //         10,
+                          //         (int index) => TRoundedImage(
+                          //           height: 150,
+                          //           width: double.infinity,
+                          //           onPressed: () {},
+                          //           imageUrl:
+                          //               "https://mir-s3-cdn-cf.behance.net/project_modules/hd/1d8ef1131620399.6198777370341.png",
+                          //           isNetworkImage: true,
+                          //         ),
+                          //       ),
+                          //       options: CarouselOptions(
+                          //         autoPlay: true,
+                          //         enlargeCenterPage: true,
+                          //         enlargeFactor: 0.3,
+                          //         viewportFraction: 0.9,
+                          //         onPageChanged: (index, _) {},
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          // SizedBox(
+                          //   height: context.height * 0.05,
+                          // ),
                           BlocBuilder<CategoryBloc, CategoryState>(
                             builder: (context, state) {
                               switch (state.categoryList.status) {
@@ -523,9 +525,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           // Todo Brand
 
-                          BlocBuilder<BrandBloc, BrandState>(
+                          BlocBuilder<RestaurantBloc, RestaurantState>(
                             builder: (context, state) {
-                              switch (state.getAllBrand.status) {
+                              switch (state.restaurantList.status) {
                                 case Status.loading:
                                   return const AllBrandShimmer();
                                 case Status.complete:
@@ -565,7 +567,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       child: CachedNetworkImage(
                                                         fit: BoxFit.cover,
                                                         imageUrl: state
-                                                            .getAllBrand
+                                                            .restaurantList
                                                             .data![index]
                                                             .image!,
                                                         height: 55.h,
@@ -574,7 +576,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                   Text(
                                                     state
-                                                            .getAllBrand
+                                                            .restaurantList
                                                             .data![index]
                                                             .title ??
                                                         "",
@@ -596,14 +598,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           );
                                         },
                                         itemCount:
-                                            state.getAllBrand.data!.length,
+                                            state.restaurantList.data!.length,
                                       ),
                                     ),
                                   );
                                 case Status.error:
                                   return Center(
                                     child: Text(
-                                      state.getAllBrand.message.toString(),
+                                      state.restaurantList.message.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelMedium!

@@ -96,8 +96,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const AddressScreen());
       case RouteName.getOrdersScreen:
         return MaterialPageRoute(builder: (_) => const GetOrderScreen());
-      // case RouteName.brandDetailsScreen:
-      //   return MaterialPageRoute(builder: (_) => const BrandDetailScreen());
+      case RouteName.brandDetailsScreen:
+        return MaterialPageRoute(builder: (_) => const BrandDetailScreen());
       case RouteName.newAddressScreenName:
         final Map<String, dynamic> data =
             setting.arguments as Map<String, dynamic>;

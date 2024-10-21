@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
@@ -9,7 +8,6 @@ import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 import '../../bloc/auth/profile/profile_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {

@@ -12,6 +12,7 @@ import 'package:my_app/bloc/google_place_api/google_place_api_bloc.dart';
 import 'package:my_app/bloc/products/product_bloc.dart';
 import 'package:my_app/bloc/rating/ratng_bloc.dart';
 import 'package:my_app/bloc/restaurant/restaurant_bloc.dart';
+import 'package:my_app/bloc/restaurant/restaurant_event.dart';
 import 'package:my_app/bloc/side_topping/side_topping_event.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:my_app/bloc/change_languages/change_language_bloc.dart';
@@ -70,7 +71,8 @@ class Providers extends StatelessWidget {
             GooglePlaceApiBloc(googlePlaceApiRepository: getIt()),
       ),
       BlocProvider(
-        create: (context) => RestaurantBloc(restaurantRepository: getIt()),
+        create: (context) => RestaurantBloc(restaurantRepository: getIt())
+          ,
       ),
       BlocProvider(
         create: (context) => AddressBloc(addressHttpRepository: getIt()),
