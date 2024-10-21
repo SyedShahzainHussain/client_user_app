@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import 'package:my_app/bloc/restaurant/rastaurant_state.dart';
 import 'package:my_app/bloc/restaurant/restaurant_event.dart';
 import 'package:my_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:my_app/common/shimmer_effect.dart';
+import 'package:my_app/common/t_rounded_image.dart';
 import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
@@ -205,33 +207,33 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: context.height * 0.05,
                           ),
                           // Todo Banner
-                          // Column(
-                          //   children: [
-                          //     CarouselSlider(
-                          //       items: List.generate(
-                          //         10,
-                          //         (int index) => TRoundedImage(
-                          //           height: 150,
-                          //           width: double.infinity,
-                          //           onPressed: () {},
-                          //           imageUrl:
-                          //               "https://mir-s3-cdn-cf.behance.net/project_modules/hd/1d8ef1131620399.6198777370341.png",
-                          //           isNetworkImage: true,
-                          //         ),
-                          //       ),
-                          //       options: CarouselOptions(
-                          //         autoPlay: true,
-                          //         enlargeCenterPage: true,
-                          //         enlargeFactor: 0.3,
-                          //         viewportFraction: 0.9,
-                          //         onPageChanged: (index, _) {},
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          // SizedBox(
-                          //   height: context.height * 0.05,
-                          // ),
+                          Column(
+                            children: [
+                              CarouselSlider(
+                                items: List.generate(
+                                  10,
+                                  (int index) => TRoundedImage(
+                                    height: 150,
+                                    width: double.infinity,
+                                    onPressed: () {},
+                                    imageUrl:
+                                        "https://mir-s3-cdn-cf.behance.net/project_modules/hd/1d8ef1131620399.6198777370341.png",
+                                    isNetworkImage: true,
+                                  ),
+                                ),
+                                options: CarouselOptions(
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  enlargeFactor: 0.3,
+                                  viewportFraction: 0.9,
+                                  onPageChanged: (index, _) {},
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: context.height * 0.05,
+                          ),
                           BlocBuilder<CategoryBloc, CategoryState>(
                             builder: (context, state) {
                               switch (state.categoryList.status) {

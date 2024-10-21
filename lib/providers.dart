@@ -72,7 +72,7 @@ class Providers extends StatelessWidget {
       ),
       BlocProvider(
         create: (context) => RestaurantBloc(restaurantRepository: getIt())
-          ,
+          ..add(RestaurantCategoryApi()),
       ),
       BlocProvider(
         create: (context) => AddressBloc(addressHttpRepository: getIt()),

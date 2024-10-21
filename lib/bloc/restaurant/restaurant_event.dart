@@ -8,3 +8,12 @@ abstract class RestaurantEvent extends Equatable {
 class FetchRestaurant extends RestaurantEvent {
   FetchRestaurant();
 }
+
+class RestaurantCategoryApi extends RestaurantEvent {
+  RestaurantCategoryApi();
+}
+
+class RestaurantDetails extends RestaurantEvent {
+  final String id;
+  RestaurantDetails({required this.id});
+}

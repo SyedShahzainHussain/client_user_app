@@ -213,7 +213,11 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                                       ),
                                       onPressed: () {
                                         Navigator.pushNamed(context,
-                                            RouteName.brandDetailsScreen);
+                                            RouteName.brandDetailsScreen,
+                                            arguments: state
+                                                .getAllBrandWithQuery
+                                                .data![index]
+                                                .sId);
                                       },
                                       child: Text(
                                         context.localizations!.visit,

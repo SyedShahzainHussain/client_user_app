@@ -5,7 +5,5 @@ abstract class AddressRepository {
 
   Future<List<AddressModel>> getAddressList();
 
-
-
   Future<void> deleteAddress(String id);
 }
