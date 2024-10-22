@@ -4,7 +4,7 @@ class RestaurantDetailsModel {
   String? address;
   String? category;
   String? image;
-  List<Products>? products;
+  List<Data>? products;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -29,7 +29,7 @@ class RestaurantDetailsModel {
     image = json['image'];
     if (json['products'] != null) {
       products =
-          (json['products'] as List).map((v) => Products.fromJson(v)).toList();
+          (json['products'] as List).map((v) => Data.fromJson(v)).toList();
     }
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -53,7 +53,7 @@ class RestaurantDetailsModel {
   }
 }
 
-class Products {
+class Data {
   String? sId;
   String? title;
   String? slug;
@@ -69,7 +69,7 @@ class Products {
   String? updatedAt;
   int? iV;
 
-  Products({
+  Data({
     this.sId,
     this.title,
     this.slug,
@@ -86,7 +86,7 @@ class Products {
     this.iV,
   });
 
-  Products.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     title = json['title'];
     slug = json['slug'];

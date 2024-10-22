@@ -4,10 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/bloc/restaurant/rastaurant_state.dart';
 import 'package:my_app/bloc/restaurant/restaurant_bloc.dart';
 import 'package:my_app/bloc/restaurant/restaurant_event.dart';
+import 'package:my_app/config/colors.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/data/response/status.dart';
 import 'package:my_app/model/product_model.dart';
-import 'package:my_app/model/restaurant_details_model.dart';
+import 'package:my_app/model/restaurant_details_model.dart' as restaurant;
+import 'package:my_app/utils/utils.dart';
 import 'package:scrollable_list_tab_scroller/scrollable_list_tab_scroller.dart';
 
 class BrandDetailScreen extends StatefulWidget {
@@ -17,34 +19,6 @@ class BrandDetailScreen extends StatefulWidget {
   @override
   State<BrandDetailScreen> createState() => _BrandDetailScreenState();
 }
-
-// Data mapProductToData(Products product) {
-//   return Data(
-//     sId: product.sId,
-//     title: product.title,
-//     slug: product.slug,
-//     description: product.description,
-//     price: product.price,
-//     category: product.category,
-//     address: product.address,
-//     quantity: product.quantity,
-//     images: product.images,
-//     totalrating: product.totalrating,
-//     createdAt: product.createdAt,
-//     updatedAt: product.updatedAt,
-//     iV: product.iV,
-//     ratings: product.ratings
-//         ?.map((rating) => Rating(
-//               sId: rating,
-//               comment: rating.comment,
-//               star: rating.star,
-//               createdAt: rating.,
-//               updatedAt: rating.updatedAt,
-//             ))
-//         .toList(),
-//     // If the product has toppings or other fields, map them accordingly
-//   );
-// }
 
 class _BrandDetailScreenState extends State<BrandDetailScreen> {
   @override
@@ -63,7 +37,9 @@ class _BrandDetailScreenState extends State<BrandDetailScreen> {
         builder: (context, state) {
           switch (state.restaurantDetailsList.status) {
             case Status.loading:
-              return const CircularProgressIndicator();
+              return Center(
+                child: Utils.showLoading(color: AppColors.buttonColor),
+              );
             case Status.error:
               return const Center(
                 child: Text("Error Occured"),
@@ -73,7 +49,7 @@ class _BrandDetailScreenState extends State<BrandDetailScreen> {
               final productList = state.restaurantDetailsList.data!;
 
               // Create a map of categories to their corresponding products
-              Map<String, List<Products>> categoryProductMap = {};
+              Map<String, List<restaurant.Data>> categoryProductMap = {};
 
               for (var category in categoryList) {
                 categoryProductMap[category.title!] = productList.products!
@@ -218,12 +194,32 @@ class _BrandDetailScreenState extends State<BrandDetailScreen> {
                                       index,
                                       ListTile(
                                         onTap: () {
-                                          // final data = Data();
-                                          // Navigator.pushNamed(context,
-                                          //     RouteName.detailScreenName,
-                                          //     arguments: {
-                                          //       "data": value.address
-                                          //     });
+                                          Data mapProductToData(
+                                              restaurant.Data product) {
+                                            return Data(
+                                              sId: product.sId,
+                                              title: product.title,
+                                              slug: product.slug,
+                                              description: product.description,
+                                              price: product.price,
+                                              category: product.category,
+                                              address: product.address,
+                                              quantity: product.quantity,
+                                              images: product.images,
+                                              totalrating: product.totalrating,
+                                              createdAt: product.createdAt,
+                                              updatedAt: product.updatedAt,
+                                              iV: product.iV,
+
+                                              // If the product has toppings or other fields, map them accordingly
+                                            );
+                                          }
+
+                                          Navigator.pushNamed(context,
+                                              RouteName.detailScreenName,
+                                              arguments: {
+                                                "data": mapProductToData(value)
+                                              });
                                         },
                                         contentPadding: EdgeInsets.zero,
                                         leading: Container(
