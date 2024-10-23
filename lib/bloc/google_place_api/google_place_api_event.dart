@@ -20,8 +20,9 @@ class GetAddressFromLatLng extends GooglePlaceApiEvent {
 }
 
 class GetCurrentPosition extends GooglePlaceApiEvent {
+  final bool getAddress;
   final BuildContext context;
-  GetCurrentPosition({required this.context});
+  GetCurrentPosition({required this.context,this.getAddress=true});
 }
 
 class GetTheEditAddress extends GooglePlaceApiEvent {

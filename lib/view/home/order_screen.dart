@@ -312,18 +312,31 @@ class _OrderScreenState extends State<OrderScreen> {
                                                   maxLines: 2,
                                                 ),
                                               )
-                                            : Flexible(
-                                                child: Text(
-                                                  state1.selectedAddress!
-                                                      .address!,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                          color: Colors.black),
-                                                  maxLines: 2,
-                                                ),
-                                              ),
+                                            : state1.selectedAddress!.address!
+                                                    .isNotEmpty
+                                                ? Flexible(
+                                                    child: Text(
+                                                      state1.selectedAddress!
+                                                          .address!,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge!
+                                                          .copyWith(
+                                                              color:
+                                                                  Colors.black),
+                                                      maxLines: 2,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    "No Address Found",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.black),
+                                                    maxLines: 2,
+                                                  ),
                                       ],
                                     ),
                                   ],

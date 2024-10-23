@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_app/bloc/address/address_bloc.dart';
+import 'package:my_app/bloc/address/address_event.dart';
 import 'package:my_app/bloc/auth/profile/profile_bloc.dart';
 import 'package:my_app/common/custom_appbar.dart';
 import 'package:my_app/common/shimmer_effect.dart';
@@ -460,6 +462,9 @@ class _SettingScreenState extends State<SettingScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
+                                  context
+                                      .read<AddressBloc>()
+                                      .add(ClearAddress());
                                   await SessionController().logout().then((_) {
                                     if (context.mounted) {
                                       Navigator.pushNamedAndRemoveUntil(

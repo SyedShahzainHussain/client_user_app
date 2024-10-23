@@ -116,7 +116,7 @@ class GooglePlaceApiBloc
 
     // Getting the current position of the user
     Position position = await Geolocator.getCurrentPosition();
-    if (event.context.mounted) {
+    if (event.context.mounted&&event.getAddress) {
       event.context.read<GooglePlaceApiBloc>().add(GetAddressFromLatLng(
           longitude: position.longitude, latitude: position.latitude));
     }

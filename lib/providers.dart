@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/bloc/address/address_bloc.dart';
+import 'package:my_app/bloc/address/address_event.dart';
 import 'package:my_app/bloc/auth/check_authentication/check_authentiaction_bloc.dart';
 import 'package:my_app/bloc/auth/forgot/forgot_bloc.dart';
 import 'package:my_app/bloc/auth/password/password_bloc.dart';
@@ -75,7 +76,7 @@ class Providers extends StatelessWidget {
           ..add(RestaurantCategoryApi()),
       ),
       BlocProvider(
-        create: (context) => AddressBloc(addressHttpRepository: getIt()),
+        create: (context) => AddressBloc(addressHttpRepository: getIt())..add(GetAddress()),
       ),
       BlocProvider(
         create: (context) => ChangePasswordBloc(authHttpRepository: getIt()),

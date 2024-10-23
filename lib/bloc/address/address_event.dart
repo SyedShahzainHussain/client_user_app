@@ -28,4 +28,8 @@ class SelectAddress extends AddressEvent {
 }
 
 
+class ClearAddress extends AddressEvent{
+  ClearAddress();
+}
+
 

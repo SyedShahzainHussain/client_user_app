@@ -51,10 +51,9 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
     if (widget.address.isEmpty ||
         widget.latitude == 0.0 ||
         widget.longitude == 0.0) {
-      print("Get Current Position");
       context
           .read<GooglePlaceApiBloc>()
-          .add(GetCurrentPosition(context: context));
+          .add(GetCurrentPosition(context: context, getAddress: true));
     } else {
       context
           .read<GooglePlaceApiBloc>()
@@ -104,7 +103,6 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
 
   Timer? debounceTimer;
   void _onCameraMove(CameraPosition position) {
-    print("Moving");
     // Cancel the previous timer to avoid multiple timer instances
     debounceTimer?.cancel();
 
@@ -120,6 +118,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: PopScope(
         canPop: false,
@@ -143,7 +142,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
             // Todo Google Map
             BlocBuilder<GooglePlaceApiBloc, GooglePlaceApiState>(
               builder: (context, state) {
-                return state.position == null
+                return state.position == null &&
+                        (widget.latitude == 0.0 || widget.longitude == 0.0)
                     ? const SizedBox()
                     : GoogleMap(
                         onCameraMove: _onCameraMove,
@@ -178,8 +178,14 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                           }
                         },
                         initialCameraPosition: CameraPosition(
-                          target: LatLng(state.position!.latitude,
-                              state.position!.longitude),
+                          target: LatLng(
+                            widget.latitude != 0.0
+                                ? widget.latitude
+                                : state.position!.latitude,
+                            widget.longitude != 0.0
+                                ? widget.longitude
+                                : state.position!.longitude,
+                          ),
                           zoom: 15,
                         ),
                       );

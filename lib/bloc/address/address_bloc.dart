@@ -15,6 +15,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     on<GetAddress>(_getAddress);
     on<DeleteAddress>(_deleteAddress);
     on<SelectAddress>(_selectedAddress);
+    on<ClearAddress>(_clearAddress);
   }
 
   _createAddress(CreateAddress event, Emitter<AddressState> emit) async {
@@ -39,12 +40,13 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   }
 
   _getAddress(GetAddress event, Emitter<AddressState> emit) async {
-    emit(state.copyWith(postApiStatus: PostApiStatus.loading,message: ""));
+    emit(state.copyWith(postApiStatus: PostApiStatus.loading, message: ""));
     await addressHttpRepository.getAddressList().then((value) {
       emit(state.copyWith(
           postApiStatus: PostApiStatus.success, addressList: value));
     }).onError((error, _) {
-      emit(state.copyWith(postApiStatus: PostApiStatus.error,message: error.toString()));
+      emit(state.copyWith(
+          postApiStatus: PostApiStatus.error, message: error.toString()));
     });
   }
 
@@ -57,5 +59,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
 
   _selectedAddress(SelectAddress event, Emitter<AddressState> emit) async {
     emit(state.copyWith(selectedAddress: event.selectedAddress));
+  }
+
+  _clearAddress(ClearAddress event, Emitter<AddressState> emit) async {
+    emit(state.copyWith(selectedAddress: null));
   }
 }
