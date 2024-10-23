@@ -216,7 +216,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                         color: AppColors.lightoffblack),
                                   ),
                                   Text(
-                                    "EURO $totalWithTax",
+                                    "EURO ${totalWithTax.toStringAsFixed(2)}",
                                     style: GoogleFonts.roboto(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,

@@ -102,19 +102,23 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         return {
           "product": item.sId,
           "count": item.quantity,
-          "topping": topping!.sId,
-          "sidetopping": sideTopping!.sId,
+          if (topping != null) "topping": topping.sId,
+          if (sideTopping != null) "sidetopping": sideTopping.sId,
         };
       }).toList()
     };
 
-    await orderApiRepository.addToCart(jsonEncode(orderData));
-
-    await orderApiRepository.checkOutOrder(body).then((value) {
-      if (event.context.mounted) {
-        event.context.read<CartBloc>().add(ClearCartList());
-        emit(state.copyWith(postApiStatus: PostApiStatus.success));
-      }
+    await orderApiRepository
+        .addToCart(jsonEncode(orderData))
+        .then((value) async {
+      await orderApiRepository.checkOutOrder(body).then((value) {
+        if (event.context.mounted) {
+          event.context.read<CartBloc>().add(ClearCartList());
+          emit(state.copyWith(postApiStatus: PostApiStatus.success));
+        }
+      }).onError((error, _) {
+        emit(state.copyWith(postApiStatus: PostApiStatus.error));
+      });
     }).onError((error, _) {
       emit(state.copyWith(postApiStatus: PostApiStatus.error));
     });
