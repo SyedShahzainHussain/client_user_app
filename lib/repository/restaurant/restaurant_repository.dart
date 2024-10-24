@@ -41,4 +41,17 @@ class RestaurantRepository extends RestaurantHttpRepository {
       rethrow;
     }
   }
+
+  
+  @override
+  Future<List<RestaurantDetailsModel>> getAllRestaurantWithQuery(String query) async {
+    try {
+      final response = await baseApiServices
+          .getGetApiResponse(Urls.resturant, {"title": query});
+      final data = response as List;
+      return data.map((e) => RestaurantDetailsModel.fromJson(e)).toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

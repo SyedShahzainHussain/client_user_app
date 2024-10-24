@@ -17,3 +17,10 @@ class RestaurantDetails extends RestaurantEvent {
   final String id;
   RestaurantDetails({required this.id});
 }
+
+
+
+class GetAllRestaurantWithQuery extends RestaurantEvent{
+  final String query;
+   GetAllRestaurantWithQuery(this.query);
+}

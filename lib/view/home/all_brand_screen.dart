@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:my_app/bloc/brand/brand_bloc.dart';
+import 'package:my_app/bloc/restaurant/rastaurant_state.dart';
+import 'package:my_app/bloc/restaurant/restaurant_bloc.dart';
+import 'package:my_app/bloc/restaurant/restaurant_event.dart';
 import 'package:my_app/config/image_string.dart';
 import 'package:my_app/config/routes/route_name.dart';
 import 'package:my_app/data/response/status.dart';
@@ -12,24 +14,25 @@ import 'package:my_app/extension/localization_extension.dart';
 import 'package:my_app/extension/media_query_extension.dart';
 import 'package:my_app/shimmers/all_brands_shimmer.dart';
 
-class AllBrandScreen extends StatefulWidget {
-  const AllBrandScreen({super.key});
+class AllRestaurantScreen extends StatefulWidget {
+  const AllRestaurantScreen({super.key});
 
   @override
-  State<AllBrandScreen> createState() => _AllBrandScreenState();
+  State<AllRestaurantScreen> createState() => _AllRestaurantScreenState();
 }
 
-class _AllBrandScreenState extends State<AllBrandScreen> {
-  final TextEditingController _brandSearchController = TextEditingController();
+class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
+  final TextEditingController _restaurantSearchController =
+      TextEditingController();
   @override
   void initState() {
     super.initState();
-    context.read<BrandBloc>().add(const GetAllBrandWithQuery(""));
-    _brandSearchController.addListener(_onSearchChanged);
+    context.read<RestaurantBloc>().add(GetAllRestaurantWithQuery(""));
+    _restaurantSearchController.addListener(_onSearchChanged);
   }
 
   void _onSearchChanged() {
-    final query = _brandSearchController.text.trim();
+    final query = _restaurantSearchController.text.trim();
     const duration = Duration(
         milliseconds:
             800); // set the duration that you want call stopTyping() after that.
@@ -38,7 +41,7 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
   }
 
   stopTyping(String query) {
-    context.read<BrandBloc>().add(GetAllBrandWithQuery(query));
+    context.read<RestaurantBloc>().add(GetAllRestaurantWithQuery(query));
   }
 
   @override
@@ -54,18 +57,18 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: TextFormField(
-                controller: _brandSearchController,
+                controller: _restaurantSearchController,
                 cursorColor: Colors.grey,
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 14.sp,
                     color: const Color(0xff7A869A)),
                 decoration: InputDecoration(
-                  suffixIcon: _brandSearchController.text.isEmpty
+                  suffixIcon: _restaurantSearchController.text.isEmpty
                       ? const Icon(Icons.search, color: Colors.grey)
                       : GestureDetector(
                           onTap: () {
-                            _brandSearchController.clear();
+                            _restaurantSearchController.clear();
                             setState(() {});
                           },
                           child: const Icon(Icons.close, color: Colors.grey)),
@@ -96,13 +99,13 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: BlocBuilder<BrandBloc, BrandState>(
+        child: BlocBuilder<RestaurantBloc, RestaurantState>(
           builder: (context, state) {
-            switch (state.getAllBrandWithQuery.status) {
+            switch (state.getAllRestaurantWithQuery.status) {
               case Status.loading:
                 return const AllBrandsShimmer();
               case Status.complete:
-                return state.getAllBrandWithQuery.data!.isEmpty
+                return state.getAllRestaurantWithQuery.data!.isEmpty
                     ? const SizedBox()
                     : ListView.separated(
                         separatorBuilder: (context, index) =>
@@ -130,7 +133,7 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                                         borderRadius:
                                             BorderRadius.circular(12.r),
                                         child: Image.network(
-                                          state.getAllBrandWithQuery
+                                          state.getAllRestaurantWithQuery
                                               .data![index].image!,
                                           width: 50,
                                           height: 50,
@@ -150,7 +153,7 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                                           Row(
                                             children: [
                                               Text(
-                                                state.getAllBrandWithQuery
+                                                state.getAllRestaurantWithQuery
                                                     .data![index].title!,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w500,
@@ -215,7 +218,7 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                                         Navigator.pushNamed(context,
                                             RouteName.brandDetailsScreen,
                                             arguments: state
-                                                .getAllBrandWithQuery
+                                                .getAllRestaurantWithQuery
                                                 .data![index]
                                                 .sId);
                                       },
@@ -232,12 +235,12 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                                 ],
                               ));
                         },
-                        itemCount: state.getAllBrandWithQuery.data!.length,
+                        itemCount: state.getAllRestaurantWithQuery.data!.length,
                       );
               case Status.error:
                 return Center(
                   child: Text(
-                    state.getAllBrandWithQuery.message.toString(),
+                    state.getAllRestaurantWithQuery.message.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .labelMedium!

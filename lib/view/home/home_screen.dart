@@ -549,7 +549,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 Navigator.pushNamed(
                                                     context,
                                                     RouteName
-                                                        .allBrandScreenName);
+                                                        .allRestaurantScreenName);
                                               },
                                               child: Column(
                                                 children: [

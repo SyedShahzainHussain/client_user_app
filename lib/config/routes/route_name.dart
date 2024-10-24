@@ -17,7 +17,7 @@ class RouteName {
   static const String trackingOrderScreenName = "/tracking-order-screen";
   static const String allProductScreenName = "/all-product-screen";
   static const String searchScreenName = "/search-screen";
-  static const String allBrandScreenName = "/all-brand-screen";
+  static const String allRestaurantScreenName = "/all-restaurant-screen";
   static const String addToCartScreenName = "/add-to-cart-screen";
   static const String editProfileScreenName = "/edit-profile-screen";
   static const String cartScreenName = "/cart-screen";

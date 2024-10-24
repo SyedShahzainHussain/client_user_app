@@ -10,11 +10,13 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       : super(RestaurantState(
           restaurantList: ApiResponse.initial(),
           restaurantCategoryList: ApiResponse.initial(),
-          restaurantDetailsList: ApiResponse.initial()
+          restaurantDetailsList: ApiResponse.initial(),
+          getAllRestaurantWithQuery: ApiResponse.initial(),
         )) {
     on<FetchRestaurant>(_fetchRestaurant);
     on<RestaurantCategoryApi>(_restaurantCategoryApi);
     on<RestaurantDetails>(_restaurantDetails);
+    on<GetAllRestaurantWithQuery>(_getAllRestaurantWithQuery);
   }
 
   _fetchRestaurant(FetchRestaurant event, Emitter<RestaurantState> emit) async {
@@ -39,12 +41,26 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
 
   _restaurantDetails(
       RestaurantDetails event, Emitter<RestaurantState> emit) async {
-        emit(state.copyWith(restaurantDetailsList: ApiResponse.loading()));
+    emit(state.copyWith(restaurantDetailsList: ApiResponse.loading()));
     await restaurantRepository.getRestaurantDetails(event.id).then((data) {
       emit(state.copyWith(restaurantDetailsList: ApiResponse.complete(data)));
     }).onError((error, _) {
       emit(state.copyWith(
           restaurantDetailsList: ApiResponse.error(error.toString())));
     });
-      }
+  }
+
+  _getAllRestaurantWithQuery(
+      GetAllRestaurantWithQuery event, Emitter<RestaurantState> emit) async {
+    emit(state.copyWith(getAllRestaurantWithQuery: ApiResponse.loading()));
+    await restaurantRepository
+        .getAllRestaurantWithQuery(event.query)
+        .then((data) {
+      emit(state.copyWith(
+          getAllRestaurantWithQuery: ApiResponse.complete(data)));
+    }).onError((error, _) {
+      emit(state.copyWith(
+          getAllRestaurantWithQuery: ApiResponse.error(error.toString())));
+    });
+  }
 }

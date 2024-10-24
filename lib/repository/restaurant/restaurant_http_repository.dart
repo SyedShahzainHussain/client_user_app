@@ -6,4 +6,5 @@ abstract class RestaurantHttpRepository {
   Future<List<RestaurantModel>> getAllRestaurant();
   Future<List<RestaurantCategoryModel>> getAllRestaurantCategory();
   Future<RestaurantDetailsModel> getRestaurantDetails(String id);
+    Future<List<RestaurantDetailsModel>> getAllRestaurantWithQuery(String query);
 }

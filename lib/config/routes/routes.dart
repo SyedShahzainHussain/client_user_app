@@ -78,8 +78,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const AllProductScreen());
       case RouteName.searchScreenName:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
-      case RouteName.allBrandScreenName:
-        return MaterialPageRoute(builder: (_) => const AllBrandScreen());
+      case RouteName.allRestaurantScreenName:
+        return MaterialPageRoute(builder: (_) => const AllRestaurantScreen());
       case RouteName.settingScreenName:
         return MaterialPageRoute(builder: (_) => const SettingScreen());
       case RouteName.placeOrderScreenName:
